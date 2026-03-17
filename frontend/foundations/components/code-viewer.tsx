@@ -11,6 +11,13 @@ import {
   CodemirrorLanguageLoaders,
 } from "@/foundations/libraries/codemirror";
 
+/**
+ * CodemirrorEditorTheme の fontSize・lineHeight・padding に基づく寸法
+ */
+const LINE_HEIGHT = 19.6;
+const CONTENT_PADDING = 48;
+const MAX_HEIGHT = 600;
+
 type CodeViewerProps = {
   code: string;
   language: Language;
@@ -22,6 +29,15 @@ type CodeViewerProps = {
 export const CodeViewer = ({ code, language }: CodeViewerProps) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const editorViewRef = useRef<EditorView | null>(null);
+
+  /**
+   * コードの行数からCodeMirror初期化前の高さを算出し、レイアウトシフトを防ぐ
+   */
+  const lineCount = code.split("\n").length;
+  const estimatedHeight = Math.min(
+    lineCount * LINE_HEIGHT + CONTENT_PADDING,
+    MAX_HEIGHT,
+  );
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -71,5 +87,11 @@ export const CodeViewer = ({ code, language }: CodeViewerProps) => {
     };
   }, [code, language]);
 
-  return <div ref={editorRef} className="overflow-hidden rounded-lg" />;
+  return (
+    <div
+      ref={editorRef}
+      style={{ height: estimatedHeight }}
+      className="max-h-[600px] overflow-y-auto overflow-x-hidden bg-code"
+    />
+  );
 };
