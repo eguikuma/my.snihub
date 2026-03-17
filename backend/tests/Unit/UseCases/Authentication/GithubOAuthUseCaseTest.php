@@ -31,7 +31,7 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function GitHubプロバイダー登録済みのユーザーは、プロフィールが更新されてトークンが発行されること(): void
     {
-        $socialiteUser = $this->makeSocialiteUser('12345', 'octocat', 'octocat@github.com', 'https://github.com/avatar.png');
+        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
@@ -42,7 +42,7 @@ class GithubOAuthUseCaseTest extends TestCase
             ->once()
             ->with($user, Mockery::capture($capturedDto))
             ->andReturn($user);
-        $this->mockAccessToken($user, 'test-token');
+        $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
         $result = $this->useCase->execute($socialiteUser);
 
@@ -55,7 +55,7 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function プロバイダー未登録でも、同一メールのユーザーが存在すればプロバイダーが紐付くこと(): void
     {
-        $socialiteUser = $this->makeSocialiteUser('12345', 'octocat', 'octocat@github.com', 'https://github.com/avatar.png');
+        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
@@ -72,7 +72,7 @@ class GithubOAuthUseCaseTest extends TestCase
             ->once()
             ->with($user, Mockery::type(UserUpdateDto::class))
             ->andReturn($user);
-        $this->mockAccessToken($user, 'test-token');
+        $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
         $result = $this->useCase->execute($socialiteUser);
 
@@ -83,7 +83,7 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function プロバイダーもメールアドレスも一致しない場合、新規ユーザーが作成されてプロバイダーが紐付くこと(): void
     {
-        $socialiteUser = $this->makeSocialiteUser('12345', 'octocat', 'octocat@github.com', 'https://github.com/avatar.png');
+        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
@@ -100,7 +100,7 @@ class GithubOAuthUseCaseTest extends TestCase
         $this->userRepository->shouldReceive('attach')
             ->once()
             ->with($user, ProviderType::Github, '12345');
-        $this->mockAccessToken($user, 'test-token');
+        $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
         $result = $this->useCase->execute($socialiteUser);
 
@@ -114,7 +114,7 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function GitHubでメールアドレスが非公開の場合、emailがnullのユーザーが作成されること(): void
     {
-        $socialiteUser = $this->makeSocialiteUser('12345', 'octocat', null, 'https://github.com/avatar.png');
+        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: null, avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
@@ -127,7 +127,7 @@ class GithubOAuthUseCaseTest extends TestCase
         $this->userRepository->shouldReceive('attach')
             ->once()
             ->with($user, ProviderType::Github, '12345');
-        $this->mockAccessToken($user, 'test-token');
+        $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
         $result = $this->useCase->execute($socialiteUser);
 
@@ -138,7 +138,7 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function GitHubでメールアドレスが非公開の場合、メールアドレスでの突合がスキップされること(): void
     {
-        $socialiteUser = $this->makeSocialiteUser('12345', 'octocat', null, 'https://github.com/avatar.png');
+        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: null, avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
@@ -149,14 +149,11 @@ class GithubOAuthUseCaseTest extends TestCase
             ->andReturn($user);
         $this->userRepository->shouldReceive('attach')
             ->once();
-        $this->mockAccessToken($user, 'test-token');
+        $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
         $this->useCase->execute($socialiteUser);
     }
 
-    /**
-     * テスト用のSocialiteUserを作成する
-     */
     private function makeSocialiteUser(string $id, string $name, ?string $email, string $avatar): SocialiteUser
     {
         $socialiteUser = new SocialiteUser;
@@ -168,9 +165,6 @@ class GithubOAuthUseCaseTest extends TestCase
         return $socialiteUser;
     }
 
-    /**
-     * トークンの発行をモックする
-     */
     private function mockAccessToken(User&MockInterface $user, string $plainTextToken): void
     {
         $accessToken = Mockery::mock(NewAccessToken::class);

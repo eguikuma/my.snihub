@@ -97,9 +97,6 @@ class IndexSnippetRequestTest extends TestCase
         $this->assertArrayHasKey('per_page', $validator->errors()->toArray());
     }
 
-    /**
-     * バリデーション対象のデータからValidatorインスタンスを生成する
-     */
     private function makeValidator(array $data): \Illuminate\Validation\Validator
     {
         $request = new IndexSnippetRequest;

@@ -146,9 +146,6 @@ class StoreSnippetRequestTest extends TestCase
         $this->assertArrayHasKey('tags', $validator->errors()->toArray());
     }
 
-    /**
-     * バリデーション対象のデータからValidatorインスタンスを生成する
-     */
     private function makeValidator(array $data): \Illuminate\Validation\Validator
     {
         $request = new StoreSnippetRequest;
@@ -156,9 +153,6 @@ class StoreSnippetRequestTest extends TestCase
         return Validator::make($data, $request->rules());
     }
 
-    /**
-     * 有効なリクエストデータを返す
-     */
     private function validData(array $overrides = []): array
     {
         return array_merge([
