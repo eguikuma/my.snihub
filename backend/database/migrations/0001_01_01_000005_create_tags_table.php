@@ -15,7 +15,7 @@ return new class extends Migration
             $table->comment('タグ');
 
             $table->id()->comment('タグID');
-            $table->string('name')->unique()->comment('タグ名');
+            $table->string('name', 50)->unique()->comment('タグ名');
         });
     }
 

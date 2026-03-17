@@ -16,10 +16,10 @@ return new class extends Migration
 
             $table->id()->comment('スニペットID');
             $table->foreignId('user_id')->comment('作成者のユーザーID')->constrained()->cascadeOnDelete();
-            $table->string('slug')->unique()->comment('共有用スラッグ');
+            $table->string('slug', 16)->unique()->comment('共有用スラッグ');
             $table->string('title')->comment('タイトル');
             $table->text('code')->comment('コード本文');
-            $table->string('language')->comment('プログラミング言語');
+            $table->string('language', 50)->comment('プログラミング言語');
             $table->text('description')->nullable()->comment('説明');
             $table->timestamp('expires_at')->nullable()->comment('有効期限（null = 無期限）');
             $table->timestamp('created_at')->nullable()->comment('作成日時');
