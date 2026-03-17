@@ -11,7 +11,7 @@ type ToastState = {
 /**
  * トーストの表示状態を管理する
  */
-export const useToast = create<ToastState>((set) => ({
+export const useToastStore = create<ToastState>((set) => ({
   message: null,
   notify: (message) => set({ message }),
   hide: () => set({ message: null }),

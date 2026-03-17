@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { useToast } from "@/foundations/hooks/use-toast";
+import { useToastStore } from "@/foundations/stores";
 
 const FEEDBACK_DURATION = 2000;
 
@@ -50,7 +50,7 @@ export const CopyButton = ({
 }: CopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const notify = useToast((state) => state.notify);
+  const notify = useToastStore((state) => state.notify);
 
   useEffect(() => {
     return () => {

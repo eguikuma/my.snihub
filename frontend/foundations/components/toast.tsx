@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useToast } from "@/foundations/hooks/use-toast";
+import { useToastStore } from "@/foundations/stores";
 
 const TOAST_DURATION = 2000;
 
@@ -9,8 +9,8 @@ const TOAST_DURATION = 2000;
  * 画面下部にトースト通知を表示し、一定時間後に自動で消去する
  */
 export const Toast = () => {
-  const message = useToast((state) => state.message);
-  const hide = useToast((state) => state.hide);
+  const message = useToastStore((state) => state.message);
+  const hide = useToastStore((state) => state.hide);
 
   useEffect(() => {
     if (!message) return;
