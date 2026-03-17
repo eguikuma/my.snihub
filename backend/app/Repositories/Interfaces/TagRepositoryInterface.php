@@ -26,6 +26,20 @@ interface TagRepositoryInterface
     public function find(array $names): Collection;
 
     /**
+     * スニペット数の多い順にタグを取得する
+     *
+     * @return Collection<int, Tag>
+     */
+    public function popular(int $limit): Collection;
+
+    /**
+     * キーワードでタグを前方一致検索する
+     *
+     * @return Collection<int, Tag>
+     */
+    public function search(string $keyword, int $limit): Collection;
+
+    /**
      * タグを新規作成する
      */
     public function create(string $name): Tag;

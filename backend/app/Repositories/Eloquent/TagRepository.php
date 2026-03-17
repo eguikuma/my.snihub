@@ -16,6 +16,22 @@ class TagRepository implements TagRepositoryInterface
         return Tag::orderBy('name')->get();
     }
 
+    public function popular(int $limit): Collection
+    {
+        return Tag::withCount('snippets')
+            ->orderByDesc('snippets_count')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function search(string $keyword, int $limit): Collection
+    {
+        return Tag::where('name', 'ILIKE', $keyword.'%')
+            ->orderBy('name')
+            ->limit($limit)
+            ->get();
+    }
+
     public function find(array $names): Collection
     {
         return Tag::whereIn('name', $names)->get();
