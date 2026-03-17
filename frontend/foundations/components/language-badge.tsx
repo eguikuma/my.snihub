@@ -1,4 +1,5 @@
-import { LanguageOptions, type Language } from "@/foundations/definitions";
+import type { Language } from "@/foundations/definitions";
+import { toLanguageLabel } from "@/foundations/libraries/language";
 
 type LanguageBadgeProps = {
   language: Language;
@@ -7,15 +8,8 @@ type LanguageBadgeProps = {
 /**
  * プログラミング言語名とカラーをバッジとして表示する
  */
-export const LanguageBadge = ({ language }: LanguageBadgeProps) => {
-  const languageOption = LanguageOptions.find(
-    ({ value }) => value === language,
-  );
-  const languageLabel = languageOption?.label ?? language;
-
-  return (
-    <span className="w-fit rounded bg-surface-hover px-1.5 py-0.5 font-mono text-xs text-ink-secondary">
-      {languageLabel}
-    </span>
-  );
-};
+export const LanguageBadge = ({ language }: LanguageBadgeProps) => (
+  <span className="w-fit rounded bg-surface-hover px-1.5 py-0.5 font-mono text-xs text-ink-secondary">
+    {toLanguageLabel(language)}
+  </span>
+);

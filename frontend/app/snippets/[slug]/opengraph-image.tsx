@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { toLanguageLabel } from "@/foundations/definitions";
+import { toLanguageLabel } from "@/foundations/libraries/language";
 import { fetchSnippet } from "@/features/viewer/actions";
 import { truncateCode } from "./_opengraph/helpers";
 import { NotFoundCard } from "./_opengraph/not-found-card";
