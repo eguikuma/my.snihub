@@ -1,0 +1,38 @@
+# dependencies
+node_modules
+/vendor
+
+# production
+/dist
+/.next
+/build
+
+# misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# local env files
+.env*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+
+# turborepo
+.turbo
+
+# dot directories
+.*/
+
+# documents
+/docs/
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+*.log
