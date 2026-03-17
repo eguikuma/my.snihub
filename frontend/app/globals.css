@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+@theme {
+  /* カラー変数をユーティリティ化 */
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-ink: var(--color-ink);
+  --color-ink-secondary: var(--color-ink-secondary);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-accent: var(--color-accent);
+  --color-tag: var(--color-tag);
+  --color-danger: var(--color-danger);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-code: var(--color-code);
+  --color-edge: var(--color-edge);
+  --color-edge-strong: var(--color-edge-strong);
+
+  /* シンタックスハイライト */
+  --color-syntax-keyword: var(--color-syntax-keyword);
+  --color-syntax-string: var(--color-syntax-string);
+  --color-syntax-number: var(--color-syntax-number);
+  --color-syntax-comment: var(--color-syntax-comment);
+  --color-syntax-function: var(--color-syntax-function);
+  --color-syntax-variable: var(--color-syntax-variable);
+  --color-syntax-operator: var(--color-syntax-operator);
+  --color-syntax-punctuation: var(--color-syntax-punctuation);
+
+  /* フォント */
+  --font-sans: var(--font-plus-jakarta-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  /* ブレークポイント（デフォルトを置き換え） */
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 43.8125rem;
+  --breakpoint-desktop: 60.0625rem;
+  --breakpoint-wide: 80rem;
+
+  /* TopBar の高さ */
+  --spacing-top-bar: 3rem;
+}
+
+/* ========================================
+ * テーマ定義
+ * ======================================== */
+
+/* GitHub Light（デフォルト） */
+:root,
+[data-theme="github-light"] {
+  --color-surface: #ffffff;
+  --color-surface-raised: #f6f8fa;
+  --color-surface-hover: #eaeef2;
+  --color-ink: #1f2328;
+  --color-ink-secondary: #656d76;
+  --color-ink-muted: #9198a1;
+  --color-accent: #0969da;
+  --color-tag: #8250df;
+  --color-danger: #cf222e;
+  --color-success: #1a7f37;
+  --color-warning: #9a6700;
+  --color-code: #f6f8fa;
+  --color-edge: rgba(31, 35, 40, 0.12);
+  --color-edge-strong: rgba(31, 35, 40, 0.22);
+
+  --color-syntax-keyword: #cf222e;
+  --color-syntax-string: #0a3069;
+  --color-syntax-number: #0550ae;
+  --color-syntax-comment: #6e7781;
+  --color-syntax-function: #8250df;
+  --color-syntax-variable: #953800;
+  --color-syntax-operator: #cf222e;
+  --color-syntax-punctuation: #1f2328;
+}
+
+/* Solarized Light */
+[data-theme="solarized-light"] {
+  --color-surface: #fdf6e3;
+  --color-surface-raised: #eee8d5;
+  --color-surface-hover: #e6dfcb;
+  --color-ink: #657b83;
+  --color-ink-secondary: #839496;
+  --color-ink-muted: #93a1a1;
+  --color-accent: #268bd2;
+  --color-tag: #6c71c4;
+  --color-danger: #dc322f;
+  --color-success: #859900;
+  --color-warning: #b58900;
+  --color-code: #eee8d5;
+  --color-edge: rgba(101, 123, 131, 0.15);
+  --color-edge-strong: rgba(101, 123, 131, 0.25);
+
+  --color-syntax-keyword: #859900;
+  --color-syntax-string: #2aa198;
+  --color-syntax-number: #d33682;
+  --color-syntax-comment: #93a1a1;
+  --color-syntax-function: #268bd2;
+  --color-syntax-variable: #b58900;
+  --color-syntax-operator: #859900;
+  --color-syntax-punctuation: #657b83;
+}
+
+/* Catppuccin Latte */
+[data-theme="catppuccin-latte"] {
+  --color-surface: #eff1f5;
+  --color-surface-raised: #e6e9ef;
+  --color-surface-hover: #ccd0da;
+  --color-ink: #4c4f69;
+  --color-ink-secondary: #5c5f77;
+  --color-ink-muted: #9ca0b0;
+  --color-accent: #1e66f5;
+  --color-tag: #8839ef;
+  --color-danger: #d20f39;
+  --color-success: #40a02b;
+  --color-warning: #df8e1d;
+  --color-code: #e6e9ef;
+  --color-edge: rgba(76, 79, 105, 0.12);
+  --color-edge-strong: rgba(76, 79, 105, 0.22);
+
+  --color-syntax-keyword: #8839ef;
+  --color-syntax-string: #40a02b;
+  --color-syntax-number: #fe640b;
+  --color-syntax-comment: #9ca0b0;
+  --color-syntax-function: #1e66f5;
+  --color-syntax-variable: #df8e1d;
+  --color-syntax-operator: #179299;
+  --color-syntax-punctuation: #4c4f69;
+}
+
+/* Quiet Light */
+[data-theme="quiet-light"] {
+  --color-surface: #f5f5f5;
+  --color-surface-raised: #eaeaea;
+  --color-surface-hover: #e0e0e0;
+  --color-ink: #333333;
+  --color-ink-secondary: #666666;
+  --color-ink-muted: #999999;
+  --color-accent: #4078c0;
+  --color-tag: #7a3e9d;
+  --color-danger: #c53232;
+  --color-success: #448c27;
+  --color-warning: #c18401;
+  --color-code: #eaeaea;
+  --color-edge: rgba(51, 51, 51, 0.1);
+  --color-edge-strong: rgba(51, 51, 51, 0.2);
+
+  --color-syntax-keyword: #4b69c6;
+  --color-syntax-string: #448c27;
+  --color-syntax-number: #ab6526;
+  --color-syntax-comment: #aaaaaa;
+  --color-syntax-function: #7a3e9d;
+  --color-syntax-variable: #c18401;
+  --color-syntax-operator: #777777;
+  --color-syntax-punctuation: #333333;
+}
+
+/* GitHub Dark */
+[data-theme="github-dark"] {
+  --color-surface: #0d1117;
+  --color-surface-raised: #161b22;
+  --color-surface-hover: #1c2128;
+  --color-ink: #e6edf3;
+  --color-ink-secondary: #8b949e;
+  --color-ink-muted: #6e7681;
+  --color-accent: #58a6ff;
+  --color-tag: #d2a8ff;
+  --color-danger: #f85149;
+  --color-success: #3fb950;
+  --color-warning: #d29922;
+  --color-code: #161b22;
+  --color-edge: rgba(240, 246, 252, 0.1);
+  --color-edge-strong: rgba(240, 246, 252, 0.2);
+
+  --color-syntax-keyword: #ff7b72;
+  --color-syntax-string: #a5d6ff;
+  --color-syntax-number: #79c0ff;
+  --color-syntax-comment: #8b949e;
+  --color-syntax-function: #d2a8ff;
+  --color-syntax-variable: #ffa657;
+  --color-syntax-operator: #ff7b72;
+  --color-syntax-punctuation: #e6edf3;
+}
+
+/* Dracula */
+[data-theme="dracula"] {
+  --color-surface: #282a36;
+  --color-surface-raised: #343746;
+  --color-surface-hover: #3e4152;
+  --color-ink: #f8f8f2;
+  --color-ink-secondary: #bfbfbf;
+  --color-ink-muted: #6272a4;
+  --color-accent: #bd93f9;
+  --color-tag: #ff79c6;
+  --color-danger: #ff5555;
+  --color-success: #50fa7b;
+  --color-warning: #f1fa8c;
+  --color-code: #343746;
+  --color-edge: rgba(248, 248, 242, 0.1);
+  --color-edge-strong: rgba(248, 248, 242, 0.2);
+
+  --color-syntax-keyword: #ff79c6;
+  --color-syntax-string: #f1fa8c;
+  --color-syntax-number: #bd93f9;
+  --color-syntax-comment: #6272a4;
+  --color-syntax-function: #50fa7b;
+  --color-syntax-variable: #ffb86c;
+  --color-syntax-operator: #ff79c6;
+  --color-syntax-punctuation: #f8f8f2;
+}
+
+/* Nord */
+[data-theme="nord"] {
+  --color-surface: #2e3440;
+  --color-surface-raised: #3b4252;
+  --color-surface-hover: #434c5e;
+  --color-ink: #eceff4;
+  --color-ink-secondary: #d8dee9;
+  --color-ink-muted: #7b88a1;
+  --color-accent: #88c0d0;
+  --color-tag: #b48ead;
+  --color-danger: #bf616a;
+  --color-success: #a3be8c;
+  --color-warning: #ebcb8b;
+  --color-code: #3b4252;
+  --color-edge: rgba(216, 222, 233, 0.1);
+  --color-edge-strong: rgba(216, 222, 233, 0.2);
+
+  --color-syntax-keyword: #81a1c1;
+  --color-syntax-string: #a3be8c;
+  --color-syntax-number: #b48ead;
+  --color-syntax-comment: #616e88;
+  --color-syntax-function: #88c0d0;
+  --color-syntax-variable: #d08770;
+  --color-syntax-operator: #81a1c1;
+  --color-syntax-punctuation: #eceff4;
+}
+
+/* Monokai */
+[data-theme="monokai"] {
+  --color-surface: #272822;
+  --color-surface-raised: #2e2f2a;
+  --color-surface-hover: #3e3d32;
+  --color-ink: #f8f8f2;
+  --color-ink-secondary: #cfcfc2;
+  --color-ink-muted: #75715e;
+  --color-accent: #66d9ef;
+  --color-tag: #ae81ff;
+  --color-danger: #f92672;
+  --color-success: #a6e22e;
+  --color-warning: #e6db74;
+  --color-code: #2e2f2a;
+  --color-edge: rgba(248, 248, 242, 0.1);
+  --color-edge-strong: rgba(248, 248, 242, 0.2);
+
+  --color-syntax-keyword: #f92672;
+  --color-syntax-string: #e6db74;
+  --color-syntax-number: #ae81ff;
+  --color-syntax-comment: #75715e;
+  --color-syntax-function: #a6e22e;
+  --color-syntax-variable: #66d9ef;
+  --color-syntax-operator: #f92672;
+  --color-syntax-punctuation: #f8f8f2;
+}
+
+/* ========================================
+ * アニメーション
+ * ======================================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ========================================
+ * 基本スタイル
+ * ======================================== */
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 600;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}

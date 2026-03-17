@@ -1,0 +1,40 @@
+import { Suspense } from "react";
+import { Language } from "@/foundations/definitions";
+import { fetchPublicSnippets } from "@/features/gallery/actions/fetch-public-snippets";
+import { List } from "@/features/gallery/components/list";
+import { Skeleton } from "@/features/gallery/components/skeleton";
+import { SearchParameterKeys } from "@/features/gallery/definitions";
+import { GalleryShell } from "./gallery-shell";
+
+/**
+ * 検索パラメータをもとに公開スニペット一覧を取得し、ギャラリーとして表示する
+ */
+const Page = async ({ searchParams }: PageProps<"/">) => {
+  const resolvedSearchParams = await searchParams;
+
+  const keyword =
+    (resolvedSearchParams[SearchParameterKeys.Keyword] as string) ?? "";
+  const language =
+    (resolvedSearchParams[SearchParameterKeys.Language] as Language) ?? "";
+  const page = Number(resolvedSearchParams[SearchParameterKeys.Page] ?? "1");
+
+  const response = await fetchPublicSnippets({
+    keyword: keyword || undefined,
+    language: language || undefined,
+    page,
+  });
+
+  return (
+    <GalleryShell>
+      <Suspense fallback={<Skeleton />}>
+        <List
+          snippets={response.data}
+          meta={response.meta}
+          language={language}
+        />
+      </Suspense>
+    </GalleryShell>
+  );
+};
+
+export default Page;
