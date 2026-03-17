@@ -26,6 +26,8 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable()->comment('更新日時');
 
             $table->index('user_id');
+            $table->index('language');
+            $table->index('created_at');
             $table->index('expires_at');
         });
     }
