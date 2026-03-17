@@ -37,4 +37,9 @@ interface SnippetRepositoryInterface
      * スニペットを削除する
      */
     public function delete(Snippet $snippet): void;
+
+    /**
+     * 期限切れのスニペットを物理削除し、削除件数を返す
+     */
+    public function prune(): int;
 }

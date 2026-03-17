@@ -237,4 +237,46 @@ class SnippetRepositoryTest extends TestCase
 
         $this->assertDatabaseMissing('snippets', ['id' => $snippet->id]);
     }
+
+    #[Test]
+    public function pruneで、期限切れスニペットのみが削除されること(): void
+    {
+        Snippet::factory()->create(['expires_at' => now()->subDay()]);
+        Snippet::factory()->create(['expires_at' => now()->subHour()]);
+        Snippet::factory()->create(['expires_at' => now()->addDay()]);
+        Snippet::factory()->create(['expires_at' => null]);
+
+        $count = $this->repository->prune();
+
+        $this->assertSame(2, $count);
+        $this->assertDatabaseCount('snippets', 2);
+    }
+
+    #[Test]
+    public function pruneで、対象がない場合は0を返すこと(): void
+    {
+        Snippet::factory()->create(['expires_at' => now()->addDay()]);
+        Snippet::factory()->create(['expires_at' => null]);
+
+        $count = $this->repository->prune();
+
+        $this->assertSame(0, $count);
+        $this->assertDatabaseCount('snippets', 2);
+    }
+
+    #[Test]
+    public function pruneで、期限がちょうど現在時刻のスニペットは削除されないこと(): void
+    {
+        $this->freezeTime();
+        Snippet::factory()->create(['expires_at' => now()]);
+
+        $count = $this->repository->prune();
+
+        $this->assertSame(0, $count);
+        $this->assertDatabaseCount('snippets', 1);
+        $this->travel(1)->seconds();
+        $countAfter = $this->repository->prune();
+        $this->assertSame(1, $countAfter);
+        $this->assertDatabaseCount('snippets', 0);
+    }
 }

@@ -103,4 +103,11 @@ class SnippetRepository implements SnippetRepositoryInterface
     {
         $snippet->delete();
     }
+
+    public function prune(): int
+    {
+        return Snippet::whereNotNull('expires_at')
+            ->where('expires_at', '<', now())
+            ->delete();
+    }
 }
