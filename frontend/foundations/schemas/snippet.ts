@@ -15,6 +15,7 @@ export const Snippet = z.object({
   tags: z.array(z.string()),
   user: z.object({
     name: z.string(),
+    avatar_url: z.nullish(z.string()),
   }),
   created_at: z.string(),
   updated_at: z.string(),
