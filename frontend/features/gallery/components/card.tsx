@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { formatDistanceToNow } from "date-fns";
-import { ja } from "date-fns/locale";
 import { LanguageBadge } from "@/foundations/components/language-badge";
 import { TagBadge } from "@/foundations/components/tag-badge";
+import { toRelative } from "@/foundations/libraries/date";
 import type { Snippet } from "@/foundations/schemas";
 
 const MAX_VISIBLE_TAGS = 3;
@@ -49,12 +48,7 @@ export const Card = ({ snippet }: CardProps) => {
           {snippet.user.name.charAt(0).toUpperCase()}
         </span>
         <span>{snippet.user.name}</span>
-        <span className="ml-auto">
-          {formatDistanceToNow(new Date(snippet.created_at), {
-            addSuffix: true,
-            locale: ja,
-          })}
-        </span>
+        <span className="ml-auto">{toRelative(snippet.created_at)}</span>
       </div>
     </Link>
   );
