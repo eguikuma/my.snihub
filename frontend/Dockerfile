@@ -4,7 +4,7 @@ FROM node:22-slim
 ARG UID=1000
 ARG GID=1000
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack install
 
 # ホスト用のユーザーを作成し、非 root ユーザーで実行する
 RUN groupmod -g ${GID} node \
@@ -21,6 +21,9 @@ COPY --chown=node:node . .
 
 USER node
 
+COPY --chown=node:node entrypoint.sh /usr/local/bin/entrypoint.sh
+
 EXPOSE 3000
 
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["pnpm", "dev"]
