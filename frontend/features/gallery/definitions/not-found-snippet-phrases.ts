@@ -229,8 +229,10 @@ meta:
 
 /**
  * 言語に応じた「スニペットが見つかりません」のサンプルコードを取得する
+ *
+ * 言語が指定されていない場合は、デフォルトに設定された言語を使用する
  */
 export const NotFoundSnippetPhrases = {
   get: (language: string) =>
-    Phrases[(language ?? DEFAULT_LANGUAGE) as Language],
+    Phrases[(language || DEFAULT_LANGUAGE) as Language],
 };
