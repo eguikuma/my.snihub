@@ -3,6 +3,7 @@ import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { cookies } from "next/headers";
 import clsx from "clsx";
 import "@/app/globals.css";
+import { Toast } from "@/foundations/components/toast";
 import { TopBar } from "@/foundations/components/top-bar";
 import {
   DEFAULT_THEME_ID,
@@ -49,6 +50,7 @@ const RootLayout = async ({
         <ThemeColorProvider id={themeId}>
           <TopBar />
           <main>{children}</main>
+          <Toast />
         </ThemeColorProvider>
       </body>
     </html>
