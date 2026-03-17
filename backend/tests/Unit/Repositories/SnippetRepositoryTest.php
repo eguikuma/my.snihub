@@ -152,6 +152,8 @@ class SnippetRepositoryTest extends TestCase
             'user_id' => $user->id,
             'title' => 'Test Snippet',
         ]);
+        $this->assertTrue($snippet->relationLoaded('user'));
+        $this->assertTrue($snippet->relationLoaded('tags'));
     }
 
     #[Test]
@@ -185,6 +187,8 @@ class SnippetRepositoryTest extends TestCase
 
         $this->assertSame('Updated', $updated->title);
         $this->assertDatabaseHas('snippets', ['id' => $snippet->id, 'title' => 'Updated']);
+        $this->assertTrue($updated->relationLoaded('user'));
+        $this->assertTrue($updated->relationLoaded('tags'));
     }
 
     #[Test]

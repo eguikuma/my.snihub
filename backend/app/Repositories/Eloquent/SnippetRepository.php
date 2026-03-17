@@ -76,7 +76,7 @@ class SnippetRepository implements SnippetRepositoryInterface
             $snippet->tags()->sync($dto->tagIds);
         }
 
-        return $snippet;
+        return $snippet->load('user', 'tags');
     }
 
     public function update(Snippet $snippet, SnippetUpdateDto $dto): Snippet
@@ -90,7 +90,7 @@ class SnippetRepository implements SnippetRepositoryInterface
 
         $snippet->tags()->sync($dto->tagIds);
 
-        return $snippet;
+        return $snippet->load('user', 'tags');
     }
 
     public function delete(Snippet $snippet): void
