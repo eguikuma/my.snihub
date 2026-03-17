@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { useToastStore } from "@/foundations/stores";
-
-const FEEDBACK_DURATION = 2000;
+import { useClipboard } from "@/foundations/hooks";
 
 const SvgIconProps = {
   width: 16,
@@ -48,37 +45,12 @@ export const CopyButton = ({
   className,
   variant = "secondary",
 }: CopyButtonProps) => {
-  const [isCopied, setIsCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const notify = useToastStore((state) => state.notify);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
-
-  const handleCopy = async () => {
-    try {
-      const value = typeof text === "function" ? text() : text;
-      await navigator.clipboard.writeText(value);
-      setIsCopied(true);
-      notify(copiedLabel);
-
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(
-        () => setIsCopied(false),
-        FEEDBACK_DURATION,
-      );
-    } catch {
-      /* クリップボード API が利用できない環境では何もしない */
-    }
-  };
+  const { isCopied, copy } = useClipboard({ copiedLabel });
 
   return (
     <button
       type="button"
-      onClick={handleCopy}
+      onClick={() => copy(text)}
       className={clsx(
         "flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-medium transition-colors duration-150",
         isCopied

@@ -1,3 +1,4 @@
+export * from "./use-clipboard";
 export * from "./use-debounced-input";
 export * from "./use-dismiss";
 export * from "./use-search-parameters";
