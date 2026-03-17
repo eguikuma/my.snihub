@@ -1,5 +1,5 @@
 /**
- * バックエンドAPIのエンドポイントURLをまとめて定義する
+ * バックエンドAPIのエンドポイントURL
  */
 export const Endpoints = {
   Snippets: "/api/snippets",
@@ -10,4 +10,12 @@ export const Endpoints = {
   MySnippet: (slug: string) => `/api/me/snippets/${slug}`,
   OAuthGithub: "/api/sessions/oauth/github",
   CurrentSession: "/api/sessions/current",
+} as const;
+
+/**
+ * BFFのエンドポイントURL
+ */
+export const BffEndpoints = {
+  OAuthGithub: "/api/sessions/oauth/github",
+  OAuthGithubCallback: "/api/sessions/oauth/github/callback",
 } as const;

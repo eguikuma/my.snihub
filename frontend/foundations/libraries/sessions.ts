@@ -7,7 +7,18 @@ import { getIronSession, type SessionOptions } from "iron-session";
 const SESSION_COOKIE_NAME = "snipshare-session";
 
 export type Session = {
+  /**
+   * 認証トークン
+   */
   token?: string;
+  /**
+   * CSRF対策のstate
+   */
+  state?: string;
+  /**
+   * 認可後のリダイレクト先
+   */
+  redirectTo?: string;
 };
 
 /**
