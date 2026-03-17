@@ -27,6 +27,9 @@ RUN if [ -f composer.json ]; then composer install --no-dev --no-scripts --no-au
 COPY . .
 
 RUN if [ -f composer.json ]; then composer dump-autoload --optimize; fi
+
+# PHP のバージョン情報をレスポンスヘッダーに含めない
+RUN echo 'expose_php = Off' > /usr/local/etc/php/conf.d/security.ini
 RUN chown -R appuser:appuser /var/www/html
 
 USER appuser
