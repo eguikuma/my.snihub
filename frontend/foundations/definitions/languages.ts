@@ -57,3 +57,10 @@ export const LanguageOptions = [
 ] as const;
 
 export type LanguageOption = (typeof LanguageOptions)[number];
+
+export const toLanguageLabel = (language: Language): string => {
+  return (
+    LanguageOptions.find((option) => option.value === language)?.label ??
+    language
+  );
+};

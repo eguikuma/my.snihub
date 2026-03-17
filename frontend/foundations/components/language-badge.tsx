@@ -14,7 +14,7 @@ export const LanguageBadge = ({ language }: LanguageBadgeProps) => {
   const languageLabel = languageOption?.label ?? language;
 
   return (
-    <span className="rounded bg-surface-hover px-1.5 py-0.5 font-mono text-xs text-ink-secondary">
+    <span className="w-fit rounded bg-surface-hover px-1.5 py-0.5 font-mono text-xs text-ink-secondary">
       {languageLabel}
     </span>
   );
