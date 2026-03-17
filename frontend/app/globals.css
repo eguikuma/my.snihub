@@ -284,6 +284,33 @@ button,
   cursor: pointer;
 }
 
+/* ========================================
+ * スクロールバー
+ * ======================================== */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-edge) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-edge);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-edge-strong);
+}
+
 body {
   background-color: var(--color-surface);
   color: var(--color-ink);

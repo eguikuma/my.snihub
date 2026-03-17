@@ -69,22 +69,6 @@ export const CodemirrorEditorTheme = EditorView.theme({
   },
   ".cm-scroller": {
     overflow: "auto",
-    scrollbarWidth: "thin",
-    scrollbarColor: "var(--color-edge) transparent",
-  },
-  ".cm-scroller::-webkit-scrollbar": {
-    width: "6px",
-    height: "6px",
-  },
-  ".cm-scroller::-webkit-scrollbar-track": {
-    background: "transparent",
-  },
-  ".cm-scroller::-webkit-scrollbar-thumb": {
-    background: "var(--color-edge)",
-    borderRadius: "3px",
-  },
-  ".cm-scroller::-webkit-scrollbar-thumb:hover": {
-    background: "var(--color-edge-strong)",
   },
 });
 
