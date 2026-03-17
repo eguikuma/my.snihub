@@ -10,8 +10,6 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/var/www/html
-    env_file:
-      - ./backend/.env
     depends_on:
       db:
         condition: service_healthy
@@ -48,10 +46,18 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U snipshare"]
+      test: ["CMD-SHELL", "pg_isready -U snipshare && psql -U snipshare -lqt | grep -q snipshare_testing"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+    entrypoint:
+      - sh
+      - -c
+      - |
+        docker-entrypoint.sh postgres &
+        until pg_isready -U snipshare; do sleep 1; done
+        psql -U snipshare -tc "SELECT 1 FROM pg_database WHERE datname = 'snipshare_testing'" | grep -q 1 || psql -U snipshare -c "CREATE DATABASE snipshare_testing"
+        wait
     networks:
       - snipshare
 
