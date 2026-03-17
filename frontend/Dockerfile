@@ -4,8 +4,6 @@ FROM node:22-slim
 ARG UID=1000
 ARG GID=1000
 
-RUN corepack enable && corepack install
-
 # ホスト用のユーザーを作成し、非 root ユーザーで実行する
 RUN groupmod -g ${GID} node \
     && usermod -u ${UID} -g ${GID} node
@@ -15,7 +13,10 @@ RUN chown node:node /app
 
 # 依存パッケージのインストール
 COPY --chown=node:node package.json pnpm-lock.yaml* ./
-RUN if [ -f package.json ]; then pnpm install --frozen-lockfile; fi
+RUN if [ -f package.json ]; then \
+    corepack enable; \
+    corepack install; \
+    pnpm install --frozen-lockfile; fi
 
 COPY --chown=node:node . .
 
