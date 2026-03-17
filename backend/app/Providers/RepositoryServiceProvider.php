@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\Eloquent\SnippetRepository;
 use App\Repositories\Eloquent\TagRepository;
+use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Interfaces\SnippetRepositoryInterface;
 use App\Repositories\Interfaces\TagRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -20,5 +22,6 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(SnippetRepositoryInterface::class, SnippetRepository::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 }
