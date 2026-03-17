@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable()->comment('作成日時');
             $table->timestamp('updated_at')->nullable()->comment('更新日時');
 
+            $table->index('user_id');
             $table->unique(['type', 'external_id']);
         });
     }
