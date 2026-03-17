@@ -7,25 +7,29 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * マイグレーション実行
      */
     public function up(): void
     {
         Schema::create('cache', function (Blueprint $table) {
-            $table->string('key')->primary();
-            $table->mediumText('value');
-            $table->integer('expiration')->index();
+            $table->comment('キャッシュ');
+
+            $table->string('key')->primary()->comment('キャッシュキー');
+            $table->mediumText('value')->comment('キャッシュ値');
+            $table->integer('expiration')->index()->comment('有効期限（UNIXタイムスタンプ）');
         });
 
         Schema::create('cache_locks', function (Blueprint $table) {
-            $table->string('key')->primary();
-            $table->string('owner');
-            $table->integer('expiration')->index();
+            $table->comment('キャッシュロック');
+
+            $table->string('key')->primary()->comment('ロックキー');
+            $table->string('owner')->comment('ロック所有者');
+            $table->integer('expiration')->index()->comment('有効期限（UNIXタイムスタンプ）');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * ロールバック
      */
     public function down(): void
     {

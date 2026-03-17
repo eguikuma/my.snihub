@@ -7,46 +7,52 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * マイグレーション実行
      */
     public function up(): void
     {
         Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
-            $table->string('queue')->index();
-            $table->longText('payload');
-            $table->unsignedTinyInteger('attempts');
-            $table->unsignedInteger('reserved_at')->nullable();
-            $table->unsignedInteger('available_at');
-            $table->unsignedInteger('created_at');
+            $table->comment('ジョブキュー');
+
+            $table->id()->comment('ジョブID');
+            $table->string('queue')->index()->comment('キュー名');
+            $table->longText('payload')->comment('ジョブペイロード');
+            $table->unsignedTinyInteger('attempts')->comment('実行試行回数');
+            $table->unsignedInteger('reserved_at')->nullable()->comment('予約日時（UNIXタイムスタンプ）');
+            $table->unsignedInteger('available_at')->comment('実行可能日時（UNIXタイムスタンプ）');
+            $table->unsignedInteger('created_at')->comment('作成日時（UNIXタイムスタンプ）');
         });
 
         Schema::create('job_batches', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string('name');
-            $table->integer('total_jobs');
-            $table->integer('pending_jobs');
-            $table->integer('failed_jobs');
-            $table->longText('failed_job_ids');
-            $table->mediumText('options')->nullable();
-            $table->integer('cancelled_at')->nullable();
-            $table->integer('created_at');
-            $table->integer('finished_at')->nullable();
+            $table->comment('ジョブバッチ');
+
+            $table->string('id')->primary()->comment('バッチID');
+            $table->string('name')->comment('バッチ名');
+            $table->integer('total_jobs')->comment('総ジョブ数');
+            $table->integer('pending_jobs')->comment('保留中ジョブ数');
+            $table->integer('failed_jobs')->comment('失敗ジョブ数');
+            $table->longText('failed_job_ids')->comment('失敗ジョブIDリスト');
+            $table->mediumText('options')->nullable()->comment('バッチオプション');
+            $table->integer('cancelled_at')->nullable()->comment('キャンセル日時（UNIXタイムスタンプ）');
+            $table->integer('created_at')->comment('作成日時（UNIXタイムスタンプ）');
+            $table->integer('finished_at')->nullable()->comment('完了日時（UNIXタイムスタンプ）');
         });
 
         Schema::create('failed_jobs', function (Blueprint $table) {
-            $table->id();
-            $table->string('uuid')->unique();
-            $table->text('connection');
-            $table->text('queue');
-            $table->longText('payload');
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
+            $table->comment('失敗ジョブ');
+
+            $table->id()->comment('失敗ジョブID');
+            $table->string('uuid')->unique()->comment('ジョブUUID');
+            $table->text('connection')->comment('接続名');
+            $table->text('queue')->comment('キュー名');
+            $table->longText('payload')->comment('ジョブペイロード');
+            $table->longText('exception')->comment('例外情報');
+            $table->timestamp('failed_at')->useCurrent()->comment('失敗日時');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * ロールバック
      */
     public function down(): void
     {
