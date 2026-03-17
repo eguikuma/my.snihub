@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ProviderType;
 use Database\Factories\UserProviderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,13 @@ class UserProvider extends Model
         'type',
         'external_id',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => ProviderType::class,
+        ];
+    }
 
     /**
      * このプロバイダーが紐づくユーザーを取得する
