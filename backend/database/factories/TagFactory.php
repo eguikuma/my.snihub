@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<User>
+ * @extends Factory<Tag>
  */
-class UserFactory extends Factory
+class TagFactory extends Factory
 {
     /**
      * モデルのデフォルト状態を定義する
@@ -18,9 +18,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'avatar_url' => fake()->optional()->imageUrl(200, 200),
+            'name' => fake()->unique()->word(),
         ];
     }
 }

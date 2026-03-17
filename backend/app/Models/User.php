@@ -2,48 +2,43 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * OAuthプロバイダー経由で認証されたユーザーを表す
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'avatar_url',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * ユーザーが作成したスニペットを取得する
      *
-     * @var list<string>
+     * @return HasMany<Snippet, $this>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function snippets(): HasMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Snippet::class);
+    }
+
+    /**
+     * ユーザーに紐づく認証プロバイダーを取得する
+     *
+     * @return HasMany<UserProvider, $this>
+     */
+    public function userProviders(): HasMany
+    {
+        return $this->hasMany(UserProvider::class);
     }
 }

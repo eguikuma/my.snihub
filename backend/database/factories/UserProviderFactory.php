@@ -3,12 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\UserProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<User>
+ * @extends Factory<UserProvider>
  */
-class UserFactory extends Factory
+class UserProviderFactory extends Factory
 {
     /**
      * モデルのデフォルト状態を定義する
@@ -18,9 +19,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'avatar_url' => fake()->optional()->imageUrl(200, 200),
+            'user_id' => User::factory(),
+            'type' => 'github',
+            'external_id' => (string) fake()->unique()->randomNumber(8),
         ];
     }
 }
