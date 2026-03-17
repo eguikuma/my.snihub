@@ -11,6 +11,7 @@ class SnippetSearchDto
         public readonly ?string $keyword = null,
         public readonly ?string $tag = null,
         public readonly ?string $language = null,
+        public readonly ?int $userId = null,
         public readonly int $perPage = 20,
     ) {}
 }

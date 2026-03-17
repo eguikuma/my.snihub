@@ -22,6 +22,7 @@ class SearchSnippetsUseCase
             keyword: $dto->keyword,
             tag: $dto->tag,
             language: $dto->language,
+            userId: $dto->userId,
             withExpired: false,
         );
 
