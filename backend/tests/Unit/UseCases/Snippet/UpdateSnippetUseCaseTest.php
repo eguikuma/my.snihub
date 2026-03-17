@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\UseCases\Snippet;
 
+use App\Enums\Visibility;
 use App\Models\Snippet;
 use App\Models\User;
 use App\Repositories\Dtos as RepositoryDtos;
@@ -48,9 +49,10 @@ class UpdateSnippetUseCaseTest extends TestCase
             title: 'Updated',
             code: 'new code',
             language: 'php',
+            visibility: Visibility::Unlisted,
         );
 
-        $result = $this->useCase->execute($user, $snippet, $dto);
+        $result = $this->useCase->execute($snippet, $dto, $user);
 
         $this->assertSame($updatedSnippet, $result);
     }
@@ -76,10 +78,11 @@ class UpdateSnippetUseCaseTest extends TestCase
             title: 'Updated',
             code: 'code',
             language: 'php',
+            visibility: Visibility::Unlisted,
             tags: ['React', 'Hooks'],
         );
 
-        $this->useCase->execute($user, $snippet, $dto);
+        $this->useCase->execute($snippet, $dto, $user);
 
         $this->assertSame([1, 2], $capturedDto?->tagIds);
     }
@@ -95,11 +98,37 @@ class UpdateSnippetUseCaseTest extends TestCase
             title: 'Updated',
             code: 'code',
             language: 'php',
+            visibility: Visibility::Unlisted,
         );
 
         $this->assertThrows(
-            fn () => $this->useCase->execute($user, $snippet, $dto),
+            fn () => $this->useCase->execute($snippet, $dto, $user),
             AuthorizationException::class,
         );
+    }
+
+    #[Test]
+    public function visibilityがリポジトリDTOに含まれること(): void
+    {
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $snippet = Mockery::mock(Snippet::class);
+        $snippet->shouldReceive('getAttribute')->with('user_id')->andReturn(1);
+        $updatedSnippet = Mockery::mock(Snippet::class);
+        $capturedDto = null;
+        $this->snippetRepository->shouldReceive('update')
+            ->once()
+            ->with($snippet, Mockery::capture($capturedDto))
+            ->andReturn($updatedSnippet);
+        $dto = new SnippetUpdateDto(
+            title: 'Updated',
+            code: 'new code',
+            language: 'php',
+            visibility: Visibility::Public,
+        );
+
+        $this->useCase->execute($snippet, $dto, $user);
+
+        $this->assertSame(Visibility::Public, $capturedDto?->visibility);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Visibility;
 use Database\Factories\SnippetFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,12 +26,14 @@ class Snippet extends Model
         'language',
         'description',
         'expires_at',
+        'visibility',
     ];
 
     protected function casts(): array
     {
         return [
             'expires_at' => 'datetime',
+            'visibility' => Visibility::class,
         ];
     }
 

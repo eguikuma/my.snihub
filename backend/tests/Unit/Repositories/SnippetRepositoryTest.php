@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Repositories;
 
+use App\Enums\Visibility;
 use App\Models\Snippet;
 use App\Models\Tag;
 use App\Models\User;
@@ -136,6 +137,19 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
+    public function paginateでvisibilityフィルタが適用されること(): void
+    {
+        Snippet::factory()->create(['visibility' => Visibility::Public]);
+        Snippet::factory()->create(['visibility' => Visibility::Unlisted]);
+        Snippet::factory()->create(['visibility' => Visibility::Private]);
+
+        $result = $this->repository->paginate(new SnippetSearchDto(visibility: Visibility::Public), 20);
+
+        $this->assertCount(1, $result->items());
+        $this->assertSame(Visibility::Public, $result->items()[0]->visibility);
+    }
+
+    #[Test]
     public function createでスニペットが作成されること(): void
     {
         $user = User::factory()->create();
@@ -145,6 +159,7 @@ class SnippetRepositoryTest extends TestCase
             title: 'Test Snippet',
             code: 'echo "hello";',
             language: 'php',
+            visibility: Visibility::Unlisted,
         ));
 
         $this->assertDatabaseHas('snippets', [
@@ -168,6 +183,7 @@ class SnippetRepositoryTest extends TestCase
             title: 'Test',
             code: 'code',
             language: 'php',
+            visibility: Visibility::Unlisted,
             tagIds: [$tag1->id, $tag2->id],
         ));
 
@@ -183,6 +199,7 @@ class SnippetRepositoryTest extends TestCase
             title: 'Updated',
             code: $snippet->code,
             language: $snippet->language,
+            visibility: Visibility::Unlisted,
         ));
 
         $this->assertSame('Updated', $updated->title);
@@ -203,6 +220,7 @@ class SnippetRepositoryTest extends TestCase
             title: $snippet->title,
             code: $snippet->code,
             language: $snippet->language,
+            visibility: Visibility::Unlisted,
             tagIds: [$tag2->id],
         ));
 

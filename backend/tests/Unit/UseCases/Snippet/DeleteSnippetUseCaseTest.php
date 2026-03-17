@@ -26,7 +26,7 @@ class DeleteSnippetUseCaseTest extends TestCase
             ->with($snippet);
         $useCase = new DeleteSnippetUseCase($repository);
 
-        $useCase->execute($user, $snippet);
+        $useCase->execute($snippet, $user);
 
         $this->assertTrue(true);
     }
@@ -42,7 +42,7 @@ class DeleteSnippetUseCaseTest extends TestCase
         $useCase = new DeleteSnippetUseCase($repository);
 
         $this->assertThrows(
-            fn () => $useCase->execute($user, $snippet),
+            fn () => $useCase->execute($snippet, $user),
             AuthorizationException::class,
         );
     }

@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Dtos;
 
+use App\Enums\Visibility;
+
 /**
  * スニペット検索の条件を表す
  */
@@ -12,6 +14,7 @@ class SnippetSearchDto
         public readonly ?string $tag = null,
         public readonly ?string $language = null,
         public readonly ?int $userId = null,
+        public readonly ?Visibility $visibility = null,
         public readonly bool $withExpired = false,
     ) {}
 }

@@ -3,6 +3,7 @@
 namespace Tests\Unit\UseCases\Snippet;
 
 use App\Enums\ExpiresIn;
+use App\Enums\Visibility;
 use App\Models\Snippet;
 use App\Models\User;
 use App\Repositories\Dtos as RepositoryDtos;
@@ -49,7 +50,7 @@ class CreateSnippetUseCaseTest extends TestCase
             language: 'php',
         );
 
-        $result = $this->useCase->execute($user, $dto);
+        $result = $this->useCase->execute($dto, $user);
 
         $this->assertSame($snippet, $result);
     }
@@ -73,7 +74,7 @@ class CreateSnippetUseCaseTest extends TestCase
             expiresIn: ExpiresIn::OneHour,
         );
 
-        $this->useCase->execute($user, $dto);
+        $this->useCase->execute($dto, $user);
 
         $this->assertInstanceOf(Carbon::class, $capturedDto?->expiresAt);
         $this->assertTrue($capturedDto?->expiresAt->equalTo('2026-03-16 13:00:00'));
@@ -99,7 +100,7 @@ class CreateSnippetUseCaseTest extends TestCase
             expiresIn: ExpiresIn::OneDay,
         );
 
-        $this->useCase->execute($user, $dto);
+        $this->useCase->execute($dto, $user);
 
         $this->assertInstanceOf(Carbon::class, $capturedDto?->expiresAt);
         $this->assertTrue($capturedDto?->expiresAt->equalTo('2026-03-17 12:00:00'));
@@ -125,7 +126,7 @@ class CreateSnippetUseCaseTest extends TestCase
             expiresIn: ExpiresIn::OneWeek,
         );
 
-        $this->useCase->execute($user, $dto);
+        $this->useCase->execute($dto, $user);
 
         $this->assertInstanceOf(Carbon::class, $capturedDto?->expiresAt);
         $this->assertTrue($capturedDto?->expiresAt->equalTo('2026-03-23 12:00:00'));
@@ -150,7 +151,7 @@ class CreateSnippetUseCaseTest extends TestCase
             expiresIn: null,
         );
 
-        $this->useCase->execute($user, $dto);
+        $this->useCase->execute($dto, $user);
 
         $this->assertNull($capturedDto?->expiresAt);
     }
@@ -177,8 +178,53 @@ class CreateSnippetUseCaseTest extends TestCase
             tags: ['PHP', 'Laravel'],
         );
 
-        $this->useCase->execute($user, $dto);
+        $this->useCase->execute($dto, $user);
 
         $this->assertSame([1, 2], $capturedDto?->tagIds);
+    }
+
+    #[Test]
+    public function visibilityがリポジトリDTOに含まれること(): void
+    {
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $snippet = Mockery::mock(Snippet::class);
+        $capturedDto = null;
+        $this->snippetRepository->shouldReceive('create')
+            ->once()
+            ->with(Mockery::capture($capturedDto))
+            ->andReturn($snippet);
+        $dto = new SnippetCreateDto(
+            title: 'Test',
+            code: 'echo "hello";',
+            language: 'php',
+            visibility: Visibility::Public,
+        );
+
+        $this->useCase->execute($dto, $user);
+
+        $this->assertSame(Visibility::Public, $capturedDto?->visibility);
+    }
+
+    #[Test]
+    public function visibility未指定時のデフォルトはunlistedであること(): void
+    {
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $snippet = Mockery::mock(Snippet::class);
+        $capturedDto = null;
+        $this->snippetRepository->shouldReceive('create')
+            ->once()
+            ->with(Mockery::capture($capturedDto))
+            ->andReturn($snippet);
+        $dto = new SnippetCreateDto(
+            title: 'Test',
+            code: 'echo "hello";',
+            language: 'php',
+        );
+
+        $this->useCase->execute($dto, $user);
+
+        $this->assertSame(Visibility::Unlisted, $capturedDto?->visibility);
     }
 }

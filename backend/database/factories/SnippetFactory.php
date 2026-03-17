@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Visibility;
 use App\Models\Snippet;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,6 +26,31 @@ class SnippetFactory extends Factory
             'language' => fake()->randomElement(['php', 'javascript', 'python', 'go', 'rust']),
             'description' => fake()->optional()->sentence(),
             'expires_at' => null,
+            'visibility' => Visibility::Unlisted,
         ];
+    }
+
+    /**
+     * 公開状態に設定する
+     */
+    public function public(): static
+    {
+        return $this->state(fn () => ['visibility' => Visibility::Public]);
+    }
+
+    /**
+     * 限定公開状態に設定する
+     */
+    public function unlisted(): static
+    {
+        return $this->state(fn () => ['visibility' => Visibility::Unlisted]);
+    }
+
+    /**
+     * 非公開状態に設定する
+     */
+    public function private(): static
+    {
+        return $this->state(fn () => ['visibility' => Visibility::Private]);
     }
 }

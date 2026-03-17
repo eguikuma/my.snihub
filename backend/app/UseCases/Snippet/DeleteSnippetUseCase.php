@@ -16,7 +16,7 @@ class DeleteSnippetUseCase
         private SnippetRepositoryInterface $snippetRepository,
     ) {}
 
-    public function execute(User $user, Snippet $snippet): void
+    public function execute(Snippet $snippet, User $user): void
     {
         if ($user->id !== $snippet->user_id) {
             throw new AuthorizationException;

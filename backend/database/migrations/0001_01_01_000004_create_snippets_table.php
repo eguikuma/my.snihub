@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('language', 50)->comment('プログラミング言語');
             $table->text('description')->nullable()->comment('説明');
             $table->timestamp('expires_at')->nullable()->comment('有効期限（null = 無期限）');
+            $table->string('visibility', 10)->comment('公開範囲');
             $table->timestamp('created_at')->nullable()->comment('作成日時');
             $table->timestamp('updated_at')->nullable()->comment('更新日時');
 
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->index('language');
             $table->index('created_at');
             $table->index('expires_at');
+            $table->index('visibility');
         });
     }
 

@@ -84,7 +84,7 @@ class TagResolverTest extends TestCase
     }
 
     #[Test]
-    public function 空配列の場合は空配列を返すこと(): void
+    public function 空配列の場合、空配列を返すこと(): void
     {
         $result = $this->tagResolver->resolve([]);
 

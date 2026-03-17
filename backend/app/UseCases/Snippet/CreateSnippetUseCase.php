@@ -3,6 +3,7 @@
 namespace App\UseCases\Snippet;
 
 use App\Enums\ExpiresIn;
+use App\Enums\Visibility;
 use App\Models\Snippet;
 use App\Models\User;
 use App\Repositories\Dtos as RepositoryDtos;
@@ -21,7 +22,7 @@ class CreateSnippetUseCase
         private TagResolver $tagResolver,
     ) {}
 
-    public function execute(User $user, SnippetCreateDto $dto): Snippet
+    public function execute(SnippetCreateDto $dto, User $user): Snippet
     {
         $tagIds = ! empty($dto->tags)
             ? $this->tagResolver->resolve($dto->tags)
@@ -33,14 +34,21 @@ class CreateSnippetUseCase
             code: $dto->code,
             language: $dto->language,
             description: $dto->description,
-            expiresAt: $this->convertExpiresIn($dto->expiresIn),
+            expiresAt: $this->toExpiresAt($dto->expiresIn),
+            /**
+             * 公開範囲が未指定の場合、デフォルトで限定共有になる
+             */
+            visibility: $dto->visibility ?? Visibility::Unlisted,
             tagIds: $tagIds,
         );
 
         return $this->snippetRepository->create($repositoryDto);
     }
 
-    private function convertExpiresIn(?ExpiresIn $expiresIn): ?Carbon
+    /**
+     * 有効期限の種別から、実際の有効期限日時に変換する
+     */
+    private function toExpiresAt(?ExpiresIn $expiresIn): ?Carbon
     {
         if ($expiresIn === null) {
             return null;

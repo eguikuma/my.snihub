@@ -36,6 +36,10 @@ class SnippetRepository implements SnippetRepositoryInterface
             $builder->where('user_id', $dto->userId);
         }
 
+        if ($dto->visibility !== null) {
+            $builder->where('visibility', $dto->visibility);
+        }
+
         if ($dto->language !== null) {
             $builder->where('language', $dto->language);
         }
@@ -70,6 +74,7 @@ class SnippetRepository implements SnippetRepositoryInterface
             'language' => $dto->language,
             'description' => $dto->description,
             'expires_at' => $dto->expiresAt,
+            'visibility' => $dto->visibility,
         ]);
 
         if (! empty($dto->tagIds)) {
@@ -86,6 +91,7 @@ class SnippetRepository implements SnippetRepositoryInterface
             'code' => $dto->code,
             'language' => $dto->language,
             'description' => $dto->description,
+            'visibility' => $dto->visibility,
         ]);
 
         $snippet->tags()->sync($dto->tagIds);

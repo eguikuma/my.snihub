@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Dtos;
 
+use App\Enums\Visibility;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,6 +18,7 @@ class SnippetCreateDto
         public readonly string $title,
         public readonly string $code,
         public readonly string $language,
+        public readonly Visibility $visibility,
         public readonly ?string $description = null,
         public readonly ?Carbon $expiresAt = null,
         public readonly array $tagIds = [],

@@ -2,6 +2,8 @@
 
 namespace App\UseCases\Snippet\Dtos;
 
+use App\Enums\Visibility;
+
 /**
  * スニペット更新の入力データを表す
  */
@@ -14,6 +16,7 @@ class SnippetUpdateDto
         public readonly string $title,
         public readonly string $code,
         public readonly string $language,
+        public readonly Visibility $visibility = Visibility::Unlisted,
         public readonly ?string $description = null,
         public readonly array $tags = [],
     ) {}

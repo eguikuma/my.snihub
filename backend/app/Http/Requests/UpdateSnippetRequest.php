@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\Language;
+use App\Enums\Visibility;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -20,6 +21,7 @@ class UpdateSnippetRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:100000'],
             'language' => ['required', 'string', Rule::enum(Language::class)],
+            'visibility' => ['required', 'string', Rule::enum(Visibility::class)],
             'description' => ['nullable', 'string', 'max:1000'],
             'tags' => ['nullable', 'array', 'max:10'],
             'tags.*' => ['string', 'max:50'],

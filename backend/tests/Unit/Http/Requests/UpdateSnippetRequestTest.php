@@ -3,6 +3,7 @@
 namespace Tests\Unit\Http\Requests;
 
 use App\Enums\Language;
+use App\Enums\Visibility;
 use App\Http\Requests\UpdateSnippetRequest;
 use Illuminate\Support\Facades\Validator;
 use PHPUnit\Framework\Attributes\Test;
@@ -123,6 +124,17 @@ class UpdateSnippetRequestTest extends TestCase
     }
 
     #[Test]
+    public function visibilityが未指定の場合、バリデーションに失敗すること(): void
+    {
+        $validator = $this->makeValidator($this->validData([
+            'visibility' => null,
+        ]));
+
+        $this->assertTrue($validator->fails());
+        $this->assertArrayHasKey('visibility', $validator->errors()->toArray());
+    }
+
+    #[Test]
     public function tagsが10個を超える場合、バリデーションに失敗すること(): void
     {
         $validator = $this->makeValidator($this->validData([
@@ -152,6 +164,7 @@ class UpdateSnippetRequestTest extends TestCase
             'title' => 'テストスニペット',
             'code' => 'echo "Hello, World!";',
             'language' => Language::Php->value,
+            'visibility' => Visibility::Unlisted->value,
         ], $overrides);
     }
 }

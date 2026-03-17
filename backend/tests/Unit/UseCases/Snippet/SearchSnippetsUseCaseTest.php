@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\UseCases\Snippet;
 
+use App\Enums\Visibility;
 use App\Models\User;
 use App\Repositories\Interfaces\SnippetRepositoryInterface;
 use App\UseCases\Snippet\Dtos\SnippetSearchDto;
@@ -33,13 +34,39 @@ class SearchSnippetsUseCaseTest extends TestCase
         );
         $useCase = new SearchSnippetsUseCase($repository);
 
-        $result = $useCase->execute($user, $dto);
+        $result = $useCase->execute($dto, $user);
 
         $this->assertSame($paginator, $result);
         $this->assertSame('hooks', $capturedDto?->keyword);
         $this->assertSame('react', $capturedDto?->tag);
         $this->assertSame('typescript', $capturedDto?->language);
         $this->assertSame(42, $capturedDto?->userId);
+        $this->assertNull($capturedDto?->visibility);
+        $this->assertFalse($capturedDto?->withExpired);
+    }
+
+    #[Test]
+    public function ユーザーがnullの場合、userIdなしで全体検索されること(): void
+    {
+        $paginator = new LengthAwarePaginator([], 0, 20);
+        $capturedDto = null;
+        $repository = Mockery::mock(SnippetRepositoryInterface::class);
+        $repository->shouldReceive('paginate')
+            ->once()
+            ->with(Mockery::capture($capturedDto), 20)
+            ->andReturn($paginator);
+        $dto = new SnippetSearchDto(
+            keyword: 'hooks',
+            perPage: 20,
+        );
+        $useCase = new SearchSnippetsUseCase($repository);
+
+        $result = $useCase->execute($dto, user: null);
+
+        $this->assertSame($paginator, $result);
+        $this->assertSame('hooks', $capturedDto?->keyword);
+        $this->assertNull($capturedDto?->userId);
+        $this->assertSame(Visibility::Public, $capturedDto?->visibility);
         $this->assertFalse($capturedDto?->withExpired);
     }
 }

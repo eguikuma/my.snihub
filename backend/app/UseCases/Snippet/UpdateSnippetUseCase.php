@@ -20,7 +20,7 @@ class UpdateSnippetUseCase
         private TagResolver $tagResolver,
     ) {}
 
-    public function execute(User $user, Snippet $snippet, SnippetUpdateDto $dto): Snippet
+    public function execute(Snippet $snippet, SnippetUpdateDto $dto, User $user): Snippet
     {
         if ($user->id !== $snippet->user_id) {
             throw new AuthorizationException;
@@ -35,6 +35,7 @@ class UpdateSnippetUseCase
             code: $dto->code,
             language: $dto->language,
             description: $dto->description,
+            visibility: $dto->visibility,
             tagIds: $tagIds,
         );
 
