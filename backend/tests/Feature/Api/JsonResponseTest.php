@@ -15,6 +15,7 @@ class JsonResponseTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertHeader('Content-Type', 'application/json');
+        $response->assertJson(['message' => Response::$statusTexts[Response::HTTP_NOT_FOUND]]);
     }
 
     #[Test]
@@ -24,14 +25,24 @@ class JsonResponseTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertHeader('Content-Type', 'application/json');
+        $response->assertJson(['message' => Response::$statusTexts[Response::HTTP_NOT_FOUND]]);
     }
 
     #[Test]
-    public function 非APIパスへのアクセスもJSONで404を返すこと(): void
+    public function 定義されていないAPIルートも、JSONで404を返すこと(): void
     {
-        $response = $this->get('/');
+        $response = $this->get('/api/nonexist');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertHeader('Content-Type', 'application/json');
+        $response->assertJson(['message' => Response::$statusTexts[Response::HTTP_NOT_FOUND]]);
+    }
+
+    #[Test]
+    public function 非APIパスへのアクセスは、空レスポンスで404を返すこと(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertNoContent(Response::HTTP_NOT_FOUND);
     }
 }
