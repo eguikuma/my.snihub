@@ -8,7 +8,7 @@ type SnippetCardProps = {
 };
 
 /**
- * スニペット情報を含む OGP カードを描画する
+ * スニペットを含む OGP カードを描画する
  */
 export const SnippetCard = ({
   title,

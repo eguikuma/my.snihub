@@ -32,7 +32,7 @@ export const generateMetadata = async ({
 };
 
 /**
- * スニペットの詳細情報をコードビューア・メタ情報・サイドバーで構成して表示する
+ * スニペットをコードビューア・メタ情報・サイドバーで構成して表示する
  */
 const Page = async ({ params }: PageProps<"/snippets/[slug]">) => {
   const { slug } = await params;
