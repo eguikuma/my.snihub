@@ -3,11 +3,13 @@
 namespace Tests\Unit\UseCases\Snippet;
 
 use App\Models\Snippet;
+use App\Models\User;
 use App\Repositories\Dtos as RepositoryDtos;
 use App\Repositories\Interfaces\SnippetRepositoryInterface;
 use App\Services\TagResolver;
 use App\UseCases\Snippet\Dtos\SnippetUpdateDto;
 use App\UseCases\Snippet\UpdateSnippetUseCase;
+use Illuminate\Auth\Access\AuthorizationException;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
@@ -33,19 +35,22 @@ class UpdateSnippetUseCaseTest extends TestCase
     #[Test]
     public function スニペットが更新されること(): void
     {
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('id')->andReturn(1);
         $snippet = Mockery::mock(Snippet::class);
+        $snippet->shouldReceive('getAttribute')->with('user_id')->andReturn(1);
         $updatedSnippet = Mockery::mock(Snippet::class);
         $this->snippetRepository->shouldReceive('update')
             ->once()
             ->with($snippet, Mockery::type(RepositoryDtos\SnippetUpdateDto::class))
             ->andReturn($updatedSnippet);
-
         $dto = new SnippetUpdateDto(
             title: 'Updated',
             code: 'new code',
             language: 'php',
         );
-        $result = $this->useCase->execute($snippet, $dto);
+
+        $result = $this->useCase->execute($user, $snippet, $dto);
 
         $this->assertSame($updatedSnippet, $result);
     }
@@ -53,7 +58,10 @@ class UpdateSnippetUseCaseTest extends TestCase
     #[Test]
     public function タグがTagResolverで解決されてリポジトリDTOに含まれること(): void
     {
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('id')->andReturn(1);
         $snippet = Mockery::mock(Snippet::class);
+        $snippet->shouldReceive('getAttribute')->with('user_id')->andReturn(1);
         $updatedSnippet = Mockery::mock(Snippet::class);
         $this->tagResolver->shouldReceive('resolve')
             ->once()
@@ -64,15 +72,34 @@ class UpdateSnippetUseCaseTest extends TestCase
             ->once()
             ->with($snippet, Mockery::capture($capturedDto))
             ->andReturn($updatedSnippet);
-
         $dto = new SnippetUpdateDto(
             title: 'Updated',
             code: 'code',
             language: 'php',
             tags: ['React', 'Hooks'],
         );
-        $this->useCase->execute($snippet, $dto);
+
+        $this->useCase->execute($user, $snippet, $dto);
 
         $this->assertSame([1, 2], $capturedDto?->tagIds);
+    }
+
+    #[Test]
+    public function 作成者以外が更新しようとした場合、AuthorizationExceptionが発生すること(): void
+    {
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $snippet = Mockery::mock(Snippet::class);
+        $snippet->shouldReceive('getAttribute')->with('user_id')->andReturn(2);
+        $dto = new SnippetUpdateDto(
+            title: 'Updated',
+            code: 'code',
+            language: 'php',
+        );
+
+        $this->assertThrows(
+            fn () => $this->useCase->execute($user, $snippet, $dto),
+            AuthorizationException::class,
+        );
     }
 }

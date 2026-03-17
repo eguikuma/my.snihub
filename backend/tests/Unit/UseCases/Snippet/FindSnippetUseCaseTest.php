@@ -22,8 +22,8 @@ class FindSnippetUseCaseTest extends TestCase
             ->once()
             ->with('abc12345')
             ->andReturn($snippet);
-
         $useCase = new FindSnippetUseCase($repository);
+
         $result = $useCase->execute('abc12345');
 
         $this->assertSame($snippet, $result);

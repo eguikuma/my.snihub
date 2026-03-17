@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Snippet;
 
+use App\Models\User;
 use App\Repositories\Dtos as RepositoryDtos;
 use App\Repositories\Interfaces\SnippetRepositoryInterface;
 use App\UseCases\Snippet\Dtos\SnippetSearchDto;
@@ -16,13 +17,13 @@ class SearchSnippetsUseCase
         private SnippetRepositoryInterface $snippetRepository,
     ) {}
 
-    public function execute(SnippetSearchDto $dto): LengthAwarePaginator
+    public function execute(User $user, SnippetSearchDto $dto): LengthAwarePaginator
     {
         $repositoryDto = new RepositoryDtos\SnippetSearchDto(
             keyword: $dto->keyword,
             tag: $dto->tag,
             language: $dto->language,
-            userId: $dto->userId,
+            userId: $user->id,
             withExpired: false,
         );
 

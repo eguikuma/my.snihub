@@ -43,12 +43,12 @@ class CreateSnippetUseCaseTest extends TestCase
             ->once()
             ->with(Mockery::type(RepositoryDtos\SnippetCreateDto::class))
             ->andReturn($snippet);
-
         $dto = new SnippetCreateDto(
             title: 'Test',
             code: 'echo "hello";',
             language: 'php',
         );
+
         $result = $this->useCase->execute($user, $dto);
 
         $this->assertSame($snippet, $result);
@@ -66,13 +66,13 @@ class CreateSnippetUseCaseTest extends TestCase
             ->once()
             ->with(Mockery::capture($capturedDto))
             ->andReturn($snippet);
-
         $dto = new SnippetCreateDto(
             title: 'Test',
             code: 'code',
             language: 'php',
             expiresIn: ExpiresIn::OneHour,
         );
+
         $this->useCase->execute($user, $dto);
 
         $this->assertInstanceOf(Carbon::class, $capturedDto?->expiresAt);
@@ -92,13 +92,13 @@ class CreateSnippetUseCaseTest extends TestCase
             ->once()
             ->with(Mockery::capture($capturedDto))
             ->andReturn($snippet);
-
         $dto = new SnippetCreateDto(
             title: 'Test',
             code: 'code',
             language: 'php',
             expiresIn: ExpiresIn::OneDay,
         );
+
         $this->useCase->execute($user, $dto);
 
         $this->assertInstanceOf(Carbon::class, $capturedDto?->expiresAt);
@@ -118,13 +118,13 @@ class CreateSnippetUseCaseTest extends TestCase
             ->once()
             ->with(Mockery::capture($capturedDto))
             ->andReturn($snippet);
-
         $dto = new SnippetCreateDto(
             title: 'Test',
             code: 'code',
             language: 'php',
             expiresIn: ExpiresIn::OneWeek,
         );
+
         $this->useCase->execute($user, $dto);
 
         $this->assertInstanceOf(Carbon::class, $capturedDto?->expiresAt);
@@ -143,13 +143,13 @@ class CreateSnippetUseCaseTest extends TestCase
             ->once()
             ->with(Mockery::capture($capturedDto))
             ->andReturn($snippet);
-
         $dto = new SnippetCreateDto(
             title: 'Test',
             code: 'code',
             language: 'php',
             expiresIn: null,
         );
+
         $this->useCase->execute($user, $dto);
 
         $this->assertNull($capturedDto?->expiresAt);
@@ -170,13 +170,13 @@ class CreateSnippetUseCaseTest extends TestCase
             ->once()
             ->with(Mockery::capture($capturedDto))
             ->andReturn($snippet);
-
         $dto = new SnippetCreateDto(
             title: 'Test',
             code: 'code',
             language: 'php',
             tags: ['PHP', 'Laravel'],
         );
+
         $this->useCase->execute($user, $dto);
 
         $this->assertSame([1, 2], $capturedDto?->tagIds);
