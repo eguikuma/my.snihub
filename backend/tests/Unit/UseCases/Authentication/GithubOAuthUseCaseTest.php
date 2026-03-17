@@ -8,6 +8,7 @@ use App\Repositories\Dtos\UserUpdateDto;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\UseCases\Authentication\GithubOAuthUseCase;
 use Laravel\Sanctum\NewAccessToken;
+use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
 use Mockery;
 use Mockery\MockInterface;
@@ -31,20 +32,20 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function GitHubプロバイダー登録済みのユーザーは、プロフィールが更新されてトークンが発行されること(): void
     {
-        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
+        $this->mockSocialiteDriver(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
-            ->with(ProviderType::Github, '12345')
+            ->with(ProviderType::Github, '12345') /** 既存ユーザーあり */
             ->andReturn($user);
         $capturedDto = null;
         $this->userRepository->shouldReceive('update')
             ->once()
             ->with($user, Mockery::capture($capturedDto))
-            ->andReturn($user);
+            ->andReturn($user); /** 更新 */
         $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
-        $result = $this->useCase->execute($socialiteUser);
+        $result = $this->useCase->execute('valid-code');
 
         $this->assertSame($user, $result['user']);
         $this->assertSame('test-token', $result['token']);
@@ -55,26 +56,26 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function プロバイダー未登録でも、同一メールのユーザーが存在すればプロバイダーが紐付くこと(): void
     {
-        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
+        $this->mockSocialiteDriver(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
             ->with(ProviderType::Github, '12345')
-            ->andReturnNull();
+            ->andReturnNull(); /** 既存ユーザーなし */
         $this->userRepository->shouldReceive('findByCredentials')
             ->once()
             ->with('octocat@github.com')
-            ->andReturn($user);
+            ->andReturn($user); /** 既存ユーザーあり */
         $this->userRepository->shouldReceive('attach')
             ->once()
-            ->with($user, ProviderType::Github, '12345');
+            ->with($user, ProviderType::Github, '12345'); /** 紐付け */
         $this->userRepository->shouldReceive('update')
             ->once()
             ->with($user, Mockery::type(UserUpdateDto::class))
-            ->andReturn($user);
+            ->andReturn($user); /** 更新 */
         $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
-        $result = $this->useCase->execute($socialiteUser);
+        $result = $this->useCase->execute('valid-code');
 
         $this->assertSame($user, $result['user']);
         $this->assertSame('test-token', $result['token']);
@@ -83,26 +84,26 @@ class GithubOAuthUseCaseTest extends TestCase
     #[Test]
     public function プロバイダーもメールアドレスも一致しない場合、新規ユーザーが作成されてプロバイダーが紐付くこと(): void
     {
-        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
+        $this->mockSocialiteDriver(id: '12345', name: 'octocat', email: 'octocat@github.com', avatar: 'https://github.com/avatar.png');
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
-            ->andReturnNull();
+            ->andReturnNull(); /** 既存ユーザーなし */
         $this->userRepository->shouldReceive('findByCredentials')
             ->once()
             ->with('octocat@github.com')
-            ->andReturnNull();
+            ->andReturnNull(); /** 既存ユーザーなし */
         $capturedDto = null;
         $this->userRepository->shouldReceive('create')
             ->once()
             ->with(Mockery::capture($capturedDto))
-            ->andReturn($user);
+            ->andReturn($user); /** 作成 */
         $this->userRepository->shouldReceive('attach')
             ->once()
-            ->with($user, ProviderType::Github, '12345');
+            ->with($user, ProviderType::Github, '12345'); /** 紐付け */
         $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
-        $result = $this->useCase->execute($socialiteUser);
+        $result = $this->useCase->execute('valid-code');
 
         $this->assertSame($user, $result['user']);
         $this->assertSame('test-token', $result['token']);
@@ -112,49 +113,36 @@ class GithubOAuthUseCaseTest extends TestCase
     }
 
     #[Test]
-    public function GitHubでメールアドレスが非公開の場合、emailがnullのユーザーが作成されること(): void
+    public function GitHubでメールアドレスが非公開の場合、メールアドレスでの突合をスキップして新規ユーザーが作成されること(): void
     {
-        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: null, avatar: 'https://github.com/avatar.png');
+        $this->mockSocialiteDriver(
+            id: '12345',
+            name: 'octocat',
+            email: null, /** 非公開 */
+            avatar: 'https://github.com/avatar.png'
+        );
         $user = Mockery::mock(User::class);
         $this->userRepository->shouldReceive('findByOAuth')
             ->once()
-            ->andReturnNull();
+            ->andReturnNull(); /** 既存ユーザーなし */
         $capturedDto = null;
+        $this->userRepository->shouldNotReceive('findByCredentials'); /** 非公開なので、突合しようがない */
         $this->userRepository->shouldReceive('create')
             ->once()
             ->with(Mockery::capture($capturedDto))
-            ->andReturn($user);
+            ->andReturn($user); /** 作成 */
         $this->userRepository->shouldReceive('attach')
             ->once()
-            ->with($user, ProviderType::Github, '12345');
+            ->with($user, ProviderType::Github, '12345'); /** 紐付け */
         $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
 
-        $result = $this->useCase->execute($socialiteUser);
+        $result = $this->useCase->execute('valid-code');
 
         $this->assertSame($user, $result['user']);
         $this->assertNull($capturedDto?->email);
     }
 
-    #[Test]
-    public function GitHubでメールアドレスが非公開の場合、メールアドレスでの突合がスキップされること(): void
-    {
-        $socialiteUser = $this->makeSocialiteUser(id: '12345', name: 'octocat', email: null, avatar: 'https://github.com/avatar.png');
-        $user = Mockery::mock(User::class);
-        $this->userRepository->shouldReceive('findByOAuth')
-            ->once()
-            ->andReturnNull();
-        $this->userRepository->shouldNotReceive('findByCredentials');
-        $this->userRepository->shouldReceive('create')
-            ->once()
-            ->andReturn($user);
-        $this->userRepository->shouldReceive('attach')
-            ->once();
-        $this->mockAccessToken(user: $user, plainTextToken: 'test-token');
-
-        $this->useCase->execute($socialiteUser);
-    }
-
-    private function makeSocialiteUser(string $id, string $name, ?string $email, string $avatar): SocialiteUser
+    private function mockSocialiteDriver(string $id, string $name, ?string $email, string $avatar): void
     {
         $socialiteUser = new SocialiteUser;
         $socialiteUser->id = $id;
@@ -162,7 +150,22 @@ class GithubOAuthUseCaseTest extends TestCase
         $socialiteUser->email = $email;
         $socialiteUser->avatar = $avatar;
 
-        return $socialiteUser;
+        Socialite::shouldReceive('driver')
+            ->with('github')
+            ->andReturn(new class($socialiteUser)
+            {
+                public function __construct(private SocialiteUser $user) {}
+
+                public function getAccessTokenResponse(): array
+                {
+                    return ['access_token' => 'mock-github-access-token'];
+                }
+
+                public function userFromToken(): SocialiteUser
+                {
+                    return $this->user;
+                }
+            });
     }
 
     private function mockAccessToken(User&MockInterface $user, string $plainTextToken): void

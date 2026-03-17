@@ -4,37 +4,25 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\UseCases\Authentication\GithubOAuthUseCase;
-use Illuminate\Http\RedirectResponse;
-use Laravel\Socialite\Facades\Socialite;
-use Laravel\Socialite\Two\GithubProvider;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
- * GitHub OAuthの認証フローを担当する
+ * 受け取った認可コードをもとにGitHub認証を完了し、Sanctumトークンを発行する
  */
 class GithubOAuthController extends Controller
 {
     /**
-     * 認可画面へリダイレクトする
+     * 認可コードを受け取り、Sanctumトークンを返す
      */
-    public function redirect(): RedirectResponse
+    public function authenticate(Request $request, GithubOAuthUseCase $useCase): JsonResponse
     {
-        /** @var GithubProvider $driver */
-        $driver = Socialite::driver('github');
+        $request->validate([
+            'code' => ['required', 'string'],
+        ]);
 
-        return $driver->stateless()->redirect();
-    }
+        ['token' => $token] = $useCase->execute($request->input('code'));
 
-    /**
-     * コールバックを受け取り、認証後にフロントエンドへリダイレクトする
-     */
-    public function callback(GithubOAuthUseCase $useCase): RedirectResponse
-    {
-        /** @var GithubProvider $driver */
-        $driver = Socialite::driver('github');
-
-        $socialiteUser = $driver->stateless()->user();
-        ['token' => $token] = $useCase->execute($socialiteUser);
-
-        return redirect(config('app.oauth_callback_url')."?token={$token}");
+        return response()->json(['token' => $token]);
     }
 }

@@ -7,10 +7,12 @@ use App\Models\User;
 use App\Repositories\Dtos\UserCreateDto;
 use App\Repositories\Dtos\UserUpdateDto;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\User as SocialiteUser;
 
 /**
- * GitHub OAuthコールバックを処理し、ユーザーの認証とトークン発行を行う
+ * 認可コードをもとにGitHubユーザーを取得し、ユーザーの認証とトークン発行を行う
  */
 class GithubOAuthUseCase
 {
@@ -21,8 +23,10 @@ class GithubOAuthUseCase
     /**
      * @return array{user: User, token: string}
      */
-    public function execute(SocialiteUser $socialiteUser): array
+    public function execute(string $code): array
     {
+        $socialiteUser = $this->resolveGithubUser($code);
+
         $user = $this->userRepository->findByOAuth(ProviderType::Github, $socialiteUser->getId());
 
         if ($user) {
@@ -34,6 +38,19 @@ class GithubOAuthUseCase
         $token = $user->createToken('github')->plainTextToken;
 
         return ['user' => $user, 'token' => $token];
+    }
+
+    /**
+     * 認可コードをGitHubアクセストークンに交換し、GitHubユーザーを取得する
+     */
+    private function resolveGithubUser(string $code): SocialiteUser
+    {
+        /** @var GithubProvider $driver */
+        $driver = Socialite::driver('github');
+
+        $response = $driver->getAccessTokenResponse($code);
+
+        return $driver->userFromToken($response['access_token']);
     }
 
     /**

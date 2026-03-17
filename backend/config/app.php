@@ -116,8 +116,6 @@ return [
 
     'frontend_url' => env('FRONTEND_URL'),
 
-    'oauth_callback_url' => env('OAUTH_CALLBACK_URL'),
-
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

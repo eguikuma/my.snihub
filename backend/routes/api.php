@@ -16,8 +16,7 @@ Route::prefix('snippets')->name('snippets.')->group(function () {
 Route::get('tags', [TagController::class, 'index'])->name('tags.index');
 
 Route::prefix('sessions/oauth')->name('sessions.oauth.')->middleware('throttle:oauth')->group(function () {
-    Route::get('github', [GithubOAuthController::class, 'redirect'])->name('github');
-    Route::get('github/callback', [GithubOAuthController::class, 'callback'])->name('github.callback');
+    Route::post('github', [GithubOAuthController::class, 'authenticate'])->name('github');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
