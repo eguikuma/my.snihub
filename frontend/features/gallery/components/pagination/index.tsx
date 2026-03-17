@@ -3,42 +3,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import type { PaginationMeta } from "@/foundations/schemas";
-import { SearchParameterKeys } from "../definitions";
-
-const VISIBLE_RANGE = 2;
+import { SearchParameterKeys } from "../../definitions";
+import { buildPageNumbers } from "./page-numbers";
 
 type PaginationProps = {
   meta: PaginationMeta;
-};
-
-/**
- * 現在ページを中心に表示するページ番号の配列を生成し、省略部分をnullで表す
- */
-const buildPageNumbers = (current: number, last: number): (number | null)[] => {
-  const pageNumbers: (number | null)[] = [];
-
-  const start = Math.max(2, current - VISIBLE_RANGE);
-  const end = Math.min(last - 1, current + VISIBLE_RANGE);
-
-  pageNumbers.push(1);
-
-  if (start > 2) {
-    pageNumbers.push(null);
-  }
-
-  for (let page = start; page <= end; page++) {
-    pageNumbers.push(page);
-  }
-
-  if (end < last - 1) {
-    pageNumbers.push(null);
-  }
-
-  if (last > 1) {
-    pageNumbers.push(last);
-  }
-
-  return pageNumbers;
 };
 
 /**
@@ -80,7 +49,6 @@ export const Pagination = ({ meta }: PaginationProps) => {
 
       {buildPageNumbers(meta.current_page, meta.last_page).map((page, index) =>
         page === null ? (
-          /* 省略記号 */
           <span
             key={`ellipsis-${index}`}
             className="px-1 text-sm text-ink-muted"
@@ -88,7 +56,6 @@ export const Pagination = ({ meta }: PaginationProps) => {
             ...
           </span>
         ) : (
-          /* ページ番号ボタン */
           <button
             key={page}
             type="button"
