@@ -22,7 +22,7 @@ class TagRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function allで全タグを取得できること(): void
+    public function allで、全タグを取得できること(): void
     {
         Tag::factory()->count(3)->create();
 
@@ -32,7 +32,7 @@ class TagRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function findでタグ名の配列から既存タグを取得できること(): void
+    public function findで、タグ名の配列から既存タグを取得できること(): void
     {
         Tag::factory()->create(['name' => 'php']);
         Tag::factory()->create(['name' => 'laravel']);
@@ -47,7 +47,7 @@ class TagRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function findで存在しないタグ名が含まれる場合、既存分のみ返すこと(): void
+    public function findで、存在しないタグ名が含まれる場合、既存分のみ返すこと(): void
     {
         Tag::factory()->create(['name' => 'php']);
 
@@ -58,7 +58,7 @@ class TagRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function createでタグが作成されること(): void
+    public function createで、タグが作成されること(): void
     {
         $tag = $this->repository->create('php');
 

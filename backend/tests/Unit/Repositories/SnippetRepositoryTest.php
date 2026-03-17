@@ -28,7 +28,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function findで存在するスニペットを取得できること(): void
+    public function findで、存在するスニペットを取得できること(): void
     {
         $snippet = Snippet::factory()->create();
 
@@ -41,7 +41,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function findで存在しないslugの場合、nullを返すこと(): void
+    public function findで、存在しないslugの場合、nullを返すこと(): void
     {
         $found = $this->repository->find('nonexist');
 
@@ -49,7 +49,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateでwithExpiredがfalseの場合、期限切れスニペットが除外されること(): void
+    public function paginateで、withExpiredがfalseの場合、期限切れスニペットが除外されること(): void
     {
         Snippet::factory()->create(['expires_at' => now()->subDay()]);
         $valid = Snippet::factory()->create(['expires_at' => now()->addDay()]);
@@ -64,7 +64,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateでwithExpiredがtrueの場合、期限切れスニペットも含まれること(): void
+    public function paginateで、withExpiredがtrueの場合、期限切れスニペットも含まれること(): void
     {
         Snippet::factory()->create(['expires_at' => now()->subDay()]);
         Snippet::factory()->create(['expires_at' => now()->addDay()]);
@@ -76,7 +76,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateでタグフィルタが適用されること(): void
+    public function paginateで、タグフィルタが適用されること(): void
     {
         $tag = Tag::factory()->create(['name' => 'php']);
         $taggedSnippet = Snippet::factory()->create();
@@ -90,7 +90,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateで言語フィルタが適用されること(): void
+    public function paginateで、言語フィルタが適用されること(): void
     {
         $snippet = Snippet::factory()->create(['language' => 'typescript']);
         Snippet::factory()->create(['language' => 'python']);
@@ -102,7 +102,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateでキーワード検索がtitleとcodeとdescriptionに適用されること(): void
+    public function paginateで、キーワード検索がtitleとcodeとdescriptionに適用されること(): void
     {
         $byTitle = Snippet::factory()->create(['title' => 'React hooks example']);
         $byCode = Snippet::factory()->create(['code' => 'const useHooks = () => {}']);
@@ -123,7 +123,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateでユーザーフィルタが適用されること(): void
+    public function paginateで、ユーザーフィルタが適用されること(): void
     {
         $user = User::factory()->create();
         $other = User::factory()->create();
@@ -137,7 +137,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateでvisibilityフィルタが適用されること(): void
+    public function paginateで、visibilityフィルタが適用されること(): void
     {
         Snippet::factory()->create(['visibility' => Visibility::Public]);
         Snippet::factory()->create(['visibility' => Visibility::Unlisted]);
@@ -150,7 +150,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function createでスニペットが作成されること(): void
+    public function createで、スニペットが作成されること(): void
     {
         $user = User::factory()->create();
 
@@ -172,7 +172,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function createでタグが同期されること(): void
+    public function createで、タグが同期されること(): void
     {
         $user = User::factory()->create();
         $tag1 = Tag::factory()->create();
@@ -191,7 +191,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function updateでスニペットが更新されること(): void
+    public function updateで、スニペットが更新されること(): void
     {
         $snippet = Snippet::factory()->create(['title' => 'Original']);
 
@@ -209,7 +209,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function updateでタグが再同期されること(): void
+    public function updateで、タグが再同期されること(): void
     {
         $tag1 = Tag::factory()->create();
         $tag2 = Tag::factory()->create();
@@ -229,7 +229,7 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function deleteでスニペットが削除されること(): void
+    public function deleteで、スニペットが削除されること(): void
     {
         $snippet = Snippet::factory()->create();
 
