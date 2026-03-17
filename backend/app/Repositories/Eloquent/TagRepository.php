@@ -13,7 +13,7 @@ class TagRepository implements TagRepositoryInterface
 {
     public function all(): Collection
     {
-        return Tag::all();
+        return Tag::orderBy('name')->get();
     }
 
     public function find(array $names): Collection

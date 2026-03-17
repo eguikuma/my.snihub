@@ -22,13 +22,16 @@ class TagRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function allで、全タグを取得できること(): void
+    public function allで、全タグをアルファベット順で取得できること(): void
     {
-        Tag::factory()->count(3)->create();
+        Tag::factory()->create(['name' => 'react']);
+        Tag::factory()->create(['name' => 'css']);
+        Tag::factory()->create(['name' => 'php']);
 
         $tags = $this->repository->all();
 
         $this->assertCount(3, $tags);
+        $this->assertSame(['css', 'php', 'react'], $tags->pluck('name')->all());
     }
 
     #[Test]
