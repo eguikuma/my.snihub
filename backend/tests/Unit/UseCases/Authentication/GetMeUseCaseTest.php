@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\UseCases\User;
+namespace Tests\Unit\UseCases\Authentication;
 
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\UseCases\User\GetMeUseCase;
+use App\UseCases\Authentication\GetMeUseCase;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
