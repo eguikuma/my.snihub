@@ -9,10 +9,8 @@ use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('snippets')->name('snippets.')->group(function () {
-    Route::get('/', [SnippetController::class, 'index'])->name('index');
-    Route::get('{slug}', [SnippetController::class, 'show'])->name('show');
-});
+Route::get('health', fn () => response()->json(['status' => 'ok']))->name('health');
+
 
 Route::get('tags', [TagController::class, 'index'])->name('tags.index');
 

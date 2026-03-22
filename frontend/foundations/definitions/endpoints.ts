@@ -13,6 +13,7 @@ export const Endpoints = {
   MySnippetStatistics: "/api/me/snippets/statistics",
   OAuthGithub: "/api/sessions/oauth/github",
   CurrentSession: "/api/sessions/current",
+  Health: "/api/health",
 } as const;
 
 /**
