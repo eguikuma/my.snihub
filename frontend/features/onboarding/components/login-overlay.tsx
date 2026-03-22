@@ -1,5 +1,6 @@
 "use client";
 
+import { NoiseTexture } from "@/foundations/components/noise-texture";
 import { useDismiss } from "@/foundations/hooks/use-dismiss";
 import { useOverlayStore } from "@/foundations/stores";
 import { LoginContent } from "./login-content";
@@ -15,8 +16,9 @@ export const LoginOverlay = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50">
-      <div ref={contentRef}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+      <NoiseTexture />
+      <div ref={contentRef} className="relative z-10">
         <LoginContent />
       </div>
     </div>

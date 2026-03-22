@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { NoiseTexture } from "@/foundations/components/noise-texture";
 import { session } from "@/foundations/libraries/sessions";
 import { LoginContent } from "../login-content";
 
@@ -14,8 +15,11 @@ export const Guard = async ({ children }: GuardProps) => {
 
   if (!currentSession.token) {
     return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50">
-        <LoginContent />
+      <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90">
+        <NoiseTexture />
+        <div className="relative z-10">
+          <LoginContent />
+        </div>
       </div>
     );
   }
