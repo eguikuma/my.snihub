@@ -35,6 +35,11 @@ export const SnippetDraftHints = {
 } as const;
 
 /**
+ * コードエディタの高さ（px）を定義する
+ */
+export const SNIPPET_DRAFT_EDITOR_HEIGHT = 300;
+
+/**
  * スニペット作成のエラー状態を表現する型
  */
 export type SnippetDraftErrors = Partial<Record<string, string>>;
