@@ -5,7 +5,7 @@ import { GithubButton } from "./github-button";
  */
 export const LoginContent = () => {
   return (
-    <div className="flex w-full max-w-sm flex-col gap-6 rounded-2xl bg-surface p-8">
+    <div className="flex w-full max-w-sm flex-col gap-6 rounded-2xl bg-surface border border-edge p-8">
       {/* ロゴ */}
       <p className="text-center font-mono text-lg font-bold text-ink">
         {"</SnipShare>"}
