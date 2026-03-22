@@ -34,8 +34,13 @@ export const generateMetadata = async ({
 /**
  * スニペットをコードビューア・メタ情報・サイドバーで構成して表示する
  */
-const Page = async ({ params }: PageProps<"/snippets/[slug]">) => {
+const Page = async ({
+  params,
+  searchParams,
+}: PageProps<"/snippets/[slug]">) => {
   const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
+  const from = (resolvedSearchParams.from as string) ?? "";
   const snippet = await fetchSnippet(slug);
 
   if (!snippet) {
@@ -44,7 +49,7 @@ const Page = async ({ params }: PageProps<"/snippets/[slug]">) => {
 
   return (
     <div className="flex flex-col gap-4 p-4 desktop:gap-6 desktop:p-6">
-      <Breadcrumb title={snippet.title} />
+      <Breadcrumb title={snippet.title} from={from} />
       <div className="grid grid-cols-1 gap-5 tablet:grid-cols-[1fr_176px] desktop:grid-cols-[1fr_240px] desktop:gap-6">
         {/* メインエリア */}
         <div className="flex min-w-0 flex-col gap-4">
