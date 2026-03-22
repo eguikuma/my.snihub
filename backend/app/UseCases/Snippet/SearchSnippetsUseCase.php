@@ -20,16 +20,21 @@ class SearchSnippetsUseCase
 
     public function execute(SnippetSearchDto $dto, ?User $user = null): LengthAwarePaginator
     {
+        $isAuthenticated = $user !== null;
+        $hasVisibility = $dto->visibility !== null;
+
         $repositoryDto = new RepositoryDtos\SnippetSearchDto(
             keyword: $dto->keyword,
             tag: $dto->tag,
             language: $dto->language,
             userId: $user?->id,
             /**
-             * ユーザーが未認証の場合、公開されたスニペットのみとする
+             * 未認証の場合は公開のみ、認証済みの場合はDTO指定のvisibilityで絞り込む
              */
-            visibility: $user === null ? Visibility::Public : null,
-            withExpired: false,
+            visibility: ! $isAuthenticated
+                ? Visibility::Public
+                : ($hasVisibility ? Visibility::from($dto->visibility) : null),
+            withExpired: $isAuthenticated,
         );
 
         return $this->snippetRepository->paginate($repositoryDto, $dto->perPage);

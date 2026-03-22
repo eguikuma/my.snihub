@@ -25,6 +25,7 @@ class GetSnippetStatisticsUseCase
         $counts = $this->snippetRepository->count(new SnippetCountDto(
             userId: $user->id,
             groupBy: SnippetGroupBy::Visibility,
+            withExpired: true,
         ));
 
         return [

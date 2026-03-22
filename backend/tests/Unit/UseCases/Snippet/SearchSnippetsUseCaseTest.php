@@ -42,7 +42,7 @@ class SearchSnippetsUseCaseTest extends TestCase
         $this->assertSame('typescript', $capturedDto?->language);
         $this->assertSame(42, $capturedDto?->userId);
         $this->assertNull($capturedDto?->visibility);
-        $this->assertFalse($capturedDto?->withExpired);
+        $this->assertTrue($capturedDto?->withExpired);
     }
 
     #[Test]

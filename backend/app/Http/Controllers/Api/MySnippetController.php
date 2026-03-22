@@ -39,6 +39,7 @@ class MySnippetController extends Controller
                 keyword: $validated['keyword'] ?? null,
                 tag: $validated['tag'] ?? null,
                 language: $validated['language'] ?? null,
+                visibility: $validated['visibility'] ?? null,
                 perPage: $validated['per_page'] ?? 20,
             ),
             $request->user(),
