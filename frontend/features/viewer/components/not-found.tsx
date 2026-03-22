@@ -1,22 +1,38 @@
-import Link from "next/link";
-import { Routes } from "@/foundations/definitions";
+"use client";
+
+import { useParams } from "next/navigation";
+import { HelpReadme } from "@/foundations/components/help-readme";
+
+const toReadme = (slug: string) =>
+  `# 404 — Snippet Not Found
+
+> スニペットが見つかりませんでした: \`${slug}\`
+
+## 考えられる原因
+
+- スニペットが削除された
+- URLが間違っている
+- スニペットが非公開に変更された
+
+## 関連リンク
+
+- [公開スニペット一覧](/)
+
+---
+
+*SnipShare — コードスニペット共有サービス*`;
 
 /**
- * スニペットが見つからない場合にエラーコードと一覧への導線を表示する
+ * スニペットが見つからない場合に README 風の 404 ページを表示する
  */
 export const NotFound = () => {
+  const params = useParams<{ slug: string }>();
+
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-24">
-      <span className="text-6xl font-bold text-ink-muted">404</span>
-      <p className="text-sm text-ink-secondary">
-        このスニペットは見つかりませんでした
-      </p>
-      <Link
-        href={Routes.Home}
-        className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-surface transition-colors duration-150 hover:bg-accent/90"
-      >
-        一覧に戻る
-      </Link>
+    <div className="flex justify-center py-16">
+      <div className="w-full max-w-2xl">
+        <HelpReadme content={toReadme(params.slug)} />
+      </div>
     </div>
   );
 };

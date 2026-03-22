@@ -1,4 +1,4 @@
-import { ComposerContainer } from "@/features/composer/components/sheet";
+import { ComposerContainer } from "@/features/composer/components/composer-container";
 import { Guard } from "@/features/onboarding/components/guard";
 
 /**

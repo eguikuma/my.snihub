@@ -1,29 +1,38 @@
-import { CodeViewer } from "@/foundations/components/code-viewer";
+import { HelpReadme } from "@/foundations/components/help-readme";
+import { CollectionShell } from "./collection-shell";
 
-const README_CONTENT = `# Welcome to your snippet collection
+const README_CONTENT = `# Welcome to SnipShare
 
 > まだスニペットがありません
 
-## Getting Started
+## はじめかた
 
-1. 「新規作成」ボタンをクリック
-2. コードを貼り付け
-3. 言語と公開範囲を選択
-4. 共有！
+1. メニューから「新規作成」を選択
+2. コードを貼り付けてタイトルをつける
+3. 言語と公開範囲を選んで共有！
+
+## できること
+
+- **公開** — 誰でも閲覧可能
+- **限定公開** — URLを知っている人のみ
+- **非公開** — 自分だけのメモ
+
+## 関連リンク
+
+- [新規作成](/snippets/new)
+- [公開スニペット一覧](/)
 
 ---
 
-*Happy coding!*`;
+*SnipShare — コードスニペット共有サービス*`;
 
 /**
  * スニペットが1件もないときに README.md 風の Getting Started ガイドを表示する
  */
-export const EmptyCollection = () => {
-  return (
-    <div className="flex justify-center py-8">
-      <div className="w-full max-w-2xl overflow-hidden rounded-lg border border-edge">
-        <CodeViewer code={README_CONTENT} language="markdown" />
-      </div>
+export const EmptyCollection = () => (
+  <CollectionShell.EmptyState>
+    <div className="w-full max-w-2xl">
+      <HelpReadme content={README_CONTENT} />
     </div>
-  );
-};
+  </CollectionShell.EmptyState>
+);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { z } from "zod";
 import { type SnippetDraftErrors } from "../definitions";
 
@@ -110,10 +110,7 @@ export const useValidation = <S extends z.ZodObject<z.ZodRawShape>>(
   /**
    * クライアントエラーとサーバーエラーを統合する（クライアント優先）
    */
-  const mergedErrors = useMemo<SnippetDraftErrors>(
-    () => ({ ...serverErrors, ...clientErrors }),
-    [clientErrors, serverErrors],
-  );
+  const mergedErrors: SnippetDraftErrors = { ...serverErrors, ...clientErrors };
 
   const errorCount = Object.keys(mergedErrors).length;
 

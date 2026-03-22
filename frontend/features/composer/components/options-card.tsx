@@ -1,9 +1,9 @@
 import type { Expiration, Visibility } from "@/foundations/definitions";
-import type { SnippetDraftErrors } from "../../definitions";
-import type { SnippetDraft } from "../../schemas";
-import { ExpirationSelector } from "../expiration-selector";
-import { SnippetOptionsCard } from "../snippet-options-card";
-import { VisibilitySelector } from "../visibility-selector";
+import type { SnippetDraftErrors } from "../definitions";
+import type { SnippetDraft } from "../schemas";
+import { ExpirationSelector } from "./expiration-selector";
+import { SnippetOptionsCard } from "./snippet-options-card";
+import { VisibilitySelector } from "./visibility-selector";
 
 type OptionsCardProps = {
   fields: SnippetDraft;

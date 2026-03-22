@@ -1,44 +1,10 @@
-import { Suspense } from "react";
-import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-card";
-import { Language } from "@/foundations/definitions";
-import { throwOutcomeError } from "@/foundations/libraries/outcome";
-import { fetchPublicSnippets } from "@/features/gallery/actions/fetch-public-snippets";
-import { GalleryContainer } from "@/features/gallery/components/container";
-import { List } from "@/features/gallery/components/list";
-import { SearchParameterKeys } from "@/features/gallery/definitions";
+import { GalleryContainer } from "@/features/gallery/components/gallery-container";
 
 /**
- * 検索パラメータをもとに公開スニペット一覧を取得し、ギャラリーとして表示する
+ * 検索パラメータをもとに公開スニペット一覧をギャラリーとして表示する
  */
-const Page = async ({ searchParams }: PageProps<"/">) => {
-  const resolvedSearchParams = await searchParams;
-
-  const keyword =
-    (resolvedSearchParams[SearchParameterKeys.Keyword] as string) ?? "";
-  const language =
-    (resolvedSearchParams[SearchParameterKeys.Language] as Language) ?? "";
-  const page = Number(resolvedSearchParams[SearchParameterKeys.Page] ?? "1");
-
-  const publicSnippets = await fetchPublicSnippets({
-    keyword: keyword || undefined,
-    language: language || undefined,
-    page,
-  });
-
-  return publicSnippets.match(
-    (response) => (
-      <GalleryContainer>
-        <Suspense fallback={<SnippetSkeletonCard />}>
-          <List
-            snippets={response.data}
-            meta={response.meta}
-            language={language}
-          />
-        </Suspense>
-      </GalleryContainer>
-    ),
-    (error) => throwOutcomeError(error),
-  );
-};
+const Page = ({ searchParams }: PageProps<"/">) => (
+  <GalleryContainer searchParams={searchParams} />
+);
 
 export default Page;

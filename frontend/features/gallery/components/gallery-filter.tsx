@@ -6,14 +6,14 @@ import { SearchInput } from "@/foundations/components/search-input";
 import { useGalleryFilter } from "../hooks";
 import { GalleryShell } from "./gallery-shell";
 
-type GalleryContainerProps = {
+type GalleryFilterProps = {
   children: ReactNode;
 };
 
 /**
  * ギャラリー画面のクライアント境界を担い、フィルターパネルと子要素を配置する
  */
-export const GalleryContainer = ({ children }: GalleryContainerProps) => {
+export const GalleryFilter = ({ children }: GalleryFilterProps) => {
   const { keyword, language } = useGalleryFilter();
 
   return (

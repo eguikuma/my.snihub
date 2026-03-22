@@ -8,7 +8,7 @@ import { useCollectionFilter } from "../hooks";
 import { CollectionShell } from "./collection-shell";
 import { VisibilityTabs } from "./visibility-tabs";
 
-type CollectionContainerProps = {
+type CollectionFilterProps = {
   statistics: Statistics;
   children: ReactNode;
 };
@@ -16,10 +16,10 @@ type CollectionContainerProps = {
 /**
  * マイスニペット画面のクライアント境界を担い、フィルターパネルと子要素を配置する
  */
-export const CollectionContainer = ({
+export const CollectionFilter = ({
   statistics,
   children,
-}: CollectionContainerProps) => {
+}: CollectionFilterProps) => {
   const { keyword, language, visibility } = useCollectionFilter();
 
   return (

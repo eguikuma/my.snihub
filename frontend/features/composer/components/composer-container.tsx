@@ -1,8 +1,8 @@
 "use client";
 
-import { useSnippetDraft } from "../../hooks";
-import { SnippetSheet } from "../snippet-sheet";
+import { useSnippetDraft } from "../hooks";
 import { OptionsCard } from "./options-card";
+import { SnippetSheet } from "./snippet-sheet";
 
 /**
  * スニペット作成フォーム全体をフルワイドレイアウトで描画する

@@ -1,38 +1,39 @@
 "use client";
 
-import Link from "next/link";
-import { Routes } from "@/foundations/definitions";
+import { HelpReadme } from "@/foundations/components/help-readme";
+
+const toReadme = (message: string) =>
+  `# Error — Something Went Wrong
+
+> \`${message}\`
+
+## どうすればいいですか？
+
+- ページを再読み込みしてみてください
+- 問題が解決しない場合は、しばらく時間をおいてお試しください
+
+## 関連リンク
+
+- [公開スニペット一覧](/)
+
+---
+
+*SnipShare — コードスニペット共有サービス*`;
 
 /**
- * 予期しないエラーが発生した場合にリトライボタンと一覧への導線を表示する
+ * 予期しないエラーが発生した場合に README 風のエラーページを表示する
  */
 const ErrorPage = ({
   error,
-  reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
-}) => {
-  return (
-    <div className="flex flex-col items-center justify-center gap-4 py-24">
-      <span className="text-6xl font-bold text-ink-muted">Error</span>
-      <p className="text-sm text-ink-secondary">{error.message}</p>
-      <div className="flex gap-3">
-        <button
-          onClick={reset}
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-surface transition-colors duration-150 hover:bg-accent/90"
-        >
-          もう一度試す
-        </button>
-        <Link
-          href={Routes.Home}
-          className="rounded-lg border border-edge px-4 py-2 text-sm font-medium text-ink transition-colors duration-150 hover:bg-surface-hover"
-        >
-          一覧に戻る
-        </Link>
-      </div>
+}) => (
+  <div className="flex justify-center py-16">
+    <div className="w-full max-w-2xl">
+      <HelpReadme content={toReadme(error.message)} />
     </div>
-  );
-};
+  </div>
+);
 
 export default ErrorPage;

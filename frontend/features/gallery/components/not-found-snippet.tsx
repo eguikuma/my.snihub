@@ -1,24 +1,29 @@
-"use client";
+import { HelpReadme } from "@/foundations/components/help-readme";
 
-import { CodeViewer } from "@/foundations/components/code-viewer";
-import type { Language } from "@/foundations/definitions";
-import { NotFoundSnippetPhrases } from "../definitions";
+const NO_RESULTS_README = `# No Results Found
 
-type NotFoundSnippetProps = {
-  language: Language;
-};
+> 条件に一致するスニペットがありません
+
+## どうすればいいですか？
+
+- 別のキーワードで検索してみてください
+- 言語フィルターを解除してみてください
+
+## 関連リンク
+
+- [公開スニペット一覧](/)
+
+---
+
+*SnipShare — コードスニペット共有サービス*`;
 
 /**
- * 検索結果が0件のとき、選択中の言語に応じたサンプルコードで空状態を表示する
+ * 検索結果が0件のときに README 風の空状態を表示する
  */
-export const NotFoundSnippet = ({ language }: NotFoundSnippetProps) => {
-  const sampleCode = NotFoundSnippetPhrases.get(language);
-
-  return (
-    <div className="flex justify-center py-16">
-      <div className="w-full max-w-2xl">
-        <CodeViewer code={sampleCode} language={language} />
-      </div>
+export const NotFoundSnippet = () => (
+  <div className="flex justify-center py-16">
+    <div className="w-full max-w-2xl">
+      <HelpReadme content={NO_RESULTS_README} />
     </div>
-  );
-};
+  </div>
+);

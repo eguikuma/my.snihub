@@ -4,14 +4,14 @@ import { ModeSwitch } from "./mode-switch";
 import { SnippetSidebar } from "./sidebar";
 import { SnippetViewer } from "./snippet-viewer";
 
-type ViewerContainerProps = {
+type ViewerLayoutProps = {
   snippet: Snippet;
 };
 
 /**
  * スニペット閲覧画面のレイアウトを担い、コードビューア・メタ情報・サイドバーを配置する
  */
-export const ViewerContainer = ({ snippet }: ViewerContainerProps) => {
+export const ViewerLayout = ({ snippet }: ViewerLayoutProps) => {
   if (snippet.is_owner) {
     return <ModeSwitch snippet={snippet} />;
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Routes } from "@/foundations/definitions";
 import type { Slug } from "@/foundations/schemas";
 import { deleteSnippet } from "@/features/collection/actions/delete-snippet";
@@ -33,13 +33,10 @@ export const useViewerMode = () => {
     return result;
   };
 
-  const viewerState = useMemo(
-    () => ({
-      startEditing: () => setIsEditing(true),
-      startDeleting: () => setIsDeleting(true),
-    }),
-    [],
-  );
+  const viewerState = {
+    startEditing: () => setIsEditing(true),
+    startDeleting: () => setIsDeleting(true),
+  };
 
   return {
     isEditing,
