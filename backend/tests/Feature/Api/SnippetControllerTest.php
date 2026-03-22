@@ -96,6 +96,34 @@ class SnippetControllerTest extends TestCase
     }
 
     #[Test]
+    public function 一覧レスポンスにcode_previewが含まれcodeが含まれないこと(): void
+    {
+        Snippet::factory()->public()->create([
+            'code' => "line 1\nline 2\nline 3\nline 4\nline 5",
+        ]);
+
+        $response = $this->getJson('/api/snippets');
+
+        $response->assertOk();
+        $response->assertJsonPath('data.0.code_preview', "line 1\nline 2\nline 3");
+        $response->assertJsonMissingPath('data.0.code');
+    }
+
+    #[Test]
+    public function 詳細レスポンスにcodeが含まれcode_previewが含まれないこと(): void
+    {
+        $snippet = Snippet::factory()->public()->create([
+            'code' => "line 1\nline 2\nline 3\nline 4\nline 5",
+        ]);
+
+        $response = $this->getJson("/api/snippets/{$snippet->slug}");
+
+        $response->assertOk();
+        $response->assertJsonPath('data.code', "line 1\nline 2\nline 3\nline 4\nline 5");
+        $response->assertJsonMissingPath('data.code_preview');
+    }
+
+    #[Test]
     public function レスポンスにvisibilityが含まれること(): void
     {
         $snippet = Snippet::factory()->public()->create();

@@ -9,6 +9,7 @@ use App\Http\Requests\IndexSnippetRequest;
 use App\Http\Requests\StoreSnippetRequest;
 use App\Http\Requests\UpdateSnippetRequest;
 use App\Http\Resources\SnippetResource;
+use App\Http\Resources\SnippetSummaryResource;
 use App\UseCases\Snippet\CreateSnippetUseCase;
 use App\UseCases\Snippet\DeleteSnippetUseCase;
 use App\UseCases\Snippet\Dtos\SnippetCreateDto;
@@ -45,7 +46,7 @@ class MySnippetController extends Controller
             $request->user(),
         );
 
-        return SnippetResource::collection($snippets);
+        return SnippetSummaryResource::collection($snippets);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndexSnippetRequest;
 use App\Http\Resources\SnippetResource;
+use App\Http\Resources\SnippetSummaryResource;
 use App\UseCases\Snippet\Dtos\SnippetSearchDto;
 use App\UseCases\Snippet\FindSnippetUseCase;
 use App\UseCases\Snippet\SearchSnippetsUseCase;
@@ -32,7 +33,7 @@ class SnippetController extends Controller
             user: null,
         );
 
-        return SnippetResource::collection($snippets);
+        return SnippetSummaryResource::collection($snippets);
     }
 
     /**

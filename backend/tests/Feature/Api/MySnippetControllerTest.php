@@ -83,6 +83,23 @@ class MySnippetControllerTest extends TestCase
     }
 
     #[Test]
+    public function 一覧レスポンスにcode_previewが含まれcodeが含まれないこと(): void
+    {
+        $user = User::factory()->create();
+        Snippet::factory()->create([
+            'user_id' => $user->id,
+            'code' => "line 1\nline 2\nline 3\nline 4\nline 5",
+        ]);
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson('/api/me/snippets');
+
+        $response->assertOk();
+        $response->assertJsonPath('data.0.code_preview', "line 1\nline 2\nline 3");
+        $response->assertJsonMissingPath('data.0.code');
+    }
+
+    #[Test]
     public function 作成者はスニペットを更新できること(): void
     {
         $user = User::factory()->create();
