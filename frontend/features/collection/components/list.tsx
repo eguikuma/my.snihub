@@ -7,20 +7,29 @@ import type { PaginationMeta, Snippet } from "@/foundations/schemas";
 import { NotFoundComments } from "../definitions/not-found-comments";
 import { Card } from "./card";
 import { DeleteDialog } from "./delete-dialog";
+import { EmptyCollection } from "./empty-collection";
 
 type ListProps = {
   snippets: Snippet[];
   meta: PaginationMeta;
   language: Language;
+  isEmpty: boolean;
 };
 
 /**
  * マイスニペット一覧をグリッド表示し、削除ダイアログの状態を管理する
  */
-export const List = ({ snippets, meta, language }: ListProps) => {
+export const List = ({ snippets, meta, language, isEmpty }: ListProps) => {
   const [deletingSnippet, setDeletingSnippet] = useState<Snippet | null>(null);
 
   if (snippets.length === 0) {
+    /**
+     * スニペットが1件もない場合は専用コンポーネントを表示する
+     */
+    if (isEmpty) {
+      return <EmptyCollection />;
+    }
+
     return (
       <div className="flex justify-center py-16">
         <div className="w-full max-w-2xl rounded-lg bg-code p-6">

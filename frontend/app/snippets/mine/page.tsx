@@ -45,6 +45,7 @@ const Page = async ({
               snippets={response.data}
               meta={response.meta}
               language={language}
+              isEmpty={statistics.total === 0}
             />
           </Suspense>
         </CollectionShell>

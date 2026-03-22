@@ -33,7 +33,7 @@ export const Account = ({ user }: AccountProps) => {
       </button>
 
       {opened && (
-        <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-edge bg-surface py-1 shadow-lg">
+        <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-edge bg-surface-raised py-1 shadow-lg">
           {/* ユーザー情報 */}
           <div className="px-4 py-2">
             <p className="text-sm font-medium text-ink">{user.name}</p>
