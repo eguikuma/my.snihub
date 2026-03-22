@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { useDismiss, useToggle } from "@/foundations/hooks";
@@ -25,8 +26,20 @@ export const Account = ({ user }: AccountProps) => {
         onClick={toggle}
         className="flex items-center gap-1 rounded-full p-0.5 transition-colors hover:bg-surface-hover"
       >
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
-          {user.name.charAt(0).toUpperCase()}
+        <div className="flex h-7 w-7 items-center justify-center rounded-full">
+          {user.avatar_url ? (
+            <Image
+              src={user.avatar_url}
+              alt={user.name}
+              width={28}
+              height={28}
+              className="rounded-full"
+            />
+          ) : (
+            <div className="bg-accent text-xs font-bold text-white">
+              user.name.charAt(0).toUpperCase()
+            </div>
+          )}
         </div>
         <ChevronDown size={14} className="text-ink-muted" />
       </button>
