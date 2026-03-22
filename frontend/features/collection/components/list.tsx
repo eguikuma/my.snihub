@@ -1,6 +1,6 @@
 import { HelpReadme } from "@/foundations/components/help-readme";
 import { Pagination } from "@/foundations/components/pagination";
-import type { PaginationMeta, Snippet } from "@/foundations/schemas";
+import type { PaginationMeta, SnippetSummary } from "@/foundations/schemas";
 import { Card } from "./card";
 import { CollectionShell } from "./collection-shell";
 import { EmptyCollection } from "./empty-collection";
@@ -24,7 +24,7 @@ const NO_RESULTS_README = `# No Results Found
 *SnipShare — コードスニペット共有サービス*`;
 
 type ListProps = {
-  snippets: Snippet[];
+  snippets: SnippetSummary[];
   meta: PaginationMeta;
   isEmpty: boolean;
 };

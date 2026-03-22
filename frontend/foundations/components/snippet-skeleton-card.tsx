@@ -6,7 +6,7 @@ const DEFAULT_SKELETON_COUNT = 8;
  * スニペットカード1枚分のローディングスケルトンを描画する
  */
 const SkeletonCard = () => (
-  <div className="flex flex-col gap-3 rounded-lg border border-edge bg-surface-raised p-5">
+  <div className="flex min-h-52 flex-col gap-3 rounded-lg border border-edge bg-surface-raised p-5">
     {/* タイトル + バッジ */}
     <div className="flex flex-col gap-2">
       <Bone className="h-4 w-3/4" />
@@ -42,7 +42,7 @@ type SkeletonCardProps = {
 export const SnippetSkeletonCard = ({
   count = DEFAULT_SKELETON_COUNT,
 }: SkeletonCardProps) => (
-  <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2 desktop:grid-cols-3 wide:grid-cols-4">
+  <div className="grid grid-cols-1 gap-5 tablet:grid-cols-2 desktop:grid-cols-3 wide:grid-cols-4">
     {Array.from({ length: count }, (_, index) => (
       <SkeletonCard key={index} />
     ))}

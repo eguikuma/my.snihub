@@ -1,11 +1,11 @@
 import { Pagination } from "@/foundations/components/pagination";
-import type { PaginationMeta, Snippet } from "@/foundations/schemas";
+import type { PaginationMeta, SnippetSummary } from "@/foundations/schemas";
 import { Card } from "./card";
 import { GalleryShell } from "./gallery-shell";
 import { NotFoundSnippet } from "./not-found-snippet";
 
 type ListProps = {
-  snippets: Snippet[];
+  snippets: SnippetSummary[];
   meta: PaginationMeta;
 };
 
