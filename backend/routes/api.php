@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CronController;
 use App\Http\Controllers\Api\GithubOAuthController;
 use App\Http\Controllers\Api\MySnippetController;
 use App\Http\Controllers\Api\MySnippetStatisticsController;
@@ -11,6 +12,10 @@ use App\Http\Middleware\CachePublicResponse;
 use Illuminate\Support\Facades\Route;
 
 Route::get('health', fn () => response()->json(['status' => 'ok']))->name('health');
+
+Route::prefix('cron')->name('cron.')->middleware('throttle:5,1')->group(function () {
+    Route::post('prune', [CronController::class, 'prune'])->name('prune');
+});
 
 Route::middleware(CachePublicResponse::class)->group(function () {
     Route::prefix('snippets')->name('snippets.')->group(function () {

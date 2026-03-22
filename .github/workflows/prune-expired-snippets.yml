@@ -1,0 +1,16 @@
+name: 期限切れスニペットの削除
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 期限切れスニペットを削除する
+        run: |
+          curl -sf -X POST "${{ secrets.BACKEND_URL }}/api/cron/prune" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json"

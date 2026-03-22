@@ -24,6 +24,7 @@ Thumbs.db
 
 # dot directories
 .*/
+!.github
 
 # documents
 /docs/
