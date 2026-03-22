@@ -1,9 +1,9 @@
 "use client";
 
+import { LanguageChips } from "@/foundations/components/language-chips";
+import { SearchInput } from "@/foundations/components/search-input";
 import { useDebouncedInput, useSearchParameters } from "@/foundations/hooks";
 import { SearchParameterKeys } from "../definitions";
-import { LanguageChips } from "./language-chips";
-import { SearchInput } from "./search-input";
 
 /**
  * キーワード検索と言語フィルターを組み合わせたギャラリーの操作パネルを提供する

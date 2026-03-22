@@ -1,10 +1,11 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import type { PaginationMeta } from "@/foundations/schemas";
-import { SearchParameterKeys } from "../../definitions";
 import { buildPageNumbers } from "./page-numbers";
+
+const PAGE_KEY = "page";
 
 type PaginationProps = {
   meta: PaginationMeta;
@@ -15,20 +16,21 @@ type PaginationProps = {
  */
 export const Pagination = ({ meta }: PaginationProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const navigateToPage = (page: number) => {
     const nextSearchParams = new URLSearchParams(searchParams.toString());
 
     if (page > 1) {
-      nextSearchParams.set(SearchParameterKeys.Page, String(page));
+      nextSearchParams.set(PAGE_KEY, String(page));
     } else {
-      nextSearchParams.delete(SearchParameterKeys.Page);
+      nextSearchParams.delete(PAGE_KEY);
     }
 
     const queryString = nextSearchParams.toString();
 
-    router.push(queryString ? `?${queryString}` : "/");
+    router.push(queryString ? `${pathname}?${queryString}` : pathname);
   };
 
   if (meta.last_page <= 1) return null;

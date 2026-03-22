@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type UseSearchParametersOptions = {
   /**
@@ -16,6 +16,7 @@ export const useSearchParameters = (
   options: UseSearchParametersOptions = {},
 ) => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const { resetKeys = [] } = options;
 
@@ -35,7 +36,7 @@ export const useSearchParameters = (
     }
 
     const queryString = nextParameters.toString();
-    router.replace(queryString ? `?${queryString}` : "/");
+    router.replace(queryString ? `${pathname}?${queryString}` : pathname);
   };
 
   return { get, update } as const;

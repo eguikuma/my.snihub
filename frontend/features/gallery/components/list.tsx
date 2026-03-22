@@ -1,8 +1,8 @@
+import { Pagination } from "@/foundations/components/pagination";
 import type { Language } from "@/foundations/definitions";
 import type { PaginationMeta, Snippet } from "@/foundations/schemas";
 import { Card } from "./card";
 import { NotFoundSnippet } from "./not-found-snippet";
-import { Pagination } from "./pagination";
 
 type ListProps = {
   snippets: Snippet[];

@@ -8,6 +8,7 @@ export const Endpoints = {
   Me: "/api/me",
   MySnippets: "/api/me/snippets",
   MySnippet: (slug: string) => `/api/me/snippets/${slug}`,
+  MySnippetStatistics: "/api/me/snippets/statistics",
   OAuthGithub: "/api/sessions/oauth/github",
   CurrentSession: "/api/sessions/current",
 } as const;
