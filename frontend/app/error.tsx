@@ -3,7 +3,7 @@
 import { HelpReadme } from "@/foundations/components/help-readme";
 
 const toReadme = (message: string) =>
-  `# Error — Something Went Wrong
+  `# Something Went Wrong
 
 > \`${message}\`
 

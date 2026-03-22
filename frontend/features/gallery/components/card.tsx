@@ -16,6 +16,7 @@ export const Card = ({ snippet }: CardProps) => (
     <SnippetCard.CodePreview code={snippet.code} />
     <SnippetCard.Footer
       userName={snippet.user.name}
+      avatarUrl={snippet.user.avatar_url}
       createdAt={snippet.created_at}
     />
   </SnippetCard.Root>

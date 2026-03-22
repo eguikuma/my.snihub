@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { HelpReadme } from "@/foundations/components/help-readme";
 
 const toReadme = (path: string) =>
-  `# 404 — Page Not Found
+  `# Page Not Found
 
 > お探しのページは見つかりませんでした: \`${path}\`
 

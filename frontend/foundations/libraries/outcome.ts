@@ -48,9 +48,9 @@ export const toOutcomeError = (error: unknown): OutcomeError => {
 export const toMessage = (error: OutcomeError): string => {
   switch (error.kind) {
     case "server":
-      return error.message;
+      return "サーバーでエラーが発生しました";
     case "network":
-      return error.message;
+      return "ネットワークエラーが発生しました";
     case "not_found":
       return "リソースが見つかりませんでした";
     case "unauthorized":

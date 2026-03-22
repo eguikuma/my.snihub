@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { HelpReadme } from "@/foundations/components/help-readme";
 
 const toReadme = (slug: string) =>
-  `# 404 — Snippet Not Found
+  `# Snippet Not Found
 
 > スニペットが見つかりませんでした: \`${slug}\`
 
