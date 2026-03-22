@@ -29,8 +29,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   return {
     title: {
-      default: "SnipShare",
-      template: "%s | SnipShare",
+      default: "SniHub",
+      template: "%s | SniHub",
     },
     description: "コードスニペット共有サービス",
     themeColor: ThemeAccentColors[themeId],

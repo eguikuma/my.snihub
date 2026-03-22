@@ -2,7 +2,7 @@ import { HelpReadme } from "@/foundations/components/help-readme";
 import { Routes } from "@/foundations/definitions";
 import { CollectionShell } from "./collection-shell";
 
-const README_CONTENT = `# Welcome to SnipShare
+const README_CONTENT = `# Welcome to SniHub
 
 > まだスニペットがありません
 
@@ -25,7 +25,7 @@ const README_CONTENT = `# Welcome to SnipShare
 
 ---
 
-*SnipShare — コードスニペット共有サービス*`;
+*SniHub — コードスニペット共有サービス*`;
 
 /**
  * スニペットが1件もないときに README.md 風の Getting Started ガイドを表示する

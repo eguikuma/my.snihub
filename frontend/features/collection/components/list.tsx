@@ -22,7 +22,7 @@ const README_CONTENT = `# No Results Found
 
 ---
 
-*SnipShare — コードスニペット共有サービス*`;
+*SniHub — コードスニペット共有サービス*`;
 
 type ListProps = {
   snippets: SnippetSummary[];

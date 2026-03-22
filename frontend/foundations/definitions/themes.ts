@@ -1,7 +1,7 @@
 /**
  * テーマカラーを管理するCookieの名前
  */
-export const THEME_COOKIE_NAME = "snipshare-theme";
+export const THEME_COOKIE_NAME = "snihub-theme";
 
 /**
  * [data-theme="..."] セレクタと対応している

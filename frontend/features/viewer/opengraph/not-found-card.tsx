@@ -17,6 +17,6 @@ export const NotFoundCard = () => (
       fontFamily: "monospace",
     }}
   >
-    SnipShare — コードスニペット共有サービス
+    SniHub — コードスニペット共有サービス
   </div>
 );

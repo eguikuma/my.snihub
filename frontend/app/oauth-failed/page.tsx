@@ -22,7 +22,7 @@ const README_CONTENT = `# Authentication Failed
 
 ---
 
-*SnipShare — コードスニペット共有サービス*`;
+*SniHub — コードスニペット共有サービス*`;
 
 /**
  * OAuth認証失敗時にREADME風のエラーページを表示する

@@ -5,8 +5,8 @@ import { DEFAULT_THEME_ID, ThemeAccentColors } from "@/foundations/definitions";
  * PWA用のWeb App Manifestを生成する
  */
 const manifest = (): MetadataRoute.Manifest => ({
-  name: "SnipShare",
-  short_name: "SnipShare",
+  name: "SniHub",
+  short_name: "SniHub",
   description: "コードスニペット共有サービス",
   start_url: "/",
   display: "standalone",

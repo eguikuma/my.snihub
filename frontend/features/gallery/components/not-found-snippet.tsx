@@ -16,7 +16,7 @@ const README_CONTENT = `# No Results Found
 
 ---
 
-*SnipShare — コードスニペット共有サービス*`;
+*SniHub — コードスニペット共有サービス*`;
 
 /**
  * 検索結果が0件のときに README 風の空状態を表示する

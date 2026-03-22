@@ -5,7 +5,7 @@ import type { Token } from "../schemas/brand";
 /**
  * セッションを管理するCookieの名前
  */
-const SESSION_COOKIE_NAME = "snipshare-session";
+const SESSION_COOKIE_NAME = "snihub-session";
 
 export type Session = {
   /**

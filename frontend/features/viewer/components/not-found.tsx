@@ -21,7 +21,7 @@ const toReadme = (slug: string) =>
 
 ---
 
-*SnipShare — コードスニペット共有サービス*`;
+*SniHub — コードスニペット共有サービス*`;
 
 /**
  * スニペットが見つからない場合に README 風の 404 ページを表示する

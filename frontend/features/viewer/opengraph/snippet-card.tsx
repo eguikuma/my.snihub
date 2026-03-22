@@ -109,7 +109,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
         <span
           style={{ fontSize: 22, fontWeight: 700, color: OgpColors.accent }}
         >
-          {"</SnipShare>"}
+          {"</SniHub>"}
         </span>
       </div>
     </div>

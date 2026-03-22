@@ -27,7 +27,7 @@ export const LandingContainer = () => (
   <div className="flex min-h-[calc(100vh-var(--spacing-top-bar))] flex-col items-center justify-center gap-16 px-4 py-16">
     <section className="flex max-w-xl flex-col items-center gap-6 text-center">
       <h1 className="font-mono text-3xl font-bold text-ink desktop:text-4xl">
-        {"</SnipShare>"}
+        {"</SniHub>"}
       </h1>
       <p className="text-lg text-ink-secondary">
         コードスニペットを保存・共有できるシンプルなサービス

@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: snipshare-api
+    name: snihub-api
     runtime: docker
     dockerfilePath: backend/Dockerfile
     dockerContext: backend
     plan: free
     envVars:
       - key: APP_NAME
-        value: SnipShare
+        value: SniHub
       - key: APP_ENV
         value: production
       - key: APP_DEBUG

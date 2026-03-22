@@ -19,7 +19,7 @@ const toReadme = (message: string) =>
 
 ---
 
-*SnipShare — コードスニペット共有サービス*`;
+*SniHub — コードスニペット共有サービス*`;
 
 /**
  * 予期しないエラーが発生した場合に README 風のエラーページを表示する

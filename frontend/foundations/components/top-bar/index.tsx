@@ -17,7 +17,7 @@ export const TopBar = async () => {
         href={Routes.Snippets}
         className="font-mono text-sm font-bold text-ink"
       >
-        {"</SnipShare>"}
+        {"</SniHub>"}
       </Link>
 
       <div className="flex items-center gap-2">
