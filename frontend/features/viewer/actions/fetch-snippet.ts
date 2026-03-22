@@ -3,7 +3,7 @@ import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
-import { Snippet } from "@/foundations/schemas";
+import { Snippet, type Slug } from "@/foundations/schemas";
 
 const SnippetResponse = z.object({
   data: Snippet,
@@ -12,9 +12,7 @@ const SnippetResponse = z.object({
 /**
  * 指定されたslugのスニペットをバックエンドから取得する
  */
-export const fetchSnippet = (
-  slug: string,
-): ResultAsync<Snippet, OutcomeError> =>
+export const fetchSnippet = (slug: Slug): ResultAsync<Snippet, OutcomeError> =>
   toOutcome(async () => {
     const response = await fetcher.get(Endpoints.Snippet(slug));
 

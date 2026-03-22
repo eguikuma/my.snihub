@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Trash2 } from "lucide-react";
 import { useDismiss, useScrollLock } from "@/foundations/hooks";
+import type { Slug } from "@/foundations/schemas";
 
 type DeleteDialogProps = {
-  snippet: { slug: string; title: string } | null;
-  onDelete: (slug: string) => Promise<{ success: boolean }>;
+  snippet: { slug: Slug; title: string } | null;
+  onDelete: (slug: Slug) => Promise<{ success: boolean }>;
   onClose: () => void;
 };
 

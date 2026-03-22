@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Endpoints, OAUTH_FAILED } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { session } from "@/foundations/libraries/sessions";
+import type { Token } from "@/foundations/schemas";
 
 /**
  * GitHub OAuth コールバックを処理する
@@ -22,7 +23,7 @@ export const GET = async (request: Request) => {
   try {
     const response = (await fetcher.post(Endpoints.OAuthGithub, {
       body: JSON.stringify({ code }),
-    })) as { token: string };
+    })) as { token: Token };
 
     currentSession.token = response.token;
   } catch {

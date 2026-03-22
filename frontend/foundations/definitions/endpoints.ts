@@ -1,13 +1,15 @@
+import type { Slug } from "../schemas/brand";
+
 /**
  * バックエンドAPIのエンドポイントURL
  */
 export const Endpoints = {
   Snippets: "/api/snippets",
-  Snippet: (slug: string) => `/api/snippets/${slug}`,
+  Snippet: (slug: Slug) => `/api/snippets/${slug}`,
   Tags: "/api/tags",
   Me: "/api/me",
   MySnippets: "/api/me/snippets",
-  MySnippet: (slug: string) => `/api/me/snippets/${slug}`,
+  MySnippet: (slug: Slug) => `/api/me/snippets/${slug}`,
   MySnippetStatistics: "/api/me/snippets/statistics",
   OAuthGithub: "/api/sessions/oauth/github",
   CurrentSession: "/api/sessions/current",

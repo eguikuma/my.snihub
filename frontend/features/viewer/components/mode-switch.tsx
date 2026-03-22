@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { DeleteDialog } from "@/foundations/components/delete-dialog";
 import { Routes } from "@/foundations/definitions";
-import type { Snippet } from "@/foundations/schemas";
+import type { Slug, Snippet } from "@/foundations/schemas";
 import { deleteSnippet } from "@/features/collection/actions/delete-snippet";
 import { Revision } from "@/features/composer/components/revision";
 import { CodeBlock } from "./code-block";
@@ -32,7 +32,7 @@ export const ModeSwitch = ({ snippet }: ModeSwitchProps) => {
     setIsEditing(false);
   };
 
-  const handleDelete = async (slug: string) => {
+  const handleDelete = async (slug: Slug) => {
     const result = await deleteSnippet(slug);
 
     if (result.success) {

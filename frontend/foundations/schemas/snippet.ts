@@ -1,11 +1,12 @@
 import { z } from "zod";
 import { Languages, Visibilities } from "../definitions";
+import { Slug } from "./brand";
 
 /**
  * ユーザーが作成したスニペットを表現するスキーマ
  */
 export const Snippet = z.object({
-  slug: z.string(),
+  slug: Slug.schema,
   title: z.string(),
   code: z.string(),
   language: z.enum(Languages),

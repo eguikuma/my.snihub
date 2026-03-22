@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { getIronSession, type SessionOptions } from "iron-session";
+import type { Token } from "../schemas/brand";
 
 /**
  * セッションを管理するCookieの名前
@@ -10,7 +11,7 @@ export type Session = {
   /**
    * 認証トークン
    */
-  token?: string;
+  token?: Token;
   /**
    * CSRF対策のstate
    */

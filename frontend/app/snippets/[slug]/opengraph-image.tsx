@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { Slug } from "@/foundations/schemas";
 import { fetchSnippet } from "@/features/viewer/actions/fetch-snippet";
 import { NotFoundCard, SnippetCard } from "@/features/viewer/opengraph";
 
@@ -15,7 +16,7 @@ const OpenGraphImage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const publicSnippet = await fetchSnippet(slug);
+  const publicSnippet = await fetchSnippet(Slug.from(slug));
 
   return publicSnippet.match(
     (snippet) => new ImageResponse(<SnippetCard snippet={snippet} />, size),

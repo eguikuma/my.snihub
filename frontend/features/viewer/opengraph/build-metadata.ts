@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { session } from "@/foundations/libraries/sessions";
+import type { Slug } from "@/foundations/schemas";
 import { fetchMySnippet } from "../actions/fetch-my-snippet";
 import { fetchSnippet } from "../actions/fetch-snippet";
 import { OGP_CODE_TRUNCATE_LENGTH } from "./definitions";
@@ -11,7 +12,7 @@ const NOT_FOUND_METADATA: Metadata = {
 /**
  * スニペットの情報をもとに OGP メタデータを構築する
  */
-export const buildSnippetMetadata = async (slug: string): Promise<Metadata> => {
+export const buildSnippetMetadata = async (slug: Slug): Promise<Metadata> => {
   const currentSession = await session.get();
 
   if (currentSession.token) {

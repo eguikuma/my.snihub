@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Endpoints, Routes } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toActionOutcome } from "@/foundations/libraries/outcome";
+import { Slug } from "@/foundations/schemas";
 import type { SnippetDraft } from "@/features/composer/schemas";
 
 /**
@@ -12,7 +13,7 @@ import type { SnippetDraft } from "@/features/composer/schemas";
  */
 const CreateSnippetResponse = z.object({
   data: z.object({
-    slug: z.string(),
+    slug: Slug.schema,
   }),
 });
 
