@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  watchOptions: {
+    pollIntervalMs: 1000,
+  },
 };
 
 export default nextConfig;

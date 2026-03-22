@@ -1,0 +1,12 @@
+node_modules
+.pnpm-store
+.next
+.env*
+!.env.example
+.git
+.gitignore
+*.md
+.DS_Store
+.vscode
+.idea
+coverage
