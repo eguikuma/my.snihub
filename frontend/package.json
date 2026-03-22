@@ -33,6 +33,7 @@
     "@codemirror/legacy-modes": "^6.5.2",
     "@codemirror/state": "^6.6.0",
     "@codemirror/view": "^6.40.0",
+    "@date-fns/tz": "^1.4.1",
     "@lezer/highlight": "^1.2.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

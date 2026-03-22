@@ -65,6 +65,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.40.0
         version: 6.40.0
+      '@date-fns/tz':
+        specifier: ^1.4.1
+        version: 1.4.1
       '@lezer/highlight':
         specifier: ^1.2.3
         version: 1.2.3
@@ -277,6 +280,9 @@ packages:
 
   '@codemirror/view@6.40.0':
     resolution: {integrity: sha512-WA0zdU7xfF10+5I3HhUUq3kqOx3KjqmtQ9lqZjfK7jtYk4G72YW9rezcSywpaUMCWOMlq+6E0pO1IWg1TNIhtg==}
+
+  '@date-fns/tz@1.4.1':
+    resolution: {integrity: sha512-P5LUNhtbj6YfI3iJjw5EL9eUAG6OitD0W3fWQcpQjDRc/QIsL0tRNuO1PcDvPccWL1fSTXXdE1ds+l95DV/OFA==}
 
   '@emnapi/core@1.9.0':
     resolution: {integrity: sha512-0DQ98G9ZQZOxfUcQn1waV2yS8aWdZ6kJMbYCJB3oUBecjWYO1fqJ+a1DRfPF3O5JEkwqwP1A9QEN/9mYm2Yd0w==}
@@ -2521,6 +2527,8 @@ snapshots:
       crelt: 1.0.6
       style-mod: 4.1.3
       w3c-keyname: 2.2.8
+
+  '@date-fns/tz@1.4.1': {}
 
   '@emnapi/core@1.9.0':
     dependencies:
