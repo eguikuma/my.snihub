@@ -39,7 +39,7 @@ const buildQueryString = (parameters: SearchParameters): string => {
 const PublicSnippetsResponse = withPagination(z.array(SnippetSummary));
 
 /**
- * 公開スニペット一覧をバックエンドから取得する
+ * 公開されているスニペット一覧をバックエンドから取得する
  */
 export const fetchPublicSnippets = (
   parameters: SearchParameters = {},

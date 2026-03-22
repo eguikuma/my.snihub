@@ -6,7 +6,7 @@ import { fetchSnippet } from "../actions/fetch-snippet";
 import { OGP_CODE_TRUNCATE_LENGTH } from "./definitions";
 
 const NOT_FOUND_METADATA: Metadata = {
-  title: "スニペットが見つかりません | SnipShare",
+  title: "スニペットが見つかりません",
 };
 
 /**
@@ -24,7 +24,7 @@ export const buildSnippetMetadata = async (slug: Slug): Promise<Metadata> => {
         snippet.description ?? snippet.code.slice(0, OGP_CODE_TRUNCATE_LENGTH);
 
       return {
-        title: `${snippet.title} | SnipShare`,
+        title: snippet.title,
         openGraph: { title: snippet.title, description, type: "article" },
       };
     }
@@ -41,7 +41,7 @@ export const buildSnippetMetadata = async (slug: Slug): Promise<Metadata> => {
     snippet.description ?? snippet.code.slice(0, OGP_CODE_TRUNCATE_LENGTH);
 
   return {
-    title: `${snippet.title} | SnipShare`,
+    title: snippet.title,
     openGraph: { title: snippet.title, description, type: "article" },
   };
 };

@@ -20,7 +20,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SnipShare",
+  title: {
+    default: "SnipShare",
+    template: "%s | SnipShare",
+  },
   description: "コードスニペット共有サービス",
 };
 

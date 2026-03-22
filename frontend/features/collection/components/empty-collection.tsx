@@ -21,7 +21,7 @@ const README_CONTENT = `# Welcome to SnipShare
 ## 関連リンク
 
 - [新規作成](${Routes.SnippetNew})
-- [公開スニペット一覧](${Routes.Snippets})
+- [スニペット一覧](${Routes.Snippets})
 
 ---
 

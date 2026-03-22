@@ -12,7 +12,7 @@ type GalleryContainerProps = {
 };
 
 /**
- * 公開スニペットを取得し、フィルター付きギャラリーとして描画する
+ * 公開されているスニペットを取得し、フィルター付きギャラリーとして描画する
  */
 export const GalleryContainer = async ({
   searchParams,

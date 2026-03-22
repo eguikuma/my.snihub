@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { HelpReadme } from "@/foundations/components/help-readme";
 import { Routes } from "@/foundations/definitions";
+
+export const metadata: Metadata = {
+  title: "認証エラー",
+};
 
 const README_CONTENT = `# Authentication Failed
 
@@ -13,7 +18,7 @@ const README_CONTENT = `# Authentication Failed
 
 ## 関連リンク
 
-- [公開スニペット一覧](${Routes.Snippets})
+- [スニペット一覧](${Routes.Snippets})
 
 ---
 

@@ -17,7 +17,7 @@ const toReadme = (slug: string) =>
 
 ## 関連リンク
 
-- [公開スニペット一覧](${Routes.Snippets})
+- [スニペット一覧](${Routes.Snippets})
 
 ---
 
