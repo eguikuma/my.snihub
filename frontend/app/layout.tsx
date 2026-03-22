@@ -12,6 +12,8 @@ import {
   Themes,
 } from "@/foundations/definitions";
 import { ThemeColorProvider } from "@/foundations/providers";
+import { LoginOverlay } from "@/features/onboarding/components/overlay";
+import { SessionHydrator } from "@/features/onboarding/components/session-hydrator";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -48,8 +50,10 @@ const RootLayout = async ({
         )}
       >
         <ThemeColorProvider id={themeId}>
+          <SessionHydrator />
           <TopBar />
           <main>{children}</main>
+          <LoginOverlay />
           <Toast />
         </ThemeColorProvider>
       </body>
