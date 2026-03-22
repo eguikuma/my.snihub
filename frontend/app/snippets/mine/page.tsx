@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-card";
 import type { Language, Visibility } from "@/foundations/definitions";
 import { fetchMySnippets } from "@/features/collection/actions/fetch-my-snippets";
-import { fetchStatistics } from "@/features/collection/actions/fetch-statistics";
+import { fetchMySnippetStatistics } from "@/features/collection/actions/fetch-statistics";
 import { List } from "@/features/collection/components/list";
 import { SearchParameterKeys } from "@/features/collection/definitions/search-parameters";
 import { Guard } from "@/features/onboarding/components/guard";
@@ -33,7 +33,7 @@ const Page = async ({
       visibility: visibility || undefined,
       page,
     }),
-    fetchStatistics(),
+    fetchMySnippetStatistics(),
   ]);
 
   return (
