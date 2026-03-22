@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Pagination } from "@/foundations/components/pagination";
 import type { Language } from "@/foundations/definitions";
 import type { PaginationMeta, Snippet } from "@/foundations/schemas";
-import { NotFoundComments } from "../definitions/not-found-comments";
+import { NotFoundComments } from "../definitions";
 import { Card } from "./card";
 import { DeleteDialog } from "./delete-dialog";
 import { EmptyCollection } from "./empty-collection";

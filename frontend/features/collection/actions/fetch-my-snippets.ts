@@ -6,7 +6,7 @@ import {
   PER_PAGE,
   SearchParameterKeys,
   type SearchParameters,
-} from "../definitions/search-parameters";
+} from "../definitions";
 
 const buildQueryString = (parameters: SearchParameters): string => {
   const searchParams = new URLSearchParams();

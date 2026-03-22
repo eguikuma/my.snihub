@@ -3,8 +3,8 @@
 import { LanguageChips } from "@/foundations/components/language-chips";
 import { SearchInput } from "@/foundations/components/search-input";
 import { useDebouncedInput, useSearchParameters } from "@/foundations/hooks";
-import type { Statistics } from "../actions/fetch-statistics";
-import { SearchParameterKeys } from "../definitions/search-parameters";
+import type { Statistics } from "../actions/fetch-my-snippet-statistics";
+import { SearchParameterKeys } from "../definitions";
 import { VisibilityTabs } from "./visibility-tabs";
 
 type CommandPaletteProps = {

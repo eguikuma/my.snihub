@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-card";
 import type { Language, Visibility } from "@/foundations/definitions";
+import { fetchMySnippetStatistics } from "@/features/collection/actions/fetch-my-snippet-statistics";
 import { fetchMySnippets } from "@/features/collection/actions/fetch-my-snippets";
-import { fetchMySnippetStatistics } from "@/features/collection/actions/fetch-statistics";
 import { CollectionContainer } from "@/features/collection/components/container";
 import { List } from "@/features/collection/components/list";
-import { SearchParameterKeys } from "@/features/collection/definitions/search-parameters";
+import { SearchParameterKeys } from "@/features/collection/definitions";
 import { Guard } from "@/features/onboarding/components/guard";
 
 /**

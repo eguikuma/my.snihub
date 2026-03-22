@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { VisibilityOptions } from "@/foundations/definitions";
-import type { Statistics } from "../actions/fetch-statistics";
+import type { Statistics } from "../actions/fetch-my-snippet-statistics";
 
 type VisibilityTabsProps = {
   visibility: string;

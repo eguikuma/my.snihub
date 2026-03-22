@@ -1,6 +1,6 @@
 "use client";
 
-import type { Statistics } from "../actions/fetch-statistics";
+import type { Statistics } from "../actions/fetch-my-snippet-statistics";
 import { CommandPalette } from "./command-palette";
 
 type CollectionContainerProps = {

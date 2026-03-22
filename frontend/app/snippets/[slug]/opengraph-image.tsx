@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { fetchSnippet } from "@/features/viewer/actions";
+import { fetchSnippet } from "@/features/viewer/actions/fetch-snippet";
 import { NotFoundCard, SnippetCard } from "@/features/viewer/opengraph";
 
 export const alt = "SnipShare";

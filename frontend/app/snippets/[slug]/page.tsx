@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Referrers } from "@/foundations/definitions";
-import { fetchMySnippet, fetchSnippet } from "@/features/viewer/actions";
+import { fetchMySnippet } from "@/features/viewer/actions/fetch-my-snippet";
+import { fetchSnippet } from "@/features/viewer/actions/fetch-snippet";
 import { ViewerContainer } from "@/features/viewer/components/container";
 import { NotFound } from "@/features/viewer/components/not-found";
 import { buildSnippetMetadata } from "@/features/viewer/opengraph";

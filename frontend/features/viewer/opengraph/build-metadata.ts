@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Referrers } from "@/foundations/definitions";
-import { fetchMySnippet, fetchSnippet } from "../actions";
+import { fetchMySnippet } from "../actions/fetch-my-snippet";
+import { fetchSnippet } from "../actions/fetch-snippet";
 import { OGP_CODE_TRUNCATE_LENGTH } from "./definitions";
 
 /**
