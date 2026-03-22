@@ -3,10 +3,10 @@
 import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
-import { UserSchema, type User } from "@/foundations/schemas";
+import { User } from "@/foundations/schemas";
 
 const MeResponse = z.object({
-  data: UserSchema,
+  data: User,
 });
 
 /**

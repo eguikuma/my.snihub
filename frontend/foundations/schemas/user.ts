@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * ユーザーを表現するスキーマ
  */
-export const UserSchema = z.object({
+export const User = z.object({
   name: z.string(),
   email: z.nullable(z.string()),
   avatar_url: z.nullable(z.string()),
@@ -11,4 +11,4 @@ export const UserSchema = z.object({
   created_at: z.string(),
 });
 
-export type User = z.infer<typeof UserSchema>;
+export type User = z.infer<typeof User>;
