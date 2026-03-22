@@ -19,10 +19,12 @@ export const useRemovalPrompt = ({
   onRemove,
   onClose,
 }: UseRemovalPromptOptions) => {
-  const contentRef = useDismiss<HTMLDivElement>(isOpen, onClose);
+  const [isPending, startTransition] = useTransition();
+  const contentRef = useDismiss<HTMLDivElement>(isOpen, onClose, {
+    disabled: isPending,
+  });
   useScrollLock(isOpen);
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
 
   const handleRemove = () => {
     startTransition(async () => {

@@ -7,7 +7,7 @@ import { LoginOverlayParts } from "./login-overlay-parts";
  * ログインオーバーレイを表示する
  */
 export const LoginOverlay = () => {
-  const { isOpen, contentRef } = useLoginOverlay();
+  const { isOpen, contentRef, isPending, startLogin } = useLoginOverlay();
 
   if (!isOpen) return null;
 
@@ -16,7 +16,10 @@ export const LoginOverlay = () => {
       <LoginOverlayParts.Card>
         <LoginOverlayParts.Logo />
         <LoginOverlayParts.FeatureList />
-        <LoginOverlayParts.ProviderButton />
+        <LoginOverlayParts.ProviderButton
+          isPending={isPending}
+          onLogin={startLogin}
+        />
         <LoginOverlayParts.Disclaimer />
       </LoginOverlayParts.Card>
     </LoginOverlayParts.Root>

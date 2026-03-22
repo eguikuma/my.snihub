@@ -3,14 +3,28 @@
 import { useState } from "react";
 import { BffEndpoints } from "@/foundations/definitions";
 
+type ProviderButtonProps = {
+  isPending?: boolean;
+  onLogin?: () => void;
+};
+
 /**
  * GitHub OAuth ログインを開始するボタンを描画する
  */
-export const ProviderButton = () => {
-  const [isLoading, setIsLoading] = useState(false);
+export const ProviderButton = ({
+  isPending: externalIsPending,
+  onLogin,
+}: ProviderButtonProps) => {
+  const [localIsPending, setLocalIsPending] = useState(false);
+  const isPending = externalIsPending ?? localIsPending;
 
   const handleClick = () => {
-    setIsLoading(true);
+    if (onLogin) {
+      onLogin();
+      return;
+    }
+
+    setLocalIsPending(true);
     window.location.href = BffEndpoints.OAuthGithub;
   };
 
@@ -18,10 +32,10 @@ export const ProviderButton = () => {
     <button
       type="button"
       onClick={handleClick}
-      disabled={isLoading}
+      disabled={isPending}
       className="flex w-full items-center justify-center gap-3 rounded-lg bg-[#24292f] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
     >
-      {isLoading ? (
+      {isPending ? (
         <>
           <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
             <circle
