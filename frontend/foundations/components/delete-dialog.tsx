@@ -4,17 +4,21 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Trash2 } from "lucide-react";
 import { useDismiss, useScrollLock } from "@/foundations/hooks";
-import { deleteSnippet } from "../actions/delete-snippet";
 
 type DeleteDialogProps = {
   snippet: { slug: string; title: string } | null;
+  onDelete: (slug: string) => Promise<{ success: boolean }>;
   onClose: () => void;
 };
 
 /**
  * スニペット削除の確認ダイアログを表示し、削除実行またはキャンセルを処理する
  */
-export const DeleteDialog = ({ snippet, onClose }: DeleteDialogProps) => {
+export const DeleteDialog = ({
+  snippet,
+  onDelete,
+  onClose,
+}: DeleteDialogProps) => {
   const isOpen = snippet !== null;
   const contentRef = useDismiss<HTMLDivElement>(isOpen, onClose);
   useScrollLock(isOpen);
@@ -25,7 +29,7 @@ export const DeleteDialog = ({ snippet, onClose }: DeleteDialogProps) => {
 
   const handleDelete = () => {
     startTransition(async () => {
-      const result = await deleteSnippet(snippet.slug);
+      const result = await onDelete(snippet.slug);
 
       if (result.success) {
         onClose();

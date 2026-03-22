@@ -3,17 +3,29 @@ import { LanguageBadge } from "@/foundations/components/language-badge";
 import { TagBadge } from "@/foundations/components/tag-badge";
 import { toYYYYMMDDHHmm } from "@/foundations/libraries/date";
 import type { Snippet } from "@/foundations/schemas";
+import { ActionsMenu } from "./actions-menu";
 
 type SidebarProps = {
   snippet: Snippet;
+  onEdit?: () => void;
+  onDelete?: () => void;
 };
 
 /**
  * 作成者・言語・タグ・日時をサイドバーに表示する
  */
-export const Sidebar = ({ snippet }: SidebarProps) => {
+export const Sidebar = ({ snippet, onEdit, onDelete }: SidebarProps) => {
+  const hasActions = onEdit !== undefined && onDelete !== undefined;
+
   return (
-    <aside className="flex h-fit flex-col gap-6 rounded-lg border border-edge bg-surface-raised p-4">
+    <aside className="relative flex h-fit flex-col gap-6 rounded-lg border border-edge bg-surface-raised p-4">
+      {/* 三点メニュー（オーナーのみ） */}
+      {hasActions && (
+        <div className="absolute right-2 top-2">
+          <ActionsMenu onEdit={onEdit} onDelete={onDelete} />
+        </div>
+      )}
+
       {/* 作成者 */}
       <section className="flex flex-col gap-2">
         <h2 className="text-xs font-medium text-ink-muted">作成者</h2>

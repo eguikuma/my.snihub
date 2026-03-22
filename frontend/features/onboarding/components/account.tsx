@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, FolderOpen, Plus } from "lucide-react";
 import { Routes } from "@/foundations/definitions";
 import { useDismiss, useToggle } from "@/foundations/hooks";
 import type { User } from "@/foundations/schemas";
@@ -57,13 +57,24 @@ export const Account = ({ user }: AccountProps) => {
 
           <div className="mx-2 border-t border-edge" />
 
+          {/* 新規作成 */}
+          <Link
+            href={Routes.SnippetNew}
+            onClick={close}
+            className="flex items-center gap-2 px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink"
+          >
+            <Plus size={14} />
+            新規作成
+          </Link>
+
           {/* マイスニペット */}
           <Link
             href={Routes.SnippetMine}
             onClick={close}
             aria-disabled={isLoggingOut}
-            className="block px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink"
           >
+            <FolderOpen size={14} />
             マイスニペット
           </Link>
 

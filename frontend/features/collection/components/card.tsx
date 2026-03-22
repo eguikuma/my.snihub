@@ -4,7 +4,6 @@ import { TagBadge } from "@/foundations/components/tag-badge";
 import {
   MAX_PREVIEW_LINES,
   MAX_VISIBLE_TAGS,
-  Referrers,
   Routes,
 } from "@/foundations/definitions";
 import { toTruncatedLines } from "@/foundations/libraries/code";
@@ -14,25 +13,15 @@ import { VisibilityBadge } from "./visibility-badge";
 
 type CardProps = {
   snippet: Snippet;
-  onDelete: (snippet: Snippet) => void;
 };
 
 /**
- * マイスニペットカードを公開範囲バッジとアクション付きで表示する
- *
- * カード全体がリンクとして機能し、削除ボタンはイベント伝播を止めてリンク遷移を防ぐ
+ * マイスニペットカードを公開範囲バッジ付きで表示する
  */
-export const Card = ({ snippet, onDelete }: CardProps) => {
-  const handleDelete = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    onDelete(snippet);
-  };
-
+export const Card = ({ snippet }: CardProps) => {
   return (
     <Link
-      href={`${Routes.Snippet(snippet.slug)}?from=${Referrers.MINE}`}
+      href={Routes.Snippet(snippet.slug)}
       className="flex flex-col justify-between rounded-lg border border-edge bg-surface-raised p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
     >
       {/* タイトル + 公開範囲 */}
@@ -51,8 +40,6 @@ export const Card = ({ snippet, onDelete }: CardProps) => {
         ))}
       </div>
 
-      <div className="flex-1" />
-
       {/* コードプレビュー */}
       <div className="relative mt-3 h-16 overflow-hidden rounded bg-code">
         <pre className="p-2 font-mono text-xs leading-relaxed text-ink-secondary line-clamp-3 text-ellipsis">
@@ -61,20 +48,13 @@ export const Card = ({ snippet, onDelete }: CardProps) => {
         <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-code to-transparent" />
       </div>
 
-      {/* アクション行 */}
-      <div className="mt-3 flex items-center justify-between text-xs">
-        <span className="text-ink-muted">{toRelative(snippet.created_at)}</span>
-        <div className="flex items-center gap-3">
-          {/** TODO: 編集 */}
-          <span className="text-ink-secondary">編集</span>
-          <button
-            type="button"
-            onClickCapture={handleDelete}
-            className="text-ink-secondary transition-colors hover:text-danger"
-          >
-            削除
-          </button>
-        </div>
+      {/* フッター */}
+      <div className="mt-3 flex items-center gap-2 text-xs text-ink-muted">
+        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-surface-hover font-mono text-[10px] font-bold text-ink-secondary">
+          {snippet.user.name.charAt(0).toUpperCase()}
+        </span>
+        <span>{snippet.user.name}</span>
+        <span className="ml-auto">{toRelative(snippet.created_at)}</span>
       </div>
     </Link>
   );

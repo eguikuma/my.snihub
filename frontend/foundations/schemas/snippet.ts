@@ -17,6 +17,7 @@ export const Snippet = z.object({
     name: z.string(),
     avatar_url: z.nullish(z.string()),
   }),
+  is_owner: z.boolean(),
   created_at: z.string(),
   updated_at: z.string(),
 });

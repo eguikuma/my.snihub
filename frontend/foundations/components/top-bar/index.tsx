@@ -20,19 +20,7 @@ export const TopBar = async () => {
       <div className="flex items-center gap-2">
         <ThemeSwitcher />
 
-        {user ? (
-          <>
-            <Link
-              href={Routes.SnippetNew}
-              className="rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent/90"
-            >
-              + 新規作成
-            </Link>
-            <Account user={user} />
-          </>
-        ) : (
-          <LoginButton />
-        )}
+        {user ? <Account user={user} /> : <LoginButton />}
       </div>
     </header>
   );
