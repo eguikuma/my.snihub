@@ -9,23 +9,29 @@ export const Visibilities = {
 
 export type Visibility = (typeof Visibilities)[keyof typeof Visibilities];
 
+export const VisibilityLabels = {
+  [Visibilities.Public]: "公開",
+  [Visibilities.Unlisted]: "限定公開",
+  [Visibilities.Private]: "非公開",
+} as const;
+
 /**
  * UIの選択肢として使用する公開範囲のラベル付きリストを定義する
  */
 export const VisibilityOptions = [
   {
     value: Visibilities.Public,
-    label: "公開",
+    label: VisibilityLabels[Visibilities.Public],
     description: "誰でも閲覧可",
   },
   {
     value: Visibilities.Unlisted,
-    label: "限定公開",
+    label: VisibilityLabels[Visibilities.Unlisted],
     description: "URLを知っている人のみ閲覧可",
   },
   {
     value: Visibilities.Private,
-    label: "非公開",
+    label: VisibilityLabels[Visibilities.Private],
     description: "作成者のみ閲覧可",
   },
 ] as const;
