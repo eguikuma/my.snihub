@@ -1,8 +1,8 @@
 import { Suspense } from "react";
+import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-card";
 import { Language } from "@/foundations/definitions";
 import { fetchPublicSnippets } from "@/features/gallery/actions/fetch-public-snippets";
 import { List } from "@/features/gallery/components/list";
-import { Skeleton } from "@/features/gallery/components/skeleton";
 import { SearchParameterKeys } from "@/features/gallery/definitions";
 import { GalleryShell } from "./gallery-shell";
 
@@ -26,7 +26,7 @@ const Page = async ({ searchParams }: PageProps<"/">) => {
 
   return (
     <GalleryShell>
-      <Suspense fallback={<Skeleton />}>
+      <Suspense fallback={<SnippetSkeletonCard />}>
         <List
           snippets={response.data}
           meta={response.meta}
