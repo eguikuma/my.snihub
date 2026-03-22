@@ -50,9 +50,13 @@ export const CodemirrorBaseTheme = EditorView.theme({
   ".cm-content": {
     fontFamily: "var(--font-geist-mono)",
     padding: "1.5rem",
+    caretColor: "var(--color-ink)",
   },
   "&.cm-focused": {
     outline: "none",
+  },
+  "&.cm-focused .cm-cursor": {
+    borderLeftColor: "var(--color-ink) !important",
   },
   ".cm-scroller": {
     overflow: "auto",
