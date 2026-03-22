@@ -6,10 +6,12 @@ use App\Enums\Visibility;
 use App\Models\Snippet;
 use App\Models\Tag;
 use App\Models\User;
+use App\Repositories\Dtos\SnippetCountDto;
 use App\Repositories\Dtos\SnippetCreateDto;
 use App\Repositories\Dtos\SnippetSearchDto;
 use App\Repositories\Dtos\SnippetUpdateDto;
 use App\Repositories\Eloquent\SnippetRepository;
+use App\Repositories\Enums\SnippetGroupBy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -278,5 +280,88 @@ class SnippetRepositoryTest extends TestCase
         $countAfter = $this->repository->prune();
         $this->assertSame(1, $countAfter);
         $this->assertDatabaseCount('snippets', 0);
+    }
+
+    #[Test]
+    public function countで、groupBy指定なしの場合、総件数を返すこと(): void
+    {
+        $user = User::factory()->create();
+        Snippet::factory()->count(3)->create(['user_id' => $user->id]);
+
+        $result = $this->repository->count(new SnippetCountDto(userId: $user->id));
+
+        $this->assertSame(['total' => 3], $result);
+    }
+
+    #[Test]
+    public function countで、visibilityでグルーピングできること(): void
+    {
+        $user = User::factory()->create();
+        Snippet::factory()->count(2)->create(['user_id' => $user->id, 'visibility' => Visibility::Public]);
+        Snippet::factory()->count(3)->create(['user_id' => $user->id, 'visibility' => Visibility::Unlisted]);
+        Snippet::factory()->count(1)->create(['user_id' => $user->id, 'visibility' => Visibility::Private]);
+
+        $result = $this->repository->count(new SnippetCountDto(
+            userId: $user->id,
+            groupBy: SnippetGroupBy::Visibility,
+        ));
+
+        $this->assertEquals(['public' => 2, 'unlisted' => 3, 'private' => 1], $result);
+    }
+
+    #[Test]
+    public function countで、languageでグルーピングできること(): void
+    {
+        $user = User::factory()->create();
+        Snippet::factory()->count(3)->create(['user_id' => $user->id, 'language' => 'typescript']);
+        Snippet::factory()->count(2)->create(['user_id' => $user->id, 'language' => 'python']);
+
+        $result = $this->repository->count(new SnippetCountDto(
+            userId: $user->id,
+            groupBy: SnippetGroupBy::Language,
+        ));
+
+        $this->assertEquals(['typescript' => 3, 'python' => 2], $result);
+    }
+
+    #[Test]
+    public function countで、userIdフィルタが適用されること(): void
+    {
+        $user = User::factory()->create();
+        $other = User::factory()->create();
+        Snippet::factory()->count(2)->create(['user_id' => $user->id]);
+        Snippet::factory()->count(5)->create(['user_id' => $other->id]);
+
+        $result = $this->repository->count(new SnippetCountDto(userId: $user->id));
+
+        $this->assertSame(['total' => 2], $result);
+    }
+
+    #[Test]
+    public function countで、withExpiredがfalseの場合、期限切れスニペットが除外されること(): void
+    {
+        $user = User::factory()->create();
+        Snippet::factory()->create(['user_id' => $user->id, 'expires_at' => now()->subDay()]);
+        Snippet::factory()->create(['user_id' => $user->id, 'expires_at' => null]);
+
+        $result = $this->repository->count(new SnippetCountDto(
+            userId: $user->id,
+            withExpired: false,
+        ));
+
+        $this->assertSame(['total' => 1], $result);
+    }
+
+    #[Test]
+    public function countで、該当なしの場合、グルーピングありでも空配列を返すこと(): void
+    {
+        $user = User::factory()->create();
+
+        $result = $this->repository->count(new SnippetCountDto(
+            userId: $user->id,
+            groupBy: SnippetGroupBy::Visibility,
+        ));
+
+        $this->assertSame([], $result);
     }
 }

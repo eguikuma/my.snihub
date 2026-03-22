@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\GithubOAuthController;
 use App\Http\Controllers\Api\MySnippetController;
+use App\Http\Controllers\Api\MySnippetStatisticsController;
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\SnippetController;
 use App\Http\Controllers\Api\TagController;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [UserController::class, 'show'])->name('show');
 
         Route::prefix('snippets')->name('snippets.')->group(function () {
+            Route::get('statistics', [MySnippetStatisticsController::class, 'show'])->name('statistics');
             Route::get('/', [MySnippetController::class, 'index'])->name('index');
             Route::get('{slug}', [MySnippetController::class, 'show'])->name('show');
             Route::post('/', [MySnippetController::class, 'store'])->name('store');

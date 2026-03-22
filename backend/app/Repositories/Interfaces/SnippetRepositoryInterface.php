@@ -3,6 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Snippet;
+use App\Repositories\Dtos\SnippetCountDto;
 use App\Repositories\Dtos\SnippetCreateDto;
 use App\Repositories\Dtos\SnippetSearchDto;
 use App\Repositories\Dtos\SnippetUpdateDto;
@@ -42,4 +43,11 @@ interface SnippetRepositoryInterface
      * 期限切れのスニペットを物理削除し、削除件数を返す
      */
     public function prune(): int;
+
+    /**
+     * 条件に基づいてスニペット件数を集計する
+     *
+     * @return array<string, int>
+     */
+    public function count(SnippetCountDto $dto): array;
 }
