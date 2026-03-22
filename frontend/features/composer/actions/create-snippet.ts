@@ -1,0 +1,39 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { Endpoints, Routes } from "@/foundations/definitions";
+import { fetcher, toActionResult } from "@/foundations/libraries/fetcher";
+import type { SnippetDraft } from "@/features/composer/schemas";
+
+/**
+ * レスポンスからslugを取得するためのスキーマ
+ */
+const CreateSnippetResponse = z.object({
+  data: z.object({
+    slug: z.string(),
+  }),
+});
+
+/**
+ * スニペットを新規作成し、成功時はslugを返す
+ */
+export const createSnippet = async (fields: SnippetDraft) =>
+  toActionResult(async () => {
+    const response = await fetcher.post(Endpoints.MySnippets, {
+      body: JSON.stringify({
+        title: fields.title,
+        code: fields.code,
+        language: fields.language,
+        description: fields.description || null,
+        visibility: fields.visibility,
+        expires_in: fields.expiration,
+        tags: fields.tags.length > 0 ? fields.tags : null,
+      }),
+    });
+
+    const { data } = CreateSnippetResponse.parse(response);
+    revalidatePath(Routes.SnippetMine);
+
+    return { slug: data.slug };
+  });
