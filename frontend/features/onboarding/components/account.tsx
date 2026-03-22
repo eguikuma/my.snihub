@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import { useToggle } from "@/foundations/hooks";
-import { useDismiss } from "@/foundations/hooks/use-dismiss";
+import { useDismiss, useToggle } from "@/foundations/hooks";
 import type { User } from "@/foundations/schemas";
 import { useLogout } from "../hooks";
 

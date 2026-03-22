@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Trash2 } from "lucide-react";
-import { useDismiss } from "@/foundations/hooks/use-dismiss";
+import { useDismiss, useScrollLock } from "@/foundations/hooks";
 import { deleteSnippet } from "../actions/delete-snippet";
 
 type DeleteDialogProps = {
@@ -15,7 +15,9 @@ type DeleteDialogProps = {
  * スニペット削除の確認ダイアログを表示し、削除実行またはキャンセルを処理する
  */
 export const DeleteDialog = ({ snippet, onClose }: DeleteDialogProps) => {
-  const contentRef = useDismiss<HTMLDivElement>(snippet !== null, onClose);
+  const isOpen = snippet !== null;
+  const contentRef = useDismiss<HTMLDivElement>(isOpen, onClose);
+  useScrollLock(isOpen);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 

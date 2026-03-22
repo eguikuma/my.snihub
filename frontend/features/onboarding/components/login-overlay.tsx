@@ -1,7 +1,7 @@
 "use client";
 
 import { NoiseTexture } from "@/foundations/components/noise-texture";
-import { useDismiss } from "@/foundations/hooks/use-dismiss";
+import { useDismiss, useScrollLock } from "@/foundations/hooks";
 import { useOverlayStore } from "@/foundations/stores";
 import { LoginContent } from "./login-content";
 
@@ -12,6 +12,7 @@ export const LoginOverlay = () => {
   const isOpen = useOverlayStore((state) => state.isOpen);
   const close = useOverlayStore((state) => state.close);
   const contentRef = useDismiss<HTMLDivElement>(isOpen, close);
+  useScrollLock(isOpen);
 
   if (!isOpen) return null;
 
