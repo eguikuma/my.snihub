@@ -2,13 +2,9 @@ import { z } from "zod";
 import { Languages, Visibilities } from "../definitions";
 import { Slug } from "./brand";
 
-/**
- * ユーザーが作成したスニペットを表現するスキーマ
- */
-export const Snippet = z.object({
+const SnippetBase = z.object({
   slug: Slug.schema,
   title: z.string(),
-  code: z.string(),
   language: z.enum(Languages),
   description: z.nullable(z.string()),
   visibility: z.enum(Visibilities),
@@ -23,4 +19,20 @@ export const Snippet = z.object({
   updated_at: z.string(),
 });
 
+/**
+ * スニペット詳細を表現するスキーマ
+ */
+export const Snippet = SnippetBase.extend({
+  code: z.string(),
+});
+
 export type Snippet = z.infer<typeof Snippet>;
+
+/**
+ * スニペット一覧用の軽量スキーマ
+ */
+export const SnippetSummary = SnippetBase.extend({
+  code_preview: z.string(),
+});
+
+export type SnippetSummary = z.infer<typeof SnippetSummary>;

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
-import { Snippet, withPagination } from "@/foundations/schemas";
+import { SnippetSummary, withPagination } from "@/foundations/schemas";
 import {
   PER_PAGE,
   SearchParameterKeys,
@@ -40,7 +40,7 @@ const buildQueryString = (parameters: SearchParameters): string => {
   return queryString ? `?${queryString}` : "";
 };
 
-const MySnippetsResponse = withPagination(z.array(Snippet));
+const MySnippetsResponse = withPagination(z.array(SnippetSummary));
 
 type MySnippets = z.infer<typeof MySnippetsResponse>;
 

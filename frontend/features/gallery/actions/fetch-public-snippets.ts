@@ -3,7 +3,7 @@ import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
-import { Snippet, withPagination } from "@/foundations/schemas";
+import { SnippetSummary, withPagination } from "@/foundations/schemas";
 import {
   PER_PAGE,
   SearchParameterKeys,
@@ -36,7 +36,7 @@ const buildQueryString = (parameters: SearchParameters): string => {
   return queryString ? `?${queryString}` : "";
 };
 
-const PublicSnippetsResponse = withPagination(z.array(Snippet));
+const PublicSnippetsResponse = withPagination(z.array(SnippetSummary));
 
 /**
  * 公開スニペット一覧をバックエンドから取得する

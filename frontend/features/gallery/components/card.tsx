@@ -1,9 +1,9 @@
 import { SnippetCard } from "@/foundations/components/snippet-card";
 import { Routes } from "@/foundations/definitions";
-import type { Snippet } from "@/foundations/schemas";
+import type { SnippetSummary } from "@/foundations/schemas";
 
 type CardProps = {
-  snippet: Snippet;
+  snippet: SnippetSummary;
 };
 
 /**
@@ -13,7 +13,7 @@ export const Card = ({ snippet }: CardProps) => (
   <SnippetCard.Root href={Routes.Snippet(snippet.slug)}>
     <SnippetCard.Title>{snippet.title}</SnippetCard.Title>
     <SnippetCard.Tags language={snippet.language} tags={snippet.tags} />
-    <SnippetCard.CodePreview code={snippet.code} />
+    <SnippetCard.CodePreview codePreview={snippet.code_preview} />
     <SnippetCard.Footer
       userName={snippet.user.name}
       avatarUrl={snippet.user.avatar_url}
