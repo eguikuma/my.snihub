@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import { cookies } from "next/headers";
 import clsx from "clsx";
 import "@/app/globals.css";
 import { Toast } from "@/foundations/components/toast";
 import { TopBar } from "@/foundations/components/top-bar";
-import {
-  DEFAULT_THEME_ID,
-  THEME_COOKIE_NAME,
-  ThemeId,
-  Themes,
-} from "@/foundations/definitions";
+import { findThemeId } from "@/foundations/libraries/cookies";
 import { ThemeColorProvider } from "@/foundations/providers";
 import { LoginOverlay } from "@/features/onboarding/components/overlay";
 import { SessionHydrator } from "@/features/onboarding/components/session-hydrator";
@@ -31,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * Cookieからテーマカラーを復元し、全ページ共通のレイアウトを提供する
+ * 全ページ共通のレイアウトを提供する
  */
 const RootLayout = async ({
   children,
@@ -59,19 +53,6 @@ const RootLayout = async ({
       </body>
     </html>
   );
-};
-
-const findThemeId = async () => {
-  const { get } = await cookies();
-
-  const themeIdFromCookie = get(THEME_COOKIE_NAME)?.value;
-
-  const themeId =
-    themeIdFromCookie && Themes.some(({ value }) => value === themeIdFromCookie)
-      ? (themeIdFromCookie as ThemeId)
-      : DEFAULT_THEME_ID;
-
-  return themeId;
 };
 
 export default RootLayout;
