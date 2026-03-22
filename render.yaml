@@ -39,6 +39,6 @@ services:
       - key: GITHUB_CALLBACK_URL
         sync: false
       - key: CACHE_STORE
-        value: database
+        value: file
       - key: QUEUE_CONNECTION
         value: database
