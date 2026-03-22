@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import type { z } from "zod";
-import { type SnippetDraftErrors } from "@/features/composer/definitions";
+import { type SnippetDraftErrors } from "../definitions";
 
 /**
  * フォームのリアルタイムバリデーションを提供する

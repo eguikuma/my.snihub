@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useToastStore } from "@/foundations/stores";
+import { useToastStore } from "../stores";
 
 const TOAST_DURATION = 2000;
 

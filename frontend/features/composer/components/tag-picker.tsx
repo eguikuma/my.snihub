@@ -1,8 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import { SnippetDraftLimits } from "@/features/composer/definitions";
-import { useTagInput } from "@/features/composer/hooks/use-tag-input";
+import { SnippetDraftLimits } from "../definitions";
+import { useTagInput } from "../hooks";
 
 type TagPickerProps = {
   tags: string[];

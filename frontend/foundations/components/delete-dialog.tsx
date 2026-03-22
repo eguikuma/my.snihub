@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 import { Trash2 } from "lucide-react";
-import { useDismiss, useScrollLock } from "@/foundations/hooks";
-import type { Slug } from "@/foundations/schemas";
+import { useRemovalPrompt } from "../hooks";
+import type { Slug } from "../schemas";
+import { RemovalPrompt } from "./removal-prompt";
 
 type DeleteDialogProps = {
   snippet: { slug: Slug; title: string } | null;
@@ -13,75 +12,39 @@ type DeleteDialogProps = {
 };
 
 /**
- * スニペット削除の確認ダイアログを表示し、削除実行またはキャンセルを処理する
+ * スニペット削除の確認オーバーレイを表示し、削除実行またはキャンセルを処理する
  */
 export const DeleteDialog = ({
   snippet,
   onDelete,
   onClose,
 }: DeleteDialogProps) => {
-  const isOpen = snippet !== null;
-  const contentRef = useDismiss<HTMLDivElement>(isOpen, onClose);
-  useScrollLock(isOpen);
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const { contentRef, isPending, handleRemove } = useRemovalPrompt({
+    isOpen: snippet !== null,
+    onRemove: () => onDelete(snippet!.slug),
+    onClose,
+  });
 
   if (!snippet) return null;
 
-  const handleDelete = () => {
-    startTransition(async () => {
-      const result = await onDelete(snippet.slug);
-
-      if (result.success) {
-        onClose();
-        router.refresh();
-      }
-    });
-  };
-
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50">
-      <div
-        ref={contentRef}
-        className="flex w-full max-w-md flex-col gap-6 rounded-2xl bg-surface p-8 shadow-xl"
+    <RemovalPrompt.Root contentRef={contentRef}>
+      <RemovalPrompt.WarningIcon>
+        <Trash2 className="text-danger" />
+      </RemovalPrompt.WarningIcon>
+      <RemovalPrompt.Message
+        heading="スニペットを削除"
+        supplement="この操作は取り消せません"
       >
-        {/* 警告アイコン */}
-        <div className="flex justify-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-danger/10">
-            <Trash2 className="text-danger" />
-          </div>
-        </div>
-
-        {/* テキスト */}
-        <div className="flex flex-col gap-2 text-center">
-          <h2 className="text-lg font-bold text-ink">スニペットを削除</h2>
-          <p className="text-sm text-ink-secondary">
-            「<span className="font-medium text-ink">{snippet.title}</span>
-            」を削除しますか？
-          </p>
-          <p className="text-xs text-ink-muted">この操作は取り消せません</p>
-        </div>
-
-        {/* ボタン */}
-        <div className="flex flex-col gap-2">
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={isPending}
-            className="w-full rounded-lg bg-danger px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-          >
-            削除する
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            disabled={isPending}
-            className="w-full rounded-lg px-4 py-2.5 text-sm text-ink-secondary transition-colors hover:bg-surface-hover disabled:opacity-50"
-          >
-            キャンセル
-          </button>
-        </div>
-      </div>
-    </div>
+        「<span className="font-medium text-ink">{snippet.title}</span>
+        」を削除しますか？
+      </RemovalPrompt.Message>
+      <RemovalPrompt.ActionBar
+        isPending={isPending}
+        submitLabel="削除する"
+        onSubmit={handleRemove}
+        onCancel={onClose}
+      />
+    </RemovalPrompt.Root>
   );
 };

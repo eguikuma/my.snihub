@@ -1,24 +1,48 @@
 "use client";
 
+import type { ReactNode } from "react";
+import { LanguageChips } from "@/foundations/components/language-chips";
+import { SearchInput } from "@/foundations/components/search-input";
 import type { Statistics } from "../actions/fetch-my-snippet-statistics";
-import { CommandPalette } from "./command-palette";
+import { useCollectionFilter } from "../hooks";
+import { CollectionShell } from "./collection-shell";
+import { VisibilityTabs } from "./visibility-tabs";
 
 type CollectionContainerProps = {
   statistics: Statistics;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 /**
- * マイスニペット画面のクライアント境界を担い、コマンドパレットと子要素を配置する
+ * マイスニペット画面のクライアント境界を担い、フィルターパネルと子要素を配置する
  */
 export const CollectionContainer = ({
   statistics,
   children,
 }: CollectionContainerProps) => {
+  const { keyword, language, visibility } = useCollectionFilter();
+
   return (
-    <div className="flex flex-col gap-4 p-4 desktop:gap-6 desktop:p-6">
-      <CommandPalette statistics={statistics} />
+    <CollectionShell.Root>
+      <CollectionShell.FilterPanel>
+        <SearchInput
+          value={keyword.value}
+          onChange={keyword.onChange}
+          onClear={keyword.onClear}
+        />
+        <LanguageChips
+          language={language.value}
+          onSelect={language.onSelect}
+          onReset={language.onReset}
+        />
+        <VisibilityTabs
+          visibility={visibility.value}
+          statistics={statistics}
+          onSelect={visibility.onSelect}
+          onReset={visibility.onReset}
+        />
+      </CollectionShell.FilterPanel>
       {children}
-    </div>
+    </CollectionShell.Root>
   );
 };

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Routes } from "@/foundations/definitions";
 import { fetchMe } from "@/features/onboarding/actions/fetch-me";
 import { Account } from "@/features/onboarding/components/account";
+import { Routes } from "../../definitions";
 import { LoginButton } from "./login-button";
 import { ThemeSwitcher } from "./theme-switcher";
 

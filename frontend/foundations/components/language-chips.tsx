@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import clsx from "clsx";
-import { LanguageOptions } from "@/foundations/definitions";
+import { LanguageOptions } from "../definitions";
 
 const VISIBLE_LANGUAGE_COUNT = 8;
 

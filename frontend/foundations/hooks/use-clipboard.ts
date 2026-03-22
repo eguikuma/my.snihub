@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useToastStore } from "@/foundations/stores";
+import { useToastStore } from "../stores";
 
 const FEEDBACK_DURATION = 2000;
 

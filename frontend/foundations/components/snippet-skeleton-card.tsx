@@ -1,4 +1,4 @@
-import { Bone } from "@/foundations/components/bone";
+import { Bone } from "./bone";
 
 const DEFAULT_SKELETON_COUNT = 8;
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import type { User } from "@/foundations/schemas";
+import type { User } from "../schemas";
 
 type SessionState = {
   /**

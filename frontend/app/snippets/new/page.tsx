@@ -1,4 +1,4 @@
-import { Sheet } from "@/features/composer/components/sheet";
+import { ComposerContainer } from "@/features/composer/components/sheet";
 import { Guard } from "@/features/onboarding/components/guard";
 
 /**
@@ -7,7 +7,7 @@ import { Guard } from "@/features/onboarding/components/guard";
 const Page = () => {
   return (
     <Guard>
-      <Sheet />
+      <ComposerContainer />
     </Guard>
   );
 };

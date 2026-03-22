@@ -6,12 +6,11 @@ import { BffEndpoints } from "@/foundations/definitions";
 /**
  * GitHub OAuth ログインを開始するボタンを描画する
  */
-export const GithubButton = () => {
+export const ProviderButton = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
     setIsLoading(true);
-
     window.location.href = BffEndpoints.OAuthGithub;
   };
 

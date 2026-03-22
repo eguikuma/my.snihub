@@ -2,8 +2,8 @@
 
 import clsx from "clsx";
 import type { Language } from "@/foundations/definitions";
-import { SNIPPET_DRAFT_EDITOR_HEIGHT } from "@/features/composer/definitions";
-import { useCodemirror } from "@/features/composer/hooks/use-codemirror";
+import { SNIPPET_DRAFT_EDITOR_HEIGHT } from "../../definitions";
+import { useCodemirror } from "../../hooks";
 import { LanguageDropdown } from "./language-dropdown";
 
 type CodePaneProps = {

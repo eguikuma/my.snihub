@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { useClipboard } from "@/foundations/hooks";
+import { useClipboard } from "../hooks";
 
 const SvgIconProps = {
   width: 16,

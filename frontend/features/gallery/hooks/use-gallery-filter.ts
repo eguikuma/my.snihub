@@ -1,14 +1,12 @@
 "use client";
 
-import { LanguageChips } from "@/foundations/components/language-chips";
-import { SearchInput } from "@/foundations/components/search-input";
 import { useDebouncedInput, useSearchParameters } from "@/foundations/hooks";
 import { SearchParameterKeys } from "../definitions";
 
 /**
- * キーワード検索と言語フィルターを組み合わせたギャラリーの操作パネルを提供する
+ * ギャラリーのキーワード検索と言語フィルターのロジックを提供する
  */
-export const CommandPalette = () => {
+export const useGalleryFilter = () => {
   const { get, update } = useSearchParameters({
     resetKeys: [SearchParameterKeys.Page],
   });
@@ -29,18 +27,16 @@ export const CommandPalette = () => {
 
   const resetLanguage = () => update(SearchParameterKeys.Language, "");
 
-  return (
-    <div className="flex flex-col gap-3">
-      <SearchInput
-        value={inputValue}
-        onChange={handleChange}
-        onClear={handleClear}
-      />
-      <LanguageChips
-        language={language}
-        onSelect={toggleLanguage}
-        onReset={resetLanguage}
-      />
-    </div>
-  );
+  return {
+    keyword: {
+      value: inputValue,
+      onChange: handleChange,
+      onClear: handleClear,
+    },
+    language: {
+      value: language,
+      onSelect: toggleLanguage,
+      onReset: resetLanguage,
+    },
+  };
 };

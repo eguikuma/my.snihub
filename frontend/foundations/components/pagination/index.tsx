@@ -3,7 +3,7 @@
 import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
-import type { PaginationMeta } from "@/foundations/schemas";
+import type { PaginationMeta } from "../../schemas";
 import { buildPageNumbers } from "./page-numbers";
 
 const PAGE_KEY = "page";

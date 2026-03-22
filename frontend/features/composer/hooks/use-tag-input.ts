@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SnippetDraftLimits } from "@/features/composer/definitions";
+import { SnippetDraftLimits } from "../definitions";
 
 type UseTagInputOptions = {
   tags: string[];

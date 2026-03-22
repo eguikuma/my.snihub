@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 import { syntaxHighlighting } from "@codemirror/language";
 import { EditorState, type Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
-import type { Language } from "@/foundations/definitions";
+import type { Language } from "../definitions";
 import {
   CodemirrorBaseTheme,
   CodemirrorHighlightStyles,
   CodemirrorLanguageLoaders,
   CodemirrorViewerOverrides,
-} from "@/foundations/libraries/codemirror";
+} from "../libraries/codemirror";
 
 /**
  * CodemirrorEditorTheme の fontSize・lineHeight・padding に基づく寸法

@@ -1,22 +1,22 @@
 "use client";
 
+import { CodeViewer } from "@/foundations/components/code-viewer";
 import { CopyButton } from "@/foundations/components/copy-button";
 import { LanguageBadge } from "@/foundations/components/language-badge";
 import type { Language } from "@/foundations/definitions";
 
-type ToolbarProps = {
-  language: Language;
+type CodeBlockProps = {
   code: string;
+  language: Language;
 };
 
 /**
- * 言語バッジとコピーボタンを備えたツールバーを表示する
+ * ツールバー（言語バッジ + コピーボタン）とCodeMirrorビューアを一体化して描画する
  */
-export const Toolbar = ({ language, code }: ToolbarProps) => {
-  return (
+export const CodeBlock = ({ code, language }: CodeBlockProps) => (
+  <div className="overflow-hidden rounded-lg border border-edge">
     <div className="flex items-center justify-between gap-3 border-b border-edge bg-surface-hover px-4 py-2">
       <LanguageBadge language={language} />
-
       <div className="flex shrink-0 items-center gap-1">
         <CopyButton
           text={() => window.location.href}
@@ -26,5 +26,6 @@ export const Toolbar = ({ language, code }: ToolbarProps) => {
         <CopyButton text={code} label="コード" variant="secondary" />
       </div>
     </div>
-  );
-};
+    <CodeViewer code={code} language={language} />
+  </div>
+);

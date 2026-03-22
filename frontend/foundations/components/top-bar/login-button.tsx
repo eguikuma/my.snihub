@@ -1,6 +1,6 @@
 "use client";
 
-import { useOverlayStore } from "@/foundations/stores";
+import { useOverlayStore } from "../../stores";
 
 /**
  * ログインボタン

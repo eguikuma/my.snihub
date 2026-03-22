@@ -2,6 +2,7 @@ import { Pagination } from "@/foundations/components/pagination";
 import type { Language } from "@/foundations/definitions";
 import type { PaginationMeta, Snippet } from "@/foundations/schemas";
 import { Card } from "./card";
+import { GalleryShell } from "./gallery-shell";
 import { NotFoundSnippet } from "./not-found-snippet";
 
 type ListProps = {
@@ -19,14 +20,13 @@ export const List = ({ snippets, meta, language }: ListProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 gap-5 tablet:grid-cols-2 desktop:grid-cols-3 wide:grid-cols-4">
+    <GalleryShell.ResultArea>
+      <GalleryShell.CardGrid>
         {snippets.map((snippet) => (
           <Card key={snippet.slug} snippet={snippet} />
         ))}
-      </div>
-
+      </GalleryShell.CardGrid>
       <Pagination meta={meta} />
-    </div>
+    </GalleryShell.ResultArea>
   );
 };

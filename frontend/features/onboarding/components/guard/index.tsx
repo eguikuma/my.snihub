@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { NoiseTexture } from "@/foundations/components/noise-texture";
 import { session } from "@/foundations/libraries/sessions";
-import { LoginContent } from "../login-content";
+import { LoginOverlayParts } from "../login-overlay-parts";
 
 type GuardProps = {
   children: ReactNode;
@@ -18,7 +18,12 @@ export const Guard = async ({ children }: GuardProps) => {
       <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90">
         <NoiseTexture />
         <div className="relative z-10">
-          <LoginContent />
+          <LoginOverlayParts.Card>
+            <LoginOverlayParts.Logo />
+            <LoginOverlayParts.FeatureList />
+            <LoginOverlayParts.ProviderButton />
+            <LoginOverlayParts.Disclaimer />
+          </LoginOverlayParts.Card>
         </div>
       </div>
     );

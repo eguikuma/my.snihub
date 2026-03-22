@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { ChevronDown, FolderOpen, Plus } from "lucide-react";
+import { FolderOpen, Plus } from "lucide-react";
 import { Routes } from "@/foundations/definitions";
-import { useDismiss, useToggle } from "@/foundations/hooks";
 import type { User } from "@/foundations/schemas";
-import { useLogout } from "../hooks";
+import { useAccountDropdown } from "../hooks";
+import { AccountDropdown } from "./account-dropdown";
 
 type AccountProps = {
   user: User;
@@ -16,81 +14,43 @@ type AccountProps = {
  * アカウントのドロップダウンメニューを表示する
  */
 export const Account = ({ user }: AccountProps) => {
-  const { opened, close, toggle } = useToggle(false);
-  const { handleLogout, isLoggingOut } = useLogout();
-  const menuRef = useDismiss<HTMLDivElement>(opened, close);
+  const { opened, close, toggle, menuRef, handleLogout, isLoggingOut } =
+    useAccountDropdown();
 
   return (
-    <div className="relative" ref={menuRef}>
-      <button
-        type="button"
-        onClick={toggle}
-        className="flex items-center gap-1 rounded-full p-0.5 transition-colors hover:bg-surface-hover"
-      >
-        <div className="flex h-7 w-7 items-center justify-center rounded-full">
-          {user.avatar_url ? (
-            <Image
-              src={user.avatar_url}
-              alt={user.name}
-              width={28}
-              height={28}
-              className="rounded-full"
-            />
-          ) : (
-            <div className="bg-accent text-xs font-bold text-white">
-              user.name.charAt(0).toUpperCase()
-            </div>
-          )}
-        </div>
-        <ChevronDown size={14} className="text-ink-muted" />
-      </button>
-
+    <AccountDropdown.Root menuRef={menuRef}>
+      <AccountDropdown.Trigger
+        name={user.name}
+        avatarUrl={user.avatar_url}
+        onToggle={toggle}
+      />
       {opened && (
-        <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-edge bg-surface-raised py-1 shadow-lg">
-          {/* ユーザー情報 */}
-          <div className="px-4 py-2">
-            <p className="text-sm font-medium text-ink">{user.name}</p>
-            {user.email && (
-              <p className="text-xs text-ink-muted">{user.email}</p>
-            )}
-          </div>
-
-          <div className="mx-2 border-t border-edge" />
-
-          {/* 新規作成 */}
-          <Link
+        <AccountDropdown.Panel>
+          <AccountDropdown.UserSummary name={user.name} email={user.email} />
+          <AccountDropdown.Separator />
+          <AccountDropdown.LinkItem
             href={Routes.SnippetNew}
+            icon={<Plus size={14} />}
             onClick={close}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink"
           >
-            <Plus size={14} />
             新規作成
-          </Link>
-
-          {/* マイスニペット */}
-          <Link
+          </AccountDropdown.LinkItem>
+          <AccountDropdown.LinkItem
             href={Routes.SnippetMine}
+            icon={<FolderOpen size={14} />}
             onClick={close}
-            aria-disabled={isLoggingOut}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink"
           >
-            <FolderOpen size={14} />
             マイスニペット
-          </Link>
-
-          <div className="mx-2 border-t border-edge" />
-
-          {/* ログアウト */}
-          <button
-            type="button"
+          </AccountDropdown.LinkItem>
+          <AccountDropdown.Separator />
+          <AccountDropdown.ActionItem
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className="w-full px-4 py-2 text-left text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink disabled:opacity-50"
           >
             ログアウト
-          </button>
-        </div>
+          </AccountDropdown.ActionItem>
+        </AccountDropdown.Panel>
       )}
-    </div>
+    </AccountDropdown.Root>
   );
 };

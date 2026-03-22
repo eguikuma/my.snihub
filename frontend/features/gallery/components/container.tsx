@@ -1,19 +1,36 @@
 "use client";
 
-import { CommandPalette } from "./command-palette";
+import type { ReactNode } from "react";
+import { LanguageChips } from "@/foundations/components/language-chips";
+import { SearchInput } from "@/foundations/components/search-input";
+import { useGalleryFilter } from "../hooks";
+import { GalleryShell } from "./gallery-shell";
 
 type GalleryContainerProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 /**
- * ギャラリー画面のクライアント境界を担い、コマンドパレットと子要素を配置する
+ * ギャラリー画面のクライアント境界を担い、フィルターパネルと子要素を配置する
  */
 export const GalleryContainer = ({ children }: GalleryContainerProps) => {
+  const { keyword, language } = useGalleryFilter();
+
   return (
-    <div className="flex flex-col gap-4 p-4 desktop:gap-6 desktop:p-6">
-      <CommandPalette />
+    <GalleryShell.Root>
+      <GalleryShell.FilterPanel>
+        <SearchInput
+          value={keyword.value}
+          onChange={keyword.onChange}
+          onClear={keyword.onClear}
+        />
+        <LanguageChips
+          language={language.value}
+          onSelect={language.onSelect}
+          onReset={language.onReset}
+        />
+      </GalleryShell.FilterPanel>
       {children}
-    </div>
+    </GalleryShell.Root>
   );
 };

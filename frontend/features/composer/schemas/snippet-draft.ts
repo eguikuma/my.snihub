@@ -4,7 +4,7 @@ import {
   Languages,
   Visibilities,
 } from "@/foundations/definitions";
-import { SnippetDraftLimits } from "@/features/composer/definitions";
+import { SnippetDraftLimits } from "../definitions";
 
 /**
  * スニペット作成の入力値を検証するスキーマ

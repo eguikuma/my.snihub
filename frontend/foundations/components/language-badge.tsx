@@ -1,5 +1,5 @@
-import type { Language } from "@/foundations/definitions";
-import { toLanguageLabel } from "@/foundations/libraries/language";
+import type { Language } from "../definitions";
+import { toLanguageLabel } from "../libraries/language";
 
 type LanguageBadgeProps = {
   language: Language;

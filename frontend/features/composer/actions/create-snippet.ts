@@ -6,7 +6,7 @@ import { Endpoints, Routes } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toActionOutcome } from "@/foundations/libraries/outcome";
 import { Slug } from "@/foundations/schemas";
-import type { SnippetDraft } from "@/features/composer/schemas";
+import type { SnippetDraft } from "../schemas";
 
 /**
  * レスポンスからslugを取得するためのスキーマ

@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Routes } from "@/foundations/definitions";
-import { useToastStore } from "@/foundations/stores/toast";
-import { createSnippet } from "@/features/composer/actions/create-snippet";
-import { SnippetDraftDefaults } from "@/features/composer/definitions";
-import { SnippetDraft } from "@/features/composer/schemas";
+import { useToastStore } from "@/foundations/stores";
+import { createSnippet } from "../actions/create-snippet";
+import { SnippetDraftDefaults } from "../definitions";
+import { SnippetDraft } from "../schemas";
 import { useValidation } from "./use-validation";
 
 /**

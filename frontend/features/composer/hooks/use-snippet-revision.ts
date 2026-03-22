@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import type { Snippet } from "@/foundations/schemas";
-import { useToastStore } from "@/foundations/stores/toast";
-import { updateSnippet } from "@/features/composer/actions/update-snippet";
-import { SnippetRevision } from "@/features/composer/schemas";
+import { useToastStore } from "@/foundations/stores";
+import { updateSnippet } from "../actions/update-snippet";
+import { SnippetRevision } from "../schemas";
 import { useValidation } from "./use-validation";
 
 type UseSnippetRevisionParams = {

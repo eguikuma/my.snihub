@@ -1,4 +1,4 @@
-import { LanguageOptions, type Language } from "@/foundations/definitions";
+import { LanguageOptions, type Language } from "../definitions";
 
 /**
  * 言語識別子をUIに表示するラベルに変換する

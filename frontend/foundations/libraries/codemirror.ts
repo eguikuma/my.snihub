@@ -2,7 +2,7 @@ import { HighlightStyle } from "@codemirror/language";
 import type { Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { tags } from "@lezer/highlight";
-import type { Language } from "@/foundations/definitions";
+import type { Language } from "../definitions";
 
 /**
  * CSSカスタムプロパティを使ったシンタックスハイライトのスタイル定義を提供する
