@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Endpoints, OAUTH_FAILED } from "@/foundations/definitions";
+import { Endpoints, OAUTH_FAILED, Routes } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { session } from "@/foundations/libraries/sessions";
 import type { Token } from "@/foundations/schemas";
@@ -30,7 +30,7 @@ export const GET = async (request: Request) => {
     return NextResponse.redirect(`${origin}/${OAUTH_FAILED}`);
   }
 
-  const redirectTo = currentSession.redirectTo ?? "/";
+  const redirectTo = currentSession.redirectTo ?? Routes.Snippets;
   delete currentSession.state;
   delete currentSession.redirectTo;
 

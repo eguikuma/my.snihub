@@ -8,7 +8,7 @@ import { GalleryFilter } from "./gallery-filter";
 import { List } from "./list";
 
 type GalleryContainerProps = {
-  searchParams: PageProps<"/">["searchParams"];
+  searchParams: PageProps<"/snippets">["searchParams"];
 };
 
 /**

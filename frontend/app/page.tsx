@@ -1,10 +1,8 @@
-import { GalleryContainer } from "@/features/gallery/components/gallery-container";
+import { LandingContainer } from "@/features/landing/components/landing-container";
 
 /**
- * 検索パラメータをもとに公開スニペット一覧をギャラリーとして表示する
+ * サービス紹介のランディングページを表示する
  */
-const Page = ({ searchParams }: PageProps<"/">) => (
-  <GalleryContainer searchParams={searchParams} />
-);
+const Page = () => <LandingContainer />;
 
 export default Page;

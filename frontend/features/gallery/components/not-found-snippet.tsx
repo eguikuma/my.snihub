@@ -11,7 +11,7 @@ const NO_RESULTS_README = `# No Results Found
 
 ## 関連リンク
 
-- [公開スニペット一覧](/)
+- [公開スニペット一覧](/snippets)
 
 ---
 

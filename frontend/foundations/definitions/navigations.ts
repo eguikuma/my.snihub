@@ -5,6 +5,7 @@ import type { Slug } from "../schemas/brand";
  */
 export const Routes = {
   Home: "/",
+  Snippets: "/snippets",
   Snippet: (slug: Slug): `/snippets/${string}` => `/snippets/${slug}`,
   SnippetNew: "/snippets/new",
   SnippetMine: "/snippets/mine",

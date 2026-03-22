@@ -13,7 +13,10 @@ export const TopBar = async () => {
 
   return (
     <header className="sticky top-0 z-50 flex h-top-bar items-center justify-between border-b border-edge bg-surface-raised px-4">
-      <Link href={Routes.Home} className="font-mono text-sm font-bold text-ink">
+      <Link
+        href={Routes.Snippets}
+        className="font-mono text-sm font-bold text-ink"
+      >
         {"</SnipShare>"}
       </Link>
 
