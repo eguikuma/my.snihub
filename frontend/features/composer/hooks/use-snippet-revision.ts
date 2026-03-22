@@ -1,29 +1,35 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Routes } from "@/foundations/definitions";
+import type { Snippet } from "@/foundations/schemas";
 import { useToastStore } from "@/foundations/stores/toast";
-import { createSnippet } from "@/features/composer/actions/create-snippet";
-import { SnippetDraftDefaults } from "@/features/composer/definitions";
-import { SnippetDraft } from "@/features/composer/schemas";
+import { updateSnippet } from "@/features/composer/actions/update-snippet";
+import { SnippetRevision } from "@/features/composer/schemas";
 import { useValidation } from "./use-validation";
 
+type UseSnippetRevisionParams = {
+  snippet: Snippet;
+  onSuccess: () => void;
+  onCancel: () => void;
+};
+
 /**
- * スニペット作成フォームの状態管理・バリデーション・送信処理を提供する
+ * スニペット編集フォームの状態管理・バリデーション・送信処理を提供する
  */
-export const useSnippetDraft = () => {
-  const router = useRouter();
+export const useSnippetRevision = ({
+  snippet,
+  onSuccess,
+  onCancel,
+}: UseSnippetRevisionParams) => {
   const notify = useToastStore((state) => state.notify);
 
-  const [fields, setFields] = useState<SnippetDraft>({
-    title: "",
-    code: "",
-    language: SnippetDraftDefaults.Language,
-    description: "",
-    visibility: SnippetDraftDefaults.Visibility,
-    expiration: SnippetDraftDefaults.Expiration,
-    tags: [],
+  const [fields, setFields] = useState<SnippetRevision>({
+    title: snippet.title,
+    code: snippet.code,
+    language: snippet.language,
+    description: snippet.description ?? "",
+    visibility: snippet.visibility,
+    tags: snippet.tags,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -33,14 +39,14 @@ export const useSnippetDraft = () => {
     validateAll,
     validateField,
     setServerErrors,
-  } = useValidation(SnippetDraft);
+  } = useValidation(SnippetRevision);
 
   /**
    * 指定フィールドの値を更新し、リアルタイムバリデーションを実行する
    */
-  const updateField = <K extends keyof SnippetDraft>(
+  const updateField = <K extends keyof SnippetRevision>(
     name: K,
-    value: SnippetDraft[K],
+    value: SnippetRevision[K],
   ) => {
     setFields((previous) => ({ ...previous, [name]: value }));
     validateField(name, value);
@@ -56,17 +62,17 @@ export const useSnippetDraft = () => {
     setIsSubmitting(true);
 
     try {
-      const result = await createSnippet(fields);
+      const result = await updateSnippet(snippet.slug, fields);
 
       if (result.success) {
-        router.push(Routes.Snippet(result.slug));
+        onSuccess();
         return;
       }
 
       if (result.errors) {
         setServerErrors(result.errors);
       } else {
-        notify("作成に失敗しました");
+        notify("更新に失敗しました");
       }
     } finally {
       setIsSubmitting(false);
@@ -74,10 +80,10 @@ export const useSnippetDraft = () => {
   };
 
   /**
-   * 作成をキャンセルしてマイページに戻る
+   * 編集をキャンセルして閲覧モードに戻る
    */
   const handleCancel = () => {
-    router.push(Routes.SnippetMine);
+    onCancel();
   };
 
   return {

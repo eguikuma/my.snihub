@@ -1,7 +1,9 @@
+import { Referrers } from "@/foundations/definitions";
 import type { Snippet } from "@/foundations/schemas";
 import { Breadcrumb } from "./breadcrumb";
 import { CodeBlock } from "./code-block";
 import { MetaBar } from "./meta-bar";
+import { ModeSwitch } from "./mode-switch";
 import { Sidebar } from "./sidebar";
 
 type ViewerContainerProps = {
@@ -13,6 +15,10 @@ type ViewerContainerProps = {
  * スニペット閲覧画面のレイアウトを担い、コードビューア・メタ情報・サイドバーを配置する
  */
 export const ViewerContainer = ({ snippet, from }: ViewerContainerProps) => {
+  if (from === Referrers.MINE) {
+    return <ModeSwitch snippet={snippet} from={from} />;
+  }
+
   return (
     <div className="flex flex-col gap-4 p-4 desktop:gap-6 desktop:p-6">
       <Breadcrumb title={snippet.title} from={from} />

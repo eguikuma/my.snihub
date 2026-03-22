@@ -3,6 +3,7 @@ import clsx from "clsx";
 type ActionBarProps = {
   disabled: boolean;
   isSubmitting: boolean;
+  submitLabel?: string;
   onCancel: () => void;
   onSubmit: () => void;
 };
@@ -13,6 +14,7 @@ type ActionBarProps = {
 export const ActionBar = ({
   disabled,
   isSubmitting,
+  submitLabel = "作成する",
   onCancel,
   onSubmit,
 }: ActionBarProps) => (
@@ -35,7 +37,7 @@ export const ActionBar = ({
           : "bg-accent hover:bg-accent/90",
       )}
     >
-      作成する
+      {submitLabel}
     </button>
   </div>
 );
