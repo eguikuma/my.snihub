@@ -23,6 +23,7 @@ class SnippetResource extends JsonResource
             'description' => $this->description,
             'visibility' => $this->visibility->value,
             'expires_at' => $this->expires_at?->toIso8601String(),
+            'expires_in' => $this->expires_in?->value,
             'tags' => $this->tags->pluck('name')->all(),
             'user' => [
                 'name' => $this->user->name,

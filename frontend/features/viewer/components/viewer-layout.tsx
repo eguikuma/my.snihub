@@ -45,6 +45,7 @@ export const ViewerLayout = ({ snippet }: ViewerLayoutProps) => {
           <SnippetSidebar.Timestamps
             createdAt={snippet.created_at}
             updatedAt={snippet.updated_at}
+            expiresAt={snippet.expires_at}
           />
         </SnippetSidebar.Root>
       </SnippetViewer.ContentGrid>

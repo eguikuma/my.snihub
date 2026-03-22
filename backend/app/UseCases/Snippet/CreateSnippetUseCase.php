@@ -35,6 +35,7 @@ class CreateSnippetUseCase
             language: $dto->language,
             description: $dto->description,
             expiresAt: $this->toExpiresAt($dto->expiresIn),
+            expiresIn: $dto->expiresIn,
             /**
              * 公開範囲が未指定の場合、デフォルトで限定共有になる
              */

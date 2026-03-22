@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Languages, Visibilities } from "../definitions";
+import { ExpiresIn, Languages, Visibilities } from "../definitions";
 import { Slug } from "./brand";
 
 const SnippetBase = z.object({
@@ -9,6 +9,7 @@ const SnippetBase = z.object({
   description: z.nullable(z.string()),
   visibility: z.enum(Visibilities),
   expires_at: z.nullable(z.string()),
+  expires_in: z.nullable(z.enum(ExpiresIn)),
   tags: z.array(z.string()),
   user: z.object({
     name: z.string(),

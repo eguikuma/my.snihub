@@ -11,7 +11,10 @@ type CardProps = {
  * マイスニペットカードを公開範囲バッジ付きで表示する
  */
 export const Card = ({ snippet }: CardProps) => (
-  <SnippetCard.Root href={Routes.Snippet(snippet.slug)}>
+  <SnippetCard.Root
+    href={Routes.Snippet(snippet.slug)}
+    expiresAt={snippet.expires_at}
+  >
     <SnippetCard.Title
       trailing={<VisibilityBadge visibility={snippet.visibility} />}
     >

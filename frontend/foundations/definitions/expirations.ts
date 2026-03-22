@@ -1,11 +1,18 @@
 /**
- * スニペットの有効期限を識別する値を定義する
+ * スニペットの有効期限の種別を識別する値を定義する
  */
-export const Expirations = {
-  Unlimited: null,
+export const ExpiresIn = {
   OneHour: "1h",
   OneDay: "1d",
   OneWeek: "1w",
+} as const;
+
+/**
+ * 有効期限の全選択肢を定義する（null = 無期限を含む）
+ */
+export const Expirations = {
+  Unlimited: null,
+  ...ExpiresIn,
 } as const;
 
 export type Expiration = (typeof Expirations)[keyof typeof Expirations];

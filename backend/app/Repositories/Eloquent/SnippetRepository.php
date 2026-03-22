@@ -30,7 +30,7 @@ class SnippetRepository implements SnippetRepositoryInterface
         $builder = Snippet::with(['user', 'tags'])
             ->select([
                 'id', 'user_id', 'slug', 'title', 'language',
-                'description', 'visibility', 'expires_at',
+                'description', 'visibility', 'expires_at', 'expires_in',
                 'created_at', 'updated_at',
             ])
             ->addSelect(DB::raw('left(code, 500) as code'));
@@ -85,6 +85,7 @@ class SnippetRepository implements SnippetRepositoryInterface
             'language' => $dto->language,
             'description' => $dto->description,
             'expires_at' => $dto->expiresAt,
+            'expires_in' => $dto->expiresIn,
             'visibility' => $dto->visibility,
         ]);
 

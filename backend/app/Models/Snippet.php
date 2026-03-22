@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ExpiresIn;
 use App\Enums\Visibility;
 use Database\Factories\SnippetFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -26,6 +27,7 @@ class Snippet extends Model
         'language',
         'description',
         'expires_at',
+        'expires_in',
         'visibility',
     ];
 
@@ -33,6 +35,7 @@ class Snippet extends Model
     {
         return [
             'expires_at' => 'datetime',
+            'expires_in' => ExpiresIn::class,
             'visibility' => Visibility::class,
         ];
     }

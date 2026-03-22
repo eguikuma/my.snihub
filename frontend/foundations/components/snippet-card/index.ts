@@ -10,7 +10,7 @@ import { Title } from "./title";
 export const SnippetCard = {
   Root,
   Title,
-  CodePreview,
   Tags,
+  CodePreview,
   Footer,
 } as const;

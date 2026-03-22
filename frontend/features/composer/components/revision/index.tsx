@@ -41,6 +41,7 @@ export const Revision = ({ snippet, onSuccess, onCancel }: RevisionProps) => {
       />
       <OptionsCard
         fields={fields}
+        expiresIn={snippet.expires_in}
         mergedErrors={mergedErrors}
         updateField={updateField}
       />
