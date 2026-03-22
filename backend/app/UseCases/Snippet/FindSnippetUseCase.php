@@ -21,7 +21,14 @@ class FindSnippetUseCase
     {
         $snippet = $this->snippetRepository->find($slug);
 
-        if ($snippet === null || $snippet->is_expired) {
+        if ($snippet === null) {
+            throw new ModelNotFoundException;
+        }
+
+        /**
+         * 期限切れスニペットは、作成者のみ物理削除まで閲覧を許可する
+         */
+        if ($snippet->is_expired && $user?->id !== $snippet->user_id) {
             throw new ModelNotFoundException;
         }
 

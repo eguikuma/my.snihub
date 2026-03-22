@@ -53,6 +53,7 @@ class FindSnippetUseCaseTest extends TestCase
     {
         $snippet = Mockery::mock(Snippet::class);
         $snippet->shouldReceive('getAttribute')->with('is_expired')->andReturn(true);
+        $snippet->shouldReceive('getAttribute')->with('user_id')->andReturn(1);
         $repository = Mockery::mock(SnippetRepositoryInterface::class);
         $repository->shouldReceive('find')
             ->once()
@@ -62,6 +63,42 @@ class FindSnippetUseCaseTest extends TestCase
 
         $this->assertThrows(
             fn () => $useCase->execute('expired1'),
+            ModelNotFoundException::class,
+        );
+    }
+
+    #[Test]
+    public function 期限切れスニペットでも作成者は取得できること(): void
+    {
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $snippet = Mockery::mock(Snippet::class);
+        $snippet->shouldReceive('getAttribute')->with('is_expired')->andReturn(true);
+        $snippet->shouldReceive('getAttribute')->with('user_id')->andReturn(1);
+        $snippet->shouldReceive('getAttribute')->with('visibility')->andReturn(Visibility::Public);
+        $repository = Mockery::mock(SnippetRepositoryInterface::class);
+        $repository->shouldReceive('find')->with('expired1')->andReturn($snippet);
+        $useCase = new FindSnippetUseCase($repository);
+
+        $result = $useCase->execute(slug: 'expired1', user: $user);
+
+        $this->assertSame($snippet, $result);
+    }
+
+    #[Test]
+    public function 期限切れスニペットは作成者以外からは取得できないこと(): void
+    {
+        $other = Mockery::mock(User::class);
+        $other->shouldReceive('getAttribute')->with('id')->andReturn(99);
+        $snippet = Mockery::mock(Snippet::class);
+        $snippet->shouldReceive('getAttribute')->with('is_expired')->andReturn(true);
+        $snippet->shouldReceive('getAttribute')->with('user_id')->andReturn(1);
+        $repository = Mockery::mock(SnippetRepositoryInterface::class);
+        $repository->shouldReceive('find')->with('expired1')->andReturn($snippet);
+        $useCase = new FindSnippetUseCase($repository);
+
+        $this->assertThrows(
+            fn () => $useCase->execute(slug: 'expired1', user: $other),
             ModelNotFoundException::class,
         );
     }
