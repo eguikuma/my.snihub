@@ -47,7 +47,7 @@ const Page = async ({ params }: PageProps<"/snippets/[slug]">) => {
       <Breadcrumb title={snippet.title} />
       <div className="grid grid-cols-1 gap-5 tablet:grid-cols-[1fr_176px] desktop:grid-cols-[1fr_240px] desktop:gap-6">
         {/* メインエリア */}
-        <div className="flex flex-col gap-4">
+        <div className="flex min-w-0 flex-col gap-4">
           <CodeBlock code={snippet.code} language={snippet.language} />
           <MetaBar title={snippet.title} description={snippet.description} />
         </div>

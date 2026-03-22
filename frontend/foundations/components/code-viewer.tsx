@@ -91,7 +91,7 @@ export const CodeViewer = ({ code, language }: CodeViewerProps) => {
     <div
       ref={editorRef}
       style={{ height: estimatedHeight }}
-      className="max-h-[600px] overflow-y-auto overflow-x-hidden bg-code"
+      className="max-h-[600px] overflow-y-auto overflow-x-auto bg-code"
     />
   );
 };
