@@ -1,16 +1,17 @@
 "use client";
 
-import { useSessionStore } from "@/foundations/stores";
+import { User } from "@/foundations/schemas";
 import { useLogout } from "../hooks";
+
+type AccountProps = {
+  user: User;
+};
 
 /**
  * 認証済みユーザーのアバターとログアウト操作を提供する
  */
-export const Account = () => {
-  const user = useSessionStore((state) => state.user);
+export const Account = ({ user }: AccountProps) => {
   const { handleLogout, isLoggingOut } = useLogout();
-
-  if (!user) return null;
 
   return (
     <div className="flex items-center gap-2">

@@ -6,8 +6,8 @@ import {
   LightThemes,
   Themes,
   type ThemeId,
-} from "../../definitions";
-import { useDismiss, useThemeColor, useToggle } from "../../hooks";
+} from "../../../definitions";
+import { useDismiss, useThemeColor, useToggle } from "../../../hooks";
 import { SwatchColors, ThemeGroup } from "./theme-group";
 
 /**
