@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { session } from "@/foundations/libraries/sessions";
-import { GuardTrigger } from "./guard-trigger";
+import { GuardTrigger } from "./trigger";
 
 type GuardProps = {
   children: ReactNode;
