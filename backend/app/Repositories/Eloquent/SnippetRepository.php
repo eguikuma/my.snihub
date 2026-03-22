@@ -11,6 +11,7 @@ use App\Repositories\Dtos\SnippetUpdateDto;
 use App\Repositories\Interfaces\SnippetRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Eloquent を使用したスニペットのデータ操作を実装する
@@ -26,7 +27,13 @@ class SnippetRepository implements SnippetRepositoryInterface
 
     public function paginate(SnippetSearchDto $dto, int $perPage): LengthAwarePaginator
     {
-        $builder = Snippet::with(['user', 'tags']);
+        $builder = Snippet::with(['user', 'tags'])
+            ->select([
+                'id', 'user_id', 'slug', 'title', 'language',
+                'description', 'visibility', 'expires_at',
+                'created_at', 'updated_at',
+            ])
+            ->addSelect(DB::raw('left(code, 500) as code'));
 
         $this->filters(
             $builder,
