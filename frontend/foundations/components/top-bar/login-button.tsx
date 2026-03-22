@@ -1,12 +1,12 @@
 "use client";
 
-import { useLoginOverlay } from "@/foundations/stores";
+import { useOverlayStore } from "@/foundations/stores";
 
 /**
  * ログインボタン
  */
 export const LoginButton = () => {
-  const open = useLoginOverlay((state) => state.open);
+  const open = useOverlayStore((state) => state.open);
 
   return (
     <button

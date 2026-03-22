@@ -1,3 +1,3 @@
-export * from "./login-overlay";
+export * from "./overlay";
 export * from "./session";
 export * from "./toast";

@@ -6,7 +6,7 @@ import { Toast } from "@/foundations/components/toast";
 import { TopBar } from "@/foundations/components/top-bar";
 import { findThemeId } from "@/foundations/libraries/cookies";
 import { ThemeColorProvider } from "@/foundations/providers";
-import { LoginOverlay } from "@/features/onboarding/components/overlay";
+import { LoginOverlay } from "@/features/onboarding/components/login-overlay";
 import { SessionHydrator } from "@/features/onboarding/components/session-hydrator";
 
 const plusJakartaSans = Plus_Jakarta_Sans({

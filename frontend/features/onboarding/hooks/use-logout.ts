@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useLoginOverlay, useSessionStore } from "@/foundations/stores";
+import { useSessionStore } from "@/foundations/stores";
 import { logout } from "../actions/logout";
 
 /**
@@ -8,7 +8,6 @@ import { logout } from "../actions/logout";
  */
 export const useLogout = () => {
   const clear = useSessionStore((state) => state.clear);
-  const close = useLoginOverlay((state) => state.close);
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -19,8 +18,6 @@ export const useLogout = () => {
       await logout();
 
       clear();
-
-      close();
 
       router.refresh();
     } finally {
