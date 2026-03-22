@@ -41,3 +41,17 @@ export const Themes = [...LightThemes, ...DarkThemes] as const;
 export type ThemeId = (typeof ThemeIds)[keyof typeof ThemeIds];
 
 export type Theme = (typeof Themes)[number];
+
+/**
+ * 各テーマに対応するアクセントカラーのhex値
+ */
+export const ThemeAccentColors: Record<ThemeId, string> = {
+  [ThemeIds.GithubLight]: "#0969da",
+  [ThemeIds.SolarizedLight]: "#268bd2",
+  [ThemeIds.CatppuccinLatte]: "#1e66f5",
+  [ThemeIds.QuietLight]: "#4078c0",
+  [ThemeIds.GithubDark]: "#58a6ff",
+  [ThemeIds.Dracula]: "#bd93f9",
+  [ThemeIds.Nord]: "#88c0d0",
+  [ThemeIds.Monokai]: "#66d9ef",
+};

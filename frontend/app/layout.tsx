@@ -4,7 +4,9 @@ import clsx from "clsx";
 import "@/app/globals.css";
 import { Toast } from "@/foundations/components/toast";
 import { TopBar } from "@/foundations/components/top-bar";
+import { ThemeAccentColors } from "@/foundations/definitions";
 import { findThemeId } from "@/foundations/libraries/cookies";
+import { favicon } from "@/foundations/libraries/favicon";
 import { ThemeColorProvider } from "@/foundations/providers";
 import { LoginOverlay } from "@/features/onboarding/components/login-overlay";
 import { SessionHydrator } from "@/features/onboarding/components/session-hydrator";
@@ -19,12 +21,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "SnipShare",
-    template: "%s | SnipShare",
-  },
-  description: "コードスニペット共有サービス",
+/**
+ * テーマカラーに応じたメタデータを生成する
+ */
+export const generateMetadata = async (): Promise<Metadata> => {
+  const themeId = await findThemeId();
+
+  return {
+    title: {
+      default: "SnipShare",
+      template: "%s | SnipShare",
+    },
+    description: "コードスニペット共有サービス",
+    themeColor: ThemeAccentColors[themeId],
+    icons: { icon: favicon.toDataUrl(ThemeAccentColors[themeId]) },
+  };
 };
 
 /**

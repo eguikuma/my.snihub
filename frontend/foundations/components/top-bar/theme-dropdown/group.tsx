@@ -1,6 +1,8 @@
-import clsx from "clsx";
-import type { Theme, ThemeId } from "../../../definitions";
-import { SWATCH_COLORS } from "./swatch-colors";
+import {
+  ThemeAccentColors,
+  type Theme,
+  type ThemeId,
+} from "../../../definitions";
 
 type GroupProps = {
   currentThemeId: ThemeId;
@@ -32,7 +34,8 @@ export const Group = ({
         onClick={() => onSelect(theme.value)}
       >
         <span
-          className={clsx("size-3 rounded-full", SWATCH_COLORS[theme.value])}
+          className="size-3 rounded-full"
+          style={{ backgroundColor: ThemeAccentColors[theme.value] }}
         />
         <span className="flex-1 text-left">{theme.label}</span>
         {currentThemeId === theme.value && (

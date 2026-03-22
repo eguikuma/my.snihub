@@ -1,6 +1,4 @@
-import clsx from "clsx";
-import type { ThemeId } from "../../../definitions";
-import { SWATCH_COLORS } from "./swatch-colors";
+import { ThemeAccentColors, type ThemeId } from "../../../definitions";
 
 type TriggerProps = {
   themeId: ThemeId;
@@ -25,7 +23,10 @@ export const Trigger = ({
     aria-expanded={opened}
     aria-haspopup="listbox"
   >
-    <span className={clsx("size-3 rounded-full", SWATCH_COLORS[themeId])} />
+    <span
+      className="size-3 rounded-full"
+      style={{ backgroundColor: ThemeAccentColors[themeId] }}
+    />
     <span className="hidden tablet:inline">{themeLabel}</span>
   </button>
 );

@@ -3,7 +3,8 @@
 import { createContext, useState } from "react";
 import Cookies from "js-cookie";
 import { createStore } from "zustand";
-import { THEME_COOKIE_NAME, ThemeId } from "../definitions";
+import { THEME_COOKIE_NAME, ThemeAccentColors, ThemeId } from "../definitions";
+import { favicon } from "../libraries/favicon";
 
 export type ThemeColorStore = {
   id: ThemeId;
@@ -41,6 +42,12 @@ const createThemeColorStore = (initialThemeId: ThemeId) =>
        * data-theme属性とCookieを更新し、次回アクセス時にサーバーとクライアントのテーマを一致させる
        */
       document.documentElement.setAttribute("data-theme", id);
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", ThemeAccentColors[id]);
+      document
+        .querySelector('link[rel="icon"]')
+        ?.setAttribute("href", favicon.toDataUrl(ThemeAccentColors[id]));
       Cookies.set(THEME_COOKIE_NAME, id, {
         path: "/",
         expires: 365,
