@@ -1,4 +1,5 @@
 import { HelpReadme } from "@/foundations/components/help-readme";
+import { Routes } from "@/foundations/definitions";
 import { CollectionShell } from "./collection-shell";
 
 const README_CONTENT = `# Welcome to SnipShare
@@ -19,8 +20,8 @@ const README_CONTENT = `# Welcome to SnipShare
 
 ## 関連リンク
 
-- [新規作成](/snippets/new)
-- [公開スニペット一覧](/snippets)
+- [新規作成](${Routes.SnippetNew})
+- [公開スニペット一覧](${Routes.Snippets})
 
 ---
 

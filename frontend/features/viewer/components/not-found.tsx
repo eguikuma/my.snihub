@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { HelpReadme } from "@/foundations/components/help-readme";
+import { Routes } from "@/foundations/definitions";
 
 const toReadme = (slug: string) =>
   `# Snippet Not Found
@@ -16,7 +17,7 @@ const toReadme = (slug: string) =>
 
 ## 関連リンク
 
-- [公開スニペット一覧](/snippets)
+- [公開スニペット一覧](${Routes.Snippets})
 
 ---
 

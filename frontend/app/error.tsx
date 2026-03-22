@@ -1,6 +1,7 @@
 "use client";
 
 import { HelpReadme } from "@/foundations/components/help-readme";
+import { Routes } from "@/foundations/definitions";
 
 const toReadme = (message: string) =>
   `# Something Went Wrong
@@ -14,7 +15,7 @@ const toReadme = (message: string) =>
 
 ## 関連リンク
 
-- [公開スニペット一覧](/snippets)
+- [公開スニペット一覧](${Routes.Snippets})
 
 ---
 

@@ -1,14 +1,15 @@
 import { HelpReadme } from "@/foundations/components/help-readme";
 import { Routes } from "@/foundations/definitions";
 
-const README_CONTENT = `# No Results Found
+const README_CONTENT = `# Authentication Failed
 
-> 条件に一致するスニペットがありません
+> OAuth認証に失敗しました
 
-## どうすればいいですか？
+## 考えられる原因
 
-- 別のキーワードで検索してみてください
-- 言語フィルターを解除してみてください
+- 認証がタイムアウトした
+- アクセスが拒否された
+- セッションの状態が無効になった
 
 ## 関連リンク
 
@@ -19,12 +20,14 @@ const README_CONTENT = `# No Results Found
 *SnipShare — コードスニペット共有サービス*`;
 
 /**
- * 検索結果が0件のときに README 風の空状態を表示する
+ * OAuth認証失敗時にREADME風のエラーページを表示する
  */
-export const NotFoundSnippet = () => (
+const Page = () => (
   <div className="flex justify-center py-16">
     <div className="w-full max-w-2xl">
       <HelpReadme content={README_CONTENT} />
     </div>
   </div>
 );
+
+export default Page;

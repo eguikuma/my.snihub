@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { HelpReadme } from "@/foundations/components/help-readme";
+import { Routes } from "@/foundations/definitions";
 
 const toReadme = (path: string) =>
   `# Page Not Found
@@ -15,7 +16,7 @@ const toReadme = (path: string) =>
 
 ## 関連リンク
 
-- [公開スニペット一覧](/snippets)
+- [公開スニペット一覧](${Routes.Snippets})
 
 ---
 

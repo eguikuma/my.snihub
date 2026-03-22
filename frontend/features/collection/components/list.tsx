@@ -1,11 +1,12 @@
 import { HelpReadme } from "@/foundations/components/help-readme";
 import { Pagination } from "@/foundations/components/pagination";
+import { Routes } from "@/foundations/definitions";
 import type { PaginationMeta, SnippetSummary } from "@/foundations/schemas";
 import { Card } from "./card";
 import { CollectionShell } from "./collection-shell";
 import { EmptyCollection } from "./empty-collection";
 
-const NO_RESULTS_README = `# No Results Found
+const README_CONTENT = `# No Results Found
 
 > 条件に一致するスニペットがありません
 
@@ -16,8 +17,8 @@ const NO_RESULTS_README = `# No Results Found
 
 ## 関連リンク
 
-- [新規作成](/snippets/new)
-- [公開スニペット一覧](/snippets)
+- [新規作成](${Routes.SnippetNew})
+- [公開スニペット一覧](${Routes.Snippets})
 
 ---
 
@@ -41,7 +42,7 @@ export const List = ({ snippets, meta, isEmpty }: ListProps) => {
     return (
       <CollectionShell.EmptyState>
         <div className="w-full max-w-2xl">
-          <HelpReadme content={NO_RESULTS_README} />
+          <HelpReadme content={README_CONTENT} />
         </div>
       </CollectionShell.EmptyState>
     );
