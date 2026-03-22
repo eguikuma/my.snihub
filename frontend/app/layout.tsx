@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Suspense } from "react";
 import clsx from "clsx";
 import "@/app/globals.css";
 import { Toast } from "@/foundations/components/toast";
 import { TopBar } from "@/foundations/components/top-bar";
+import { TopBarSkeleton } from "@/foundations/components/top-bar/skeleton";
 import { ThemeAccentColors } from "@/foundations/definitions";
 import { findThemeId } from "@/foundations/libraries/cookies";
 import { favicon } from "@/foundations/libraries/favicon";
@@ -58,8 +60,12 @@ const RootLayout = async ({
         )}
       >
         <ThemeColorProvider id={themeId}>
-          <SessionHydrator />
-          <TopBar />
+          <Suspense fallback={<TopBarSkeleton />}>
+            <TopBar />
+          </Suspense>
+          <Suspense>
+            <SessionHydrator />
+          </Suspense>
           <main>{children}</main>
           <LoginOverlay />
           <Toast />
