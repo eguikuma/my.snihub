@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Routes } from "@/foundations/definitions";
 import { fetchMe } from "@/features/onboarding/actions/fetch-me";
 import { Account } from "@/features/onboarding/components/account";
 import { LoginButton } from "./login-button";
@@ -12,7 +13,7 @@ export const TopBar = async () => {
 
   return (
     <header className="sticky top-0 z-50 flex h-top-bar items-center justify-between border-b border-edge bg-surface-raised px-4">
-      <Link href="/" className="font-mono text-sm font-bold text-ink">
+      <Link href={Routes.Home} className="font-mono text-sm font-bold text-ink">
         {"</SnipShare>"}
       </Link>
 

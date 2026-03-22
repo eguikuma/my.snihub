@@ -38,9 +38,9 @@ export const CodemirrorHighlightStyles = HighlightStyle.define([
 ]);
 
 /**
- * CodeMirrorエディタの外観をアプリのデザイントークンに合わせるテーマ
+ * ビューア・エディタ共通のベーステーマ
  */
-export const CodemirrorEditorTheme = EditorView.theme({
+export const CodemirrorBaseTheme = EditorView.theme({
   "&": {
     backgroundColor: "var(--color-code)",
     color: "var(--color-ink-secondary)",
@@ -50,6 +50,20 @@ export const CodemirrorEditorTheme = EditorView.theme({
   ".cm-content": {
     fontFamily: "var(--font-geist-mono)",
     padding: "1.5rem",
+  },
+  "&.cm-focused": {
+    outline: "none",
+  },
+  ".cm-scroller": {
+    overflow: "auto",
+  },
+});
+
+/**
+ * ビューア専用のオーバーライド（カーソル・ガター・選択を非表示にする）
+ */
+export const CodemirrorViewerOverrides = EditorView.theme({
+  ".cm-content": {
     caretColor: "transparent",
   },
   ".cm-cursor": {
@@ -63,12 +77,6 @@ export const CodemirrorEditorTheme = EditorView.theme({
   },
   ".cm-selectionBackground": {
     backgroundColor: "transparent !important",
-  },
-  "&.cm-focused": {
-    outline: "none",
-  },
-  ".cm-scroller": {
-    overflow: "auto",
   },
 });
 

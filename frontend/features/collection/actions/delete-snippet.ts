@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { Endpoints } from "@/foundations/definitions";
+import { Endpoints, Routes } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 
 /**
@@ -12,7 +12,7 @@ export const deleteSnippet = async (
 ): Promise<{ success: boolean }> => {
   try {
     await fetcher.delete(Endpoints.MySnippet(slug));
-    revalidatePath("/snippets/mine");
+    revalidatePath(Routes.SnippetMine);
 
     return { success: true };
   } catch {

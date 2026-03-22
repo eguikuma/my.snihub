@@ -6,9 +6,10 @@ import { EditorState, type Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import type { Language } from "@/foundations/definitions";
 import {
-  CodemirrorEditorTheme,
+  CodemirrorBaseTheme,
   CodemirrorHighlightStyles,
   CodemirrorLanguageLoaders,
+  CodemirrorViewerOverrides,
 } from "@/foundations/libraries/codemirror";
 
 /**
@@ -51,7 +52,8 @@ export const CodeViewer = ({ code, language }: CodeViewerProps) => {
       const extensions: Extension[] = [
         EditorView.editable.of(false),
         EditorState.readOnly.of(true),
-        CodemirrorEditorTheme,
+        CodemirrorBaseTheme,
+        CodemirrorViewerOverrides,
         syntaxHighlighting(CodemirrorHighlightStyles),
       ];
 

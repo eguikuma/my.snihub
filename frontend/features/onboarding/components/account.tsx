@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import { Routes } from "@/foundations/definitions";
 import { useDismiss, useToggle } from "@/foundations/hooks";
 import type { User } from "@/foundations/schemas";
 import { useLogout } from "../hooks";
@@ -58,7 +59,7 @@ export const Account = ({ user }: AccountProps) => {
 
           {/* マイスニペット */}
           <Link
-            href="/snippets/mine"
+            href={Routes.SnippetMine}
             onClick={close}
             aria-disabled={isLoggingOut}
             className="block px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink"

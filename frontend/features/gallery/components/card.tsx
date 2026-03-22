@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { LanguageBadge } from "@/foundations/components/language-badge";
 import { TagBadge } from "@/foundations/components/tag-badge";
-import { MAX_PREVIEW_LINES, MAX_VISIBLE_TAGS } from "@/foundations/definitions";
+import {
+  MAX_PREVIEW_LINES,
+  MAX_VISIBLE_TAGS,
+  Routes,
+} from "@/foundations/definitions";
 import { toTruncatedLines } from "@/foundations/libraries/code";
 import { toRelative } from "@/foundations/libraries/date";
 import type { Snippet } from "@/foundations/schemas";
@@ -16,7 +20,7 @@ type CardProps = {
 export const Card = ({ snippet }: CardProps) => {
   return (
     <Link
-      href={`/snippets/${snippet.slug}`}
+      href={Routes.Snippet(snippet.slug)}
       className="flex flex-col justify-between rounded-lg border border-edge bg-surface-raised p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
     >
       {/* タイトル */}

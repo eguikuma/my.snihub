@@ -5,6 +5,7 @@ import {
   MAX_PREVIEW_LINES,
   MAX_VISIBLE_TAGS,
   Referrers,
+  Routes,
 } from "@/foundations/definitions";
 import { toTruncatedLines } from "@/foundations/libraries/code";
 import { toRelative } from "@/foundations/libraries/date";
@@ -31,7 +32,7 @@ export const Card = ({ snippet, onDelete }: CardProps) => {
 
   return (
     <Link
-      href={`/snippets/${snippet.slug}?from=${Referrers.MINE}`}
+      href={`${Routes.Snippet(snippet.slug)}?from=${Referrers.MINE}`}
       className="flex flex-col justify-between rounded-lg border border-edge bg-surface-raised p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
     >
       {/* タイトル + 公開範囲 */}

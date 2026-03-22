@@ -4,3 +4,12 @@
 export const Referrers = {
   MINE: "mine",
 } as const;
+
+/**
+ * アプリ内のルートパス
+ */
+export const Routes = {
+  Home: "/",
+  Snippet: (slug: string): `/snippets/${string}` => `/snippets/${slug}`,
+  SnippetMine: "/snippets/mine",
+} as const;
