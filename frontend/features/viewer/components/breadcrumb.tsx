@@ -1,15 +1,22 @@
+import type { Route } from "next";
 import Link from "next/link";
+import { Referrers } from "@/foundations/definitions";
+
+type BackLink = {
+  href: Route;
+  label: string;
+};
 
 type BreadcrumbProps = {
   title: string;
   from?: string;
 };
 
-const BackLinks: Record<string, { href: string; label: string }> = {
-  mine: { href: "/snippets/mine", label: "マイスニペット" },
+const BackLinks: Record<string, BackLink> = {
+  [Referrers.MINE]: { href: "/snippets/mine", label: "マイスニペット" },
 };
 
-const DefaultBackLink = { href: "/", label: "スニペット一覧" };
+const DefaultBackLink: BackLink = { href: "/", label: "スニペット一覧" };
 
 /**
  * 遷移元に応じた一覧への導線と現在のスニペットタイトルをパンくずリストで表示する

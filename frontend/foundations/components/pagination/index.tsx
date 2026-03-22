@@ -1,5 +1,6 @@
 "use client";
 
+import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import type { PaginationMeta } from "@/foundations/schemas";
@@ -30,7 +31,9 @@ export const Pagination = ({ meta }: PaginationProps) => {
 
     const queryString = nextSearchParams.toString();
 
-    router.push(queryString ? `${pathname}?${queryString}` : pathname);
+    router.push(
+      (queryString ? `${pathname}?${queryString}` : pathname) as Route,
+    );
   };
 
   if (meta.last_page <= 1) return null;

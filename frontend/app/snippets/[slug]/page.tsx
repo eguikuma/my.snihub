@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Referrers } from "@/foundations/definitions";
 import { fetchMySnippet, fetchSnippet } from "@/features/viewer/actions";
 import { Breadcrumb } from "@/features/viewer/components/breadcrumb";
 import { CodeBlock } from "@/features/viewer/components/code-block";
@@ -15,7 +16,7 @@ export const generateMetadata = async ({
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   const from = (resolvedSearchParams.from as string) ?? "";
-  const snippet = await (from === "mine"
+  const snippet = await (from === Referrers.MINE
     ? fetchMySnippet(slug)
     : fetchSnippet(slug));
 
@@ -46,7 +47,7 @@ const Page = async ({
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   const from = (resolvedSearchParams.from as string) ?? "";
-  const snippet = await (from === "mine"
+  const snippet = await (from === Referrers.MINE
     ? fetchMySnippet(slug)
     : fetchSnippet(slug));
 
