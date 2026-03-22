@@ -1,9 +1,9 @@
 "use client";
 
-import type { Statistics } from "@/features/collection/actions/fetch-statistics";
-import { CommandPalette } from "@/features/collection/components/command-palette";
+import type { Statistics } from "../actions/fetch-statistics";
+import { CommandPalette } from "./command-palette";
 
-type CollectionShellProps = {
+type CollectionContainerProps = {
   statistics: Statistics;
   children: React.ReactNode;
 };
@@ -11,12 +11,12 @@ type CollectionShellProps = {
 /**
  * マイスニペット画面のクライアント境界を担い、コマンドパレットと子要素を配置する
  */
-export const CollectionShell = ({
+export const CollectionContainer = ({
   statistics,
   children,
-}: CollectionShellProps) => {
+}: CollectionContainerProps) => {
   return (
-    <div className="flex flex-col gap-4 desktop:gap-6">
+    <div className="flex flex-col gap-4 p-4 desktop:gap-6 desktop:p-6">
       <CommandPalette statistics={statistics} />
       {children}
     </div>

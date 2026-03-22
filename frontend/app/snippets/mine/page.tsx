@@ -3,10 +3,10 @@ import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-c
 import type { Language, Visibility } from "@/foundations/definitions";
 import { fetchMySnippets } from "@/features/collection/actions/fetch-my-snippets";
 import { fetchMySnippetStatistics } from "@/features/collection/actions/fetch-statistics";
+import { CollectionContainer } from "@/features/collection/components/container";
 import { List } from "@/features/collection/components/list";
 import { SearchParameterKeys } from "@/features/collection/definitions/search-parameters";
 import { Guard } from "@/features/onboarding/components/guard";
-import { CollectionShell } from "./collection-shell";
 
 /**
  * 認証ユーザーのスニペット一覧を統計タブ・フィルター付きで表示する
@@ -38,18 +38,16 @@ const Page = async ({
 
   return (
     <Guard>
-      <div className="flex flex-col gap-4 p-4 desktop:gap-6 desktop:p-6">
-        <CollectionShell statistics={statistics}>
-          <Suspense fallback={<SnippetSkeletonCard />}>
-            <List
-              snippets={response.data}
-              meta={response.meta}
-              language={language}
-              isEmpty={statistics.total === 0}
-            />
-          </Suspense>
-        </CollectionShell>
-      </div>
+      <CollectionContainer statistics={statistics}>
+        <Suspense fallback={<SnippetSkeletonCard />}>
+          <List
+            snippets={response.data}
+            meta={response.meta}
+            language={language}
+            isEmpty={statistics.total === 0}
+          />
+        </Suspense>
+      </CollectionContainer>
     </Guard>
   );
 };

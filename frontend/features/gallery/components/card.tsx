@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { LanguageBadge } from "@/foundations/components/language-badge";
 import { TagBadge } from "@/foundations/components/tag-badge";
+import { MAX_PREVIEW_LINES, MAX_VISIBLE_TAGS } from "@/foundations/definitions";
+import { toTruncatedLines } from "@/foundations/libraries/code";
 import { toRelative } from "@/foundations/libraries/date";
 import type { Snippet } from "@/foundations/schemas";
-
-const MAX_VISIBLE_TAGS = 3;
-
-const MAX_PREVIEW_LINES = 3;
 
 type CardProps = {
   snippet: Snippet;
@@ -36,8 +34,8 @@ export const Card = ({ snippet }: CardProps) => {
 
       {/* コードプレビュー */}
       <div className="relative mt-3 h-16 overflow-hidden rounded bg-code">
-        <pre className="p-2 font-mono text-xs leading-relaxed text-ink-secondary">
-          {snippet.code.split("\n").slice(0, MAX_PREVIEW_LINES).join("\n")}
+        <pre className="p-2 font-mono text-xs leading-relaxed text-ink-secondary line-clamp-3 text-ellipsis">
+          {toTruncatedLines(snippet.code, MAX_PREVIEW_LINES).join("\n")}
         </pre>
         <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-code to-transparent" />
       </div>

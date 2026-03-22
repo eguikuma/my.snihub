@@ -1,3 +1,4 @@
+export const OGP_CODE_TRUNCATE_LENGTH = 100;
 export const MAX_CODE_LINES = 12;
 export const MAX_LINE_LENGTH = 60;
 

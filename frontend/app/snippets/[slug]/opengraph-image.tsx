@@ -1,9 +1,6 @@
 import { ImageResponse } from "next/og";
-import { toLanguageLabel } from "@/foundations/libraries/language";
 import { fetchSnippet } from "@/features/viewer/actions";
-import { truncateCode } from "./_opengraph/helpers";
-import { NotFoundCard } from "./_opengraph/not-found-card";
-import { SnippetCard } from "./_opengraph/snippet-card";
+import { NotFoundCard, SnippetCard } from "@/features/viewer/opengraph";
 
 export const alt = "SnipShare";
 export const size = { width: 1200, height: 630 };
@@ -24,15 +21,7 @@ const OpenGraphImage = async ({
     return new ImageResponse(<NotFoundCard />, size);
   }
 
-  return new ImageResponse(
-    <SnippetCard
-      title={snippet.title}
-      languageLabel={toLanguageLabel(snippet.language)}
-      codeLines={truncateCode(snippet.code)}
-      userName={snippet.user.name}
-    />,
-    size,
-  );
+  return new ImageResponse(<SnippetCard snippet={snippet} />, size);
 };
 
 export default OpenGraphImage;

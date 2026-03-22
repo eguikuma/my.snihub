@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-card";
 import { Language } from "@/foundations/definitions";
 import { fetchPublicSnippets } from "@/features/gallery/actions/fetch-public-snippets";
+import { GalleryContainer } from "@/features/gallery/components/container";
 import { List } from "@/features/gallery/components/list";
 import { SearchParameterKeys } from "@/features/gallery/definitions";
-import { GalleryShell } from "./gallery-shell";
 
 /**
  * 検索パラメータをもとに公開スニペット一覧を取得し、ギャラリーとして表示する
@@ -25,7 +25,7 @@ const Page = async ({ searchParams }: PageProps<"/">) => {
   });
 
   return (
-    <GalleryShell>
+    <GalleryContainer>
       <Suspense fallback={<SnippetSkeletonCard />}>
         <List
           snippets={response.data}
@@ -33,7 +33,7 @@ const Page = async ({ searchParams }: PageProps<"/">) => {
           language={language}
         />
       </Suspense>
-    </GalleryShell>
+    </GalleryContainer>
   );
 };
 
