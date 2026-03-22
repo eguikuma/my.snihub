@@ -1,8 +1,8 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { Endpoints, Routes } from "@/foundations/definitions";
+import { CacheProfiles, CacheTags, Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toActionOutcome } from "@/foundations/libraries/outcome";
 import { Slug } from "@/foundations/schemas";
@@ -34,8 +34,8 @@ export const updateSnippet = async (slug: Slug, fields: SnippetRevision) =>
     });
 
     const { data } = UpdateSnippetResponse.parse(response);
-    revalidatePath(Routes.Snippet(slug));
-    revalidatePath(Routes.Snippets);
+    revalidateTag(CacheTags.Snippet(slug), CacheProfiles.Default);
+    revalidateTag(CacheTags.Snippets, CacheProfiles.Default);
 
     return { slug: data.slug };
   });

@@ -1,3 +1,4 @@
+export * from "./cache-tags";
 export * from "./endpoints";
 export * from "./expirations";
 export * from "./languages";

@@ -1,6 +1,6 @@
 import type { ResultAsync } from "neverthrow";
 import { z } from "zod";
-import { Endpoints } from "@/foundations/definitions";
+import { CacheTags, Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
 import { SnippetSummary, withPagination } from "@/foundations/schemas";
@@ -47,7 +47,7 @@ export const fetchPublicSnippets = (
   toOutcome(async () => {
     const response = await fetcher.get(
       `${Endpoints.Snippets}${buildQueryString(parameters)}`,
-      { revalidate: 60 },
+      { tags: [CacheTags.Snippets] },
     );
 
     return PublicSnippetsResponse.parse(response);

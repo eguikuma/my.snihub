@@ -1,8 +1,13 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { Endpoints, Routes } from "@/foundations/definitions";
+import {
+  CacheProfiles,
+  CacheTags,
+  Endpoints,
+  Routes,
+} from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toActionOutcome } from "@/foundations/libraries/outcome";
 import { Slug } from "@/foundations/schemas";
@@ -36,7 +41,7 @@ export const createSnippet = async (fields: SnippetDraft) =>
 
     const { data } = CreateSnippetResponse.parse(response);
     revalidatePath(Routes.SnippetMine);
-    revalidatePath(Routes.Snippets);
+    revalidateTag(CacheTags.Snippets, CacheProfiles.Default);
 
     return { slug: data.slug };
   });
