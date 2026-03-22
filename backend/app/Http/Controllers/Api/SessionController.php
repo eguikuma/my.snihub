@@ -15,7 +15,7 @@ class SessionController extends Controller
     /**
      * 現在のアクセストークンを失効させてログアウトする
      */
-    public function logout(Request $request, LogoutUseCase $useCase): Response
+    public function delete(Request $request, LogoutUseCase $useCase): Response
     {
         $useCase->execute($request->user());
 

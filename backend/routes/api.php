@@ -34,5 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-    Route::delete('sessions/current', [SessionController::class, 'logout'])->name('sessions.destroy');
+    Route::delete('sessions/current', [SessionController::class, 'delete'])->name('sessions.destroy');
 });
