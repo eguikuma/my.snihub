@@ -26,6 +26,7 @@ class SnippetResource extends JsonResource
             'tags' => $this->tags->pluck('name')->all(),
             'user' => [
                 'name' => $this->user->name,
+                'avatar_url' => $this->user->avatar_url,
             ],
             'is_owner' => $request->user()?->id === $this->user_id,
             'created_at' => $this->created_at->toIso8601String(),
