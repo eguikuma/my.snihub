@@ -7,12 +7,19 @@ use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\SnippetController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Middleware\CachePublicResponse;
 use Illuminate\Support\Facades\Route;
 
 Route::get('health', fn () => response()->json(['status' => 'ok']))->name('health');
 
+Route::middleware(CachePublicResponse::class)->group(function () {
+    Route::prefix('snippets')->name('snippets.')->group(function () {
+        Route::get('/', [SnippetController::class, 'index'])->name('index');
+        Route::get('{slug}', [SnippetController::class, 'show'])->name('show');
+    });
 
-Route::get('tags', [TagController::class, 'index'])->name('tags.index');
+    Route::get('tags', [TagController::class, 'index'])->name('tags.index');
+});
 
 Route::prefix('sessions/oauth')->name('sessions.oauth.')->middleware('throttle:oauth')->group(function () {
     Route::post('github', [GithubOAuthController::class, 'authenticate'])->name('github');

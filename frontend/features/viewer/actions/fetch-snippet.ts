@@ -14,7 +14,9 @@ const SnippetResponse = z.object({
  */
 export const fetchSnippet = (slug: Slug): ResultAsync<Snippet, OutcomeError> =>
   toOutcome(async () => {
-    const response = await fetcher.get(Endpoints.Snippet(slug));
+    const response = await fetcher.get(Endpoints.Snippet(slug), {
+      revalidate: 60,
+    });
 
     return SnippetResponse.parse(response).data;
   });

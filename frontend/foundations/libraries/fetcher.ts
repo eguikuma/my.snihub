@@ -9,6 +9,7 @@ const BACKEND_URL = process.env.BACKEND_URL;
 
 type RequestOptions = Omit<RequestInit, "method" | "headers"> & {
   headers?: Record<string, string>;
+  revalidate?: number | false;
 };
 
 const buildUrl = (path: string): string => {
@@ -68,11 +69,13 @@ const sendRequest = async (
   path: string,
   options: RequestOptions = {},
 ): Promise<unknown> => {
+  const { revalidate, ...fetchOptions } = options;
   const url = buildUrl(path);
   const response = await fetch(url, {
-    ...options,
+    ...fetchOptions,
     method,
-    headers: await buildHeaders(options.headers),
+    headers: await buildHeaders(fetchOptions.headers),
+    ...(revalidate !== undefined && { next: { revalidate } }),
   });
 
   return parseResponse(response);
