@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { fetchSnippet } from "@/features/viewer/actions";
+import { fetchMySnippet, fetchSnippet } from "@/features/viewer/actions";
 import { Breadcrumb } from "@/features/viewer/components/breadcrumb";
 import { CodeBlock } from "@/features/viewer/components/code-block";
 import { MetaBar } from "@/features/viewer/components/meta-bar";
@@ -10,9 +10,14 @@ const OGP_CODE_TRUNCATE_LENGTH = 100;
 
 export const generateMetadata = async ({
   params,
+  searchParams,
 }: PageProps<"/snippets/[slug]">): Promise<Metadata> => {
   const { slug } = await params;
-  const snippet = await fetchSnippet(slug);
+  const resolvedSearchParams = await searchParams;
+  const from = (resolvedSearchParams.from as string) ?? "";
+  const snippet = await (from === "mine"
+    ? fetchMySnippet(slug)
+    : fetchSnippet(slug));
 
   if (!snippet) {
     return { title: "スニペットが見つかりません | SnipShare" };
@@ -41,7 +46,9 @@ const Page = async ({
   const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   const from = (resolvedSearchParams.from as string) ?? "";
-  const snippet = await fetchSnippet(slug);
+  const snippet = await (from === "mine"
+    ? fetchMySnippet(slug)
+    : fetchSnippet(slug));
 
   if (!snippet) {
     return <NotFound />;
