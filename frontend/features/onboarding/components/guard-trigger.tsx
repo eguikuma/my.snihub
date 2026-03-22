@@ -10,7 +10,7 @@ export const GuardTrigger = () => {
   const open = useLoginOverlay((state) => state.open);
 
   useEffect(() => {
-    open();
+    open({ isForceNonClosing: true });
   }, [open]);
 
   return null;

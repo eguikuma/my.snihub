@@ -11,7 +11,7 @@ export const LoginButton = () => {
   return (
     <button
       type="button"
-      onClick={open}
+      onClick={() => open()}
       className="rounded-md px-3 py-1 text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink"
     >
       ログイン

@@ -4,7 +4,8 @@ import { create } from "zustand";
 
 type LoginOverlayState = {
   isOpen: boolean;
-  open: () => void;
+  isForceNonClosing: boolean;
+  open: (options?: { isForceNonClosing?: boolean }) => void;
   close: () => void;
 };
 
@@ -13,6 +14,8 @@ type LoginOverlayState = {
  */
 export const useLoginOverlay = create<LoginOverlayState>((set) => ({
   isOpen: false,
-  open: () => set({ isOpen: true }),
+  isForceNonClosing: false,
+  open: (options = { isForceNonClosing: false }) =>
+    set({ isOpen: true, isForceNonClosing: options.isForceNonClosing }),
   close: () => set({ isOpen: false }),
 }));
