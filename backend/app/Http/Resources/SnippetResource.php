@@ -27,6 +27,7 @@ class SnippetResource extends JsonResource
             'user' => [
                 'name' => $this->user->name,
             ],
+            'is_owner' => $request->user()?->id === $this->user_id,
             'created_at' => $this->created_at->toIso8601String(),
             'updated_at' => $this->updated_at->toIso8601String(),
         ];
