@@ -13,6 +13,7 @@ export const deleteSnippet = async (slug: Slug) =>
   toActionOutcome(async () => {
     await fetcher.delete(Endpoints.MySnippet(slug));
     revalidatePath(Routes.SnippetMine);
+    revalidatePath(Routes.Snippets);
 
     return {};
   });

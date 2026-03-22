@@ -35,6 +35,7 @@ export const updateSnippet = async (slug: Slug, fields: SnippetRevision) =>
 
     const { data } = UpdateSnippetResponse.parse(response);
     revalidatePath(Routes.Snippet(slug));
+    revalidatePath(Routes.Snippets);
 
     return { slug: data.slug };
   });

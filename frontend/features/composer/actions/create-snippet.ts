@@ -36,6 +36,7 @@ export const createSnippet = async (fields: SnippetDraft) =>
 
     const { data } = CreateSnippetResponse.parse(response);
     revalidatePath(Routes.SnippetMine);
+    revalidatePath(Routes.Snippets);
 
     return { slug: data.slug };
   });
