@@ -125,6 +125,20 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
+    public function paginateで、キーワード検索がタグ名にも適用されること(): void
+    {
+        $tag = Tag::factory()->create(['name' => 'laravel']);
+        $taggedSnippet = Snippet::factory()->create();
+        $taggedSnippet->tags()->attach($tag);
+        Snippet::factory()->create();
+
+        $result = $this->repository->paginate(new SnippetSearchDto(keyword: 'laravel'), 20);
+
+        $this->assertCount(1, $result->items());
+        $this->assertTrue($result->items()[0]->is($taggedSnippet));
+    }
+
+    #[Test]
     public function paginateで、ユーザーフィルタが適用されること(): void
     {
         $user = User::factory()->create();
