@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-card";
 import type { Language, Visibility } from "@/foundations/definitions";
+import { throwOutcomeError } from "@/foundations/libraries/outcome";
 import { fetchMySnippetStatistics } from "@/features/collection/actions/fetch-my-snippet-statistics";
 import { fetchMySnippets } from "@/features/collection/actions/fetch-my-snippets";
 import { CollectionContainer } from "@/features/collection/components/container";
@@ -26,7 +27,7 @@ const Page = async ({
     (resolvedSearchParams[SearchParameterKeys.Visibility] as Visibility) ?? "";
   const page = Number(resolvedSearchParams[SearchParameterKeys.Page] ?? "1");
 
-  const [response, statistics] = await Promise.all([
+  const [mySnippets, mySnippetStatistics] = await Promise.all([
     fetchMySnippets({
       keyword: keyword || undefined,
       language: language || undefined,
@@ -36,15 +37,23 @@ const Page = async ({
     fetchMySnippetStatistics(),
   ]);
 
+  if (mySnippets.isErr()) {
+    return throwOutcomeError(mySnippets.error);
+  }
+
+  if (mySnippetStatistics.isErr()) {
+    return throwOutcomeError(mySnippetStatistics.error);
+  }
+
   return (
     <Guard>
-      <CollectionContainer statistics={statistics}>
+      <CollectionContainer statistics={mySnippetStatistics.value}>
         <Suspense fallback={<SnippetSkeletonCard />}>
           <List
-            snippets={response.data}
-            meta={response.meta}
+            snippets={mySnippets.value.data}
+            meta={mySnippets.value.meta}
             language={language}
-            isEmpty={statistics.total === 0}
+            isEmpty={mySnippetStatistics.value.total === 0}
           />
         </Suspense>
       </CollectionContainer>

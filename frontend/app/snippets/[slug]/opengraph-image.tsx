@@ -15,13 +15,12 @@ const OpenGraphImage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const snippet = await fetchSnippet(slug);
+  const publicSnippet = await fetchSnippet(slug);
 
-  if (!snippet) {
-    return new ImageResponse(<NotFoundCard />, size);
-  }
-
-  return new ImageResponse(<SnippetCard snippet={snippet} />, size);
+  return publicSnippet.match(
+    (snippet) => new ImageResponse(<SnippetCard snippet={snippet} />, size),
+    () => new ImageResponse(<NotFoundCard />, size),
+  );
 };
 
 export default OpenGraphImage;

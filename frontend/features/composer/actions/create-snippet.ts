@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { Endpoints, Routes } from "@/foundations/definitions";
-import { fetcher, toActionResult } from "@/foundations/libraries/fetcher";
+import { fetcher } from "@/foundations/libraries/fetcher";
+import { toActionOutcome } from "@/foundations/libraries/outcome";
 import type { SnippetDraft } from "@/features/composer/schemas";
 
 /**
@@ -19,7 +20,7 @@ const CreateSnippetResponse = z.object({
  * スニペットを新規作成し、成功時はslugを返す
  */
 export const createSnippet = async (fields: SnippetDraft) =>
-  toActionResult(async () => {
+  toActionOutcome(async () => {
     const response = await fetcher.post(Endpoints.MySnippets, {
       body: JSON.stringify({
         title: fields.title,

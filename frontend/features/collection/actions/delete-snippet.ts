@@ -2,13 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { Endpoints, Routes } from "@/foundations/definitions";
-import { fetcher, toActionResult } from "@/foundations/libraries/fetcher";
+import { fetcher } from "@/foundations/libraries/fetcher";
+import { toActionOutcome } from "@/foundations/libraries/outcome";
 
 /**
  * 指定されたスニペットを削除し、マイスニペット一覧を再検証する
  */
 export const deleteSnippet = async (slug: string) =>
-  toActionResult(async () => {
+  toActionOutcome(async () => {
     await fetcher.delete(Endpoints.MySnippet(slug));
     revalidatePath(Routes.SnippetMine);
 

@@ -21,17 +21,20 @@ const Page = async ({ params }: PageProps<"/snippets/[slug]">) => {
   const { slug } = await params;
   const currentSession = await session.get();
 
-  let snippet = currentSession.token ? await fetchMySnippet(slug) : null;
+  const mySnippet = currentSession.token
+    ? await fetchMySnippet(slug)
+    : undefined;
 
-  if (!snippet) {
-    snippet = await fetchSnippet(slug);
+  if (mySnippet?.isOk()) {
+    return <ViewerContainer snippet={mySnippet.value} />;
   }
 
-  if (!snippet) {
-    return <NotFound />;
-  }
+  const publicSnippet = await fetchSnippet(slug);
 
-  return <ViewerContainer snippet={snippet} />;
+  return publicSnippet.match(
+    (snippet) => <ViewerContainer snippet={snippet} />,
+    () => <NotFound />,
+  );
 };
 
 export default Page;

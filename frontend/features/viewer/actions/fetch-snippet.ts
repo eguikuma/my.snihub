@@ -1,6 +1,8 @@
+import type { ResultAsync } from "neverthrow";
 import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
+import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
 import { Snippet } from "@/foundations/schemas";
 
 const SnippetResponse = z.object({
@@ -8,14 +10,13 @@ const SnippetResponse = z.object({
 });
 
 /**
- * 指定されたslugのスニペットをバックエンドから取得し、失敗時はnullを返す
+ * 指定されたslugのスニペットをバックエンドから取得する
  */
-export const fetchSnippet = async (slug: string): Promise<Snippet | null> => {
-  try {
+export const fetchSnippet = (
+  slug: string,
+): ResultAsync<Snippet, OutcomeError> =>
+  toOutcome(async () => {
     const response = await fetcher.get(Endpoints.Snippet(slug));
 
     return SnippetResponse.parse(response).data;
-  } catch {
-    return null;
-  }
-};
+  });

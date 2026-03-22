@@ -1,6 +1,8 @@
+import type { ResultAsync } from "neverthrow";
 import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
+import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
 import { Snippet, withPagination } from "@/foundations/schemas";
 import {
   PER_PAGE,
@@ -37,26 +39,15 @@ const buildQueryString = (parameters: SearchParameters): string => {
 const PublicSnippetsResponse = withPagination(z.array(Snippet));
 
 /**
- * 公開スニペット一覧をバックエンドから取得し、失敗時は空の結果を返す
+ * 公開スニペット一覧をバックエンドから取得する
  */
-export const fetchPublicSnippets = async (
+export const fetchPublicSnippets = (
   parameters: SearchParameters = {},
-): Promise<z.infer<typeof PublicSnippetsResponse>> => {
-  try {
+): ResultAsync<z.infer<typeof PublicSnippetsResponse>, OutcomeError> =>
+  toOutcome(async () => {
     const response = await fetcher.get(
       `${Endpoints.Snippets}${buildQueryString(parameters)}`,
     );
 
     return PublicSnippetsResponse.parse(response);
-  } catch {
-    return {
-      data: [],
-      meta: {
-        current_page: 1,
-        last_page: 1,
-        per_page: PER_PAGE,
-        total: 0,
-      },
-    };
-  }
-};
+  });

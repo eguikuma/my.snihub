@@ -1,4 +1,3 @@
-import { StatusCodes } from "http-status-codes";
 import {
   BackendFailure,
   BackendUnreadable,
@@ -91,29 +90,4 @@ export const fetcher = {
     sendRequest("PUT", path, options),
   delete: (path: string, options?: RequestOptions) =>
     sendRequest("DELETE", path, options),
-};
-
-export type ActionResult<T = Record<string, never>> =
-  | ({ success: true } & T)
-  | { success: false; errors: Record<string, string[]> | null };
-
-/**
- * 非同期処理を実行し、BackendFailureをActionResultに変換する
- */
-export const toActionResult = async <T extends Record<string, unknown>>(
-  execute: () => Promise<T>,
-): Promise<ActionResult<T>> => {
-  try {
-    const data = await execute();
-    return { success: true, ...data };
-  } catch (error) {
-    if (
-      error instanceof BackendFailure &&
-      error.status === StatusCodes.UNPROCESSABLE_ENTITY &&
-      error.errors
-    ) {
-      return { success: false, errors: error.errors };
-    }
-    return { success: false, errors: null };
-  }
 };

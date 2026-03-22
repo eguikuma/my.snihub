@@ -1,6 +1,8 @@
+import type { ResultAsync } from "neverthrow";
 import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
+import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
 
 const StatisticsResponse = z.object({
   total: z.number(),
@@ -12,19 +14,14 @@ const StatisticsResponse = z.object({
 export type Statistics = z.infer<typeof StatisticsResponse>;
 
 /**
- * 認証ユーザーのスニペット統計をバックエンドから取得し、失敗時はすべて0を返す
+ * 認証ユーザーのスニペット統計をバックエンドから取得する
  */
-export const fetchMySnippetStatistics = async (): Promise<Statistics> => {
-  try {
+export const fetchMySnippetStatistics = (): ResultAsync<
+  Statistics,
+  OutcomeError
+> =>
+  toOutcome(async () => {
     const response = await fetcher.get(Endpoints.MySnippetStatistics);
 
     return StatisticsResponse.parse(response);
-  } catch {
-    return {
-      total: 0,
-      public: 0,
-      unlisted: 0,
-      private: 0,
-    };
-  }
-};
+  });

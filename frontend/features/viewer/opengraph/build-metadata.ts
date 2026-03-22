@@ -4,34 +4,43 @@ import { fetchMySnippet } from "../actions/fetch-my-snippet";
 import { fetchSnippet } from "../actions/fetch-snippet";
 import { OGP_CODE_TRUNCATE_LENGTH } from "./definitions";
 
+const NOT_FOUND_METADATA: Metadata = {
+  title: "スニペットが見つかりません | SnipShare",
+};
+
 /**
  * スニペットの情報をもとに OGP メタデータを構築する
  */
 export const buildSnippetMetadata = async (slug: string): Promise<Metadata> => {
   const currentSession = await session.get();
-  let snippet = null;
 
   if (currentSession.token) {
-    snippet = await fetchMySnippet(slug);
+    const mySnippet = await fetchMySnippet(slug);
+
+    if (mySnippet.isOk()) {
+      const snippet = mySnippet.value;
+      const description =
+        snippet.description ?? snippet.code.slice(0, OGP_CODE_TRUNCATE_LENGTH);
+
+      return {
+        title: `${snippet.title} | SnipShare`,
+        openGraph: { title: snippet.title, description, type: "article" },
+      };
+    }
   }
 
-  if (!snippet) {
-    snippet = await fetchSnippet(slug);
+  const publicSnippet = await fetchSnippet(slug);
+
+  if (publicSnippet.isErr()) {
+    return NOT_FOUND_METADATA;
   }
 
-  if (!snippet) {
-    return { title: "スニペットが見つかりません | SnipShare" };
-  }
-
+  const snippet = publicSnippet.value;
   const description =
     snippet.description ?? snippet.code.slice(0, OGP_CODE_TRUNCATE_LENGTH);
 
   return {
     title: `${snippet.title} | SnipShare`,
-    openGraph: {
-      title: snippet.title,
-      description,
-      type: "article",
-    },
+    openGraph: { title: snippet.title, description, type: "article" },
   };
 };
