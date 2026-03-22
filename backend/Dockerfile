@@ -22,7 +22,7 @@ WORKDIR /var/www/html
 
 # 依存パッケージのインストール
 COPY composer.json composer.lock* ./
-RUN if [ -f composer.json ]; then composer install --no-scripts --no-autoloader; fi
+RUN if [ -f composer.json ]; then composer install --no-dev --no-scripts --no-autoloader; fi
 
 COPY . .
 
@@ -36,4 +36,4 @@ USER appuser
 
 EXPOSE 8000
 
-CMD php artisan migrate --force && (php artisan db:seed --class=LocalSeeder --force &) && php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
