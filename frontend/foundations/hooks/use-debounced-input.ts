@@ -13,17 +13,19 @@ export const useDebouncedInput = (
 ) => {
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
   const [isPending, setIsPending] = useState(false);
+  const [lastCommitted, setLastCommitted] = useState(externalValue);
 
   const [inputValue, setInputValue] = useState(externalValue);
 
   /**
-   * デバウンス中でなければ外部値の変更をローカル値に同期する
+   * 外部値が最後のコミット値と一致するか、デバウンス中でなければ同期する
    */
   const [previousValue, setPreviousValue] = useState(externalValue);
   if (externalValue !== previousValue) {
     setPreviousValue(externalValue);
-    if (!isPending) {
+    if (externalValue === lastCommitted || !isPending) {
       setInputValue(externalValue);
+      setIsPending(false);
     }
   }
 
@@ -37,14 +39,15 @@ export const useDebouncedInput = (
     }
 
     timerRef.current = setTimeout(() => {
+      setLastCommitted(value);
       onCommit(value);
-      setIsPending(false);
     }, DEBOUNCE_DELAY);
   };
 
   const handleClear = () => {
     setInputValue("");
     setIsPending(false);
+    setLastCommitted("");
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
