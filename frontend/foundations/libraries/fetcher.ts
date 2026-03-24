@@ -6,8 +6,9 @@ import {
 import { session } from "./sessions";
 
 const BACKEND_URL = process.env.BACKEND_URL;
+const FETCH_TIMEOUT_MS = 60_000;
 
-type RequestOptions = Omit<RequestInit, "method" | "headers"> & {
+type RequestOptions = Omit<RequestInit, "method" | "headers" | "signal"> & {
   headers?: Record<string, string>;
   revalidate?: number | false;
   tags?: string[];
@@ -84,6 +85,7 @@ const sendRequest = async (
     ...fetchOptions,
     method,
     headers: await buildHeaders(fetchOptions.headers, anonymous),
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     ...(Object.keys(next).length > 0 && { next }),
   });
 
