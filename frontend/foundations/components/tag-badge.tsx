@@ -5,6 +5,7 @@ import clsx from "clsx";
 type TagBadgeProps = {
   name: string;
   selected?: boolean;
+  truncated?: boolean;
   onClick?: () => void;
 };
 
@@ -14,10 +15,13 @@ type TagBadgeProps = {
 export const TagBadge = ({
   name,
   selected = false,
+  truncated = true,
   onClick,
 }: TagBadgeProps) => {
-  const baseClassName =
-    "rounded-full px-3 py-1 text-xs font-semibold transition-colors duration-150";
+  const baseClassName = clsx(
+    "max-w-full rounded-full px-3 py-1 text-xs font-semibold transition-colors duration-150",
+    truncated ? "truncate" : "break-words",
+  );
 
   const colorClassName = selected
     ? "bg-tag text-surface"

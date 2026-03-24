@@ -33,7 +33,7 @@ export const ActionBar = ({
       disabled={disabled || isSubmitting}
       onClick={onSubmit}
       className={clsx(
-        "flex items-center gap-2 rounded-lg px-6 py-2 text-sm font-medium text-white transition-colors",
+        "flex min-w-28 items-center justify-center gap-2 rounded-lg px-6 py-2 text-sm font-medium text-white transition-colors",
         disabled || isSubmitting
           ? "cursor-not-allowed bg-accent/50"
           : "bg-accent hover:bg-accent/90",

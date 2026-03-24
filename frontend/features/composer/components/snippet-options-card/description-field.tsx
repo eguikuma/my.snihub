@@ -35,7 +35,7 @@ export const DescriptionField = ({
         onChange={(event) => onChange(event.target.value)}
         rows={3}
         className={clsx(
-          "resize-none overflow-hidden rounded-lg border bg-surface-raised px-3 py-2 text-sm text-ink outline-none transition-colors focus:ring-3",
+          "resize-none overflow-hidden rounded-lg border bg-surface-raised px-3 py-2 text-base tablet:text-sm text-ink outline-none transition-colors focus:ring-3",
           errorMessage
             ? "border-danger focus:ring-danger/8"
             : "border-edge focus:border-accent focus:ring-accent/10",

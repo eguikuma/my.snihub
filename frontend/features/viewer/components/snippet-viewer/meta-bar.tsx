@@ -8,9 +8,9 @@ type MetaBarProps = {
  */
 export const MetaBar = ({ title, description }: MetaBarProps) => (
   <div className="flex flex-col gap-3">
-    <h1 className="text-xl font-bold text-ink">{title}</h1>
+    <h1 className="break-words text-xl font-bold text-ink">{title}</h1>
     {description && (
-      <p className="whitespace-pre-wrap text-sm leading-relaxed text-ink-secondary">
+      <p className="break-words whitespace-pre-wrap text-sm leading-relaxed text-ink-secondary">
         {description}
       </p>
     )}

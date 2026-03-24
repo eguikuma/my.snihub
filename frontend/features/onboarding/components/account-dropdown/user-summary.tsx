@@ -8,7 +8,7 @@ type UserSummaryProps = {
  */
 export const UserSummary = ({ name, email }: UserSummaryProps) => (
   <div className="px-4 py-2">
-    <p className="text-sm font-medium text-ink">{name}</p>
-    {email && <p className="text-xs text-ink-muted">{email}</p>}
+    <p className="truncate text-sm font-medium text-ink">{name}</p>
+    {email && <p className="truncate text-xs text-ink-muted">{email}</p>}
   </div>
 );

@@ -13,7 +13,7 @@ export const Author = ({ name, avatarUrl }: AuthorProps) => (
     <h2 className="text-xs font-medium text-ink-muted">作成者</h2>
     <div className="flex items-center gap-2">
       <UserAvatar name={name} avatarUrl={avatarUrl} size={28} />
-      <span className="text-sm text-ink">{name}</span>
+      <span className="min-w-0 break-words text-sm text-ink">{name}</span>
     </div>
   </section>
 );

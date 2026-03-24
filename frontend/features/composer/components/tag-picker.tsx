@@ -63,7 +63,7 @@ export const TagPicker = ({ tags, onChange, hasError }: TagPickerProps) => {
         maxLength={SnippetDraftLimits.TagMax}
         disabled={isAtLimit}
         className={clsx(
-          "min-w-[80px] flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink-muted",
+          "min-w-[80px] flex-1 bg-transparent text-base tablet:text-sm text-ink outline-none placeholder:text-ink-muted",
           isAtLimit && "hidden",
         )}
       />

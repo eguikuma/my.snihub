@@ -8,7 +8,7 @@ type RootProps = {
  * サイドバーの外枠コンテナを提供する
  */
 export const Root = ({ children }: RootProps) => (
-  <aside className="relative flex h-fit flex-col gap-6 rounded-lg border border-edge bg-surface-raised p-4">
+  <aside className="relative flex h-fit flex-col gap-6 overflow-hidden rounded-lg border border-edge bg-surface-raised p-4">
     {children}
   </aside>
 );

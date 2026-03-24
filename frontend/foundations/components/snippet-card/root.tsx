@@ -37,7 +37,7 @@ export const Root = ({ href, expiresAt, children }: RootProps) => {
             ? `${toRelative(expiresAt)}に期限が切れます`
             : "このスニペットは無期限です"}
       </div>
-      <div className="flex flex-1 flex-col justify-between p-5">{children}</div>
+      <div className="flex flex-1 flex-col p-5">{children}</div>
     </Link>
   );
 };
