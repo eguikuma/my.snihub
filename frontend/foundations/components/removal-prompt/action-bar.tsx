@@ -1,3 +1,5 @@
+import { ButtonSpinner } from "../button-spinner";
+
 type ActionBarProps = {
   isPending: boolean;
   submitLabel: string;
@@ -19,8 +21,9 @@ export const ActionBar = ({
       type="button"
       onClick={onSubmit}
       disabled={isPending}
-      className="w-full rounded-lg bg-danger px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+      className="flex w-full items-center justify-center gap-2 rounded-lg bg-danger px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
     >
+      {isPending && <ButtonSpinner />}
       {submitLabel}
     </button>
     <button

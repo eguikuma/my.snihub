@@ -46,6 +46,7 @@ export const Account = ({ user }: AccountProps) => {
           <AccountDropdown.ActionItem
             onClick={handleLogout}
             disabled={isLoggingOut}
+            isLoading={isLoggingOut}
           >
             ログアウト
           </AccountDropdown.ActionItem>

@@ -1,5 +1,8 @@
+import { ButtonSpinner } from "@/foundations/components/button-spinner";
+
 type ActionItemProps = {
   disabled?: boolean;
+  isLoading?: boolean;
   onClick: () => void;
   children: React.ReactNode;
 };
@@ -9,6 +12,7 @@ type ActionItemProps = {
  */
 export const ActionItem = ({
   disabled,
+  isLoading = false,
   onClick,
   children,
 }: ActionItemProps) => (
@@ -16,8 +20,9 @@ export const ActionItem = ({
     type="button"
     onClick={onClick}
     disabled={disabled}
-    className="w-full px-4 py-2 text-left text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink disabled:opacity-50"
+    className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-ink-secondary transition-colors hover:bg-surface-hover hover:text-ink disabled:opacity-50"
   >
+    {isLoading && <ButtonSpinner />}
     {children}
   </button>
 );

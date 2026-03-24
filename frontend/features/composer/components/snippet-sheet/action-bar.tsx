@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { ButtonSpinner } from "@/foundations/components/button-spinner";
 
 type ActionBarProps = {
   disabled: boolean;
@@ -22,7 +23,8 @@ export const ActionBar = ({
     <button
       type="button"
       onClick={onCancel}
-      className="rounded-lg px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover"
+      disabled={isSubmitting}
+      className="rounded-lg px-4 py-2 text-sm text-ink-secondary transition-colors hover:bg-surface-hover disabled:opacity-50"
     >
       キャンセル
     </button>
@@ -31,12 +33,13 @@ export const ActionBar = ({
       disabled={disabled || isSubmitting}
       onClick={onSubmit}
       className={clsx(
-        "rounded-lg px-6 py-2 text-sm font-medium text-white transition-colors",
+        "flex items-center gap-2 rounded-lg px-6 py-2 text-sm font-medium text-white transition-colors",
         disabled || isSubmitting
           ? "cursor-not-allowed bg-accent/50"
           : "bg-accent hover:bg-accent/90",
       )}
     >
+      {isSubmitting && <ButtonSpinner />}
       {submitLabel}
     </button>
   </div>
