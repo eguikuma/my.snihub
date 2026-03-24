@@ -36,7 +36,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
     },
     description: "コードスニペット共有サービス",
     themeColor: ThemeAccentColors[themeId],
-    icons: { icon: favicon.toDataUrl(ThemeAccentColors[themeId]) },
+    icons: {
+      icon: favicon.toDataUrl(ThemeAccentColors[themeId]),
+      apple: "/apple-icon.png",
+    },
   };
 };
 
