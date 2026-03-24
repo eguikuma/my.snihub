@@ -15,10 +15,12 @@ class CachePublicResponse
     {
         $response = $next($request);
 
-        $response->headers->set(
-            'Cache-Control',
-            'public, s-maxage=300, stale-while-revalidate=600',
-        );
+        if ($response->isSuccessful()) {
+            $response->headers->set(
+                'Cache-Control',
+                'public, s-maxage=300, stale-while-revalidate=600',
+            );
+        }
 
         return $response;
     }

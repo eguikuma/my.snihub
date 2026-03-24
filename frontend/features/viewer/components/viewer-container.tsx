@@ -1,3 +1,4 @@
+import { throwOutcomeError } from "@/foundations/libraries/outcome";
 import { session } from "@/foundations/libraries/sessions";
 import { Slug } from "@/foundations/schemas";
 import { fetchMySnippet } from "../actions/fetch-my-snippet";
@@ -29,7 +30,8 @@ export const ViewerContainer = async ({ params }: ViewerContainerProps) => {
 
     return publicSnippet.match(
       (snippet) => <ViewerLayout snippet={snippet} />,
-      () => <NotFound />,
+      (error) =>
+        error.kind === "not_found" ? <NotFound /> : throwOutcomeError(error),
     );
   }
 
@@ -37,6 +39,7 @@ export const ViewerContainer = async ({ params }: ViewerContainerProps) => {
 
   return publicSnippet.match(
     (snippet) => <ViewerLayout snippet={snippet} />,
-    () => <NotFound />,
+    (error) =>
+      error.kind === "not_found" ? <NotFound /> : throwOutcomeError(error),
   );
 };
