@@ -2,6 +2,7 @@
 
 import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 
 type UseSearchParametersOptions = {
   /**
@@ -19,6 +20,7 @@ export const useSearchParameters = (
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
   const { resetKeys = [] } = options;
 
   const get = (key: string) => searchParams.get(key) ?? "";
@@ -37,10 +39,12 @@ export const useSearchParameters = (
     }
 
     const queryString = nextParameters.toString();
-    router.replace(
-      (queryString ? `${pathname}?${queryString}` : pathname) as Route,
-    );
+    startTransition(() => {
+      router.replace(
+        (queryString ? `${pathname}?${queryString}` : pathname) as Route,
+      );
+    });
   };
 
-  return { get, update } as const;
+  return { get, update, isPending } as const;
 };

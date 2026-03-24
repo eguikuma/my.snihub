@@ -7,7 +7,7 @@ import { SearchParameterKeys } from "../definitions";
  * ギャラリーのキーワード検索と言語フィルターのロジックを提供する
  */
 export const useGalleryFilter = () => {
-  const { get, update } = useSearchParameters({
+  const { get, update, isPending } = useSearchParameters({
     resetKeys: [SearchParameterKeys.Page],
   });
 
@@ -28,6 +28,7 @@ export const useGalleryFilter = () => {
   const resetLanguage = () => update(SearchParameterKeys.Language, "");
 
   return {
+    isPending,
     keyword: {
       value: inputValue,
       onChange: handleChange,

@@ -2,6 +2,7 @@
 
 import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 import clsx from "clsx";
 import type { PaginationMeta } from "../../schemas";
 import { buildPageNumbers } from "./page-numbers";
@@ -19,6 +20,7 @@ export const Pagination = ({ meta }: PaginationProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const navigateToPage = (page: number) => {
     const nextSearchParams = new URLSearchParams(searchParams.toString());
@@ -31,9 +33,11 @@ export const Pagination = ({ meta }: PaginationProps) => {
 
     const queryString = nextSearchParams.toString();
 
-    router.push(
-      (queryString ? `${pathname}?${queryString}` : pathname) as Route,
-    );
+    startTransition(() => {
+      router.push(
+        (queryString ? `${pathname}?${queryString}` : pathname) as Route,
+      );
+    });
   };
 
   if (meta.last_page <= 1) return null;
@@ -46,7 +50,7 @@ export const Pagination = ({ meta }: PaginationProps) => {
       <button
         type="button"
         onClick={() => navigateToPage(meta.current_page - 1)}
-        disabled={meta.current_page <= 1}
+        disabled={isPending || meta.current_page <= 1}
         className="rounded-md px-2.5 py-1.5 text-sm text-ink-secondary transition-colors hover:bg-surface-hover disabled:pointer-events-none disabled:opacity-40"
       >
         前へ
@@ -80,7 +84,7 @@ export const Pagination = ({ meta }: PaginationProps) => {
       <button
         type="button"
         onClick={() => navigateToPage(meta.current_page + 1)}
-        disabled={meta.current_page >= meta.last_page}
+        disabled={isPending || meta.current_page >= meta.last_page}
         className="rounded-md px-2.5 py-1.5 text-sm text-ink-secondary transition-colors hover:bg-surface-hover disabled:pointer-events-none disabled:opacity-40"
       >
         次へ

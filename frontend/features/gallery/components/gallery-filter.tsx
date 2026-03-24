@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import clsx from "clsx";
 import { LanguageChips } from "@/foundations/components/language-chips";
 import { SearchInput } from "@/foundations/components/search-input";
 import { useGalleryFilter } from "../hooks";
@@ -14,7 +15,7 @@ type GalleryFilterProps = {
  * ギャラリー画面のクライアント境界を担い、フィルターパネルと子要素を配置する
  */
 export const GalleryFilter = ({ children }: GalleryFilterProps) => {
-  const { keyword, language } = useGalleryFilter();
+  const { isPending, keyword, language } = useGalleryFilter();
 
   return (
     <GalleryShell.Root>
@@ -30,7 +31,14 @@ export const GalleryFilter = ({ children }: GalleryFilterProps) => {
           onReset={language.onReset}
         />
       </GalleryShell.FilterPanel>
-      {children}
+      <div
+        className={clsx(
+          "transition-opacity duration-200",
+          isPending && "pointer-events-none opacity-60",
+        )}
+      >
+        {children}
+      </div>
     </GalleryShell.Root>
   );
 };

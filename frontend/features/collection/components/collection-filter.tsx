@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import clsx from "clsx";
 import { LanguageChips } from "@/foundations/components/language-chips";
 import { SearchInput } from "@/foundations/components/search-input";
 import type { Statistics } from "../actions/fetch-my-snippet-statistics";
@@ -20,7 +21,7 @@ export const CollectionFilter = ({
   statistics,
   children,
 }: CollectionFilterProps) => {
-  const { keyword, language, visibility } = useCollectionFilter();
+  const { isPending, keyword, language, visibility } = useCollectionFilter();
 
   return (
     <CollectionShell.Root>
@@ -42,7 +43,14 @@ export const CollectionFilter = ({
           onReset={visibility.onReset}
         />
       </CollectionShell.FilterPanel>
-      {children}
+      <div
+        className={clsx(
+          "transition-opacity duration-200",
+          isPending && "pointer-events-none opacity-60",
+        )}
+      >
+        {children}
+      </div>
     </CollectionShell.Root>
   );
 };

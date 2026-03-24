@@ -7,7 +7,7 @@ import { SearchParameterKeys } from "../definitions";
  * マイスニペットのキーワード検索・言語フィルター・公開範囲フィルターのロジックを提供する
  */
 export const useCollectionFilter = () => {
-  const { get, update } = useSearchParameters({
+  const { get, update, isPending } = useSearchParameters({
     resetKeys: [SearchParameterKeys.Page],
   });
 
@@ -34,6 +34,7 @@ export const useCollectionFilter = () => {
   const resetVisibility = () => update(SearchParameterKeys.Visibility, "");
 
   return {
+    isPending,
     keyword: {
       value: inputValue,
       onChange: handleChange,
