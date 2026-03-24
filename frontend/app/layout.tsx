@@ -34,11 +34,20 @@ export const generateMetadata = async (): Promise<Metadata> => {
       default: "SniHub",
       template: "%s | SniHub",
     },
-    description: "コードスニペット共有サービス",
+    description: "コードスニペットを保存・共有できるシンプルなサービス",
     themeColor: ThemeAccentColors[themeId],
     icons: {
       icon: favicon.toDataUrl(ThemeAccentColors[themeId]),
       apple: "/apple-icon.png",
+    },
+    openGraph: {
+      type: "website",
+      siteName: "SniHub",
+      title: "SniHub",
+      description: "コードスニペットを保存・共有できるシンプルなサービス",
+    },
+    twitter: {
+      card: "summary_large_image",
     },
   };
 };
