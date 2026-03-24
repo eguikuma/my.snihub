@@ -5,8 +5,25 @@ import { fetchMySnippet } from "../actions/fetch-my-snippet";
 import { fetchSnippet } from "../actions/fetch-snippet";
 import { OGP_CODE_TRUNCATE_LENGTH } from "./definitions";
 
-const NOT_FOUND_METADATA: Metadata = {
+const NotFoundMetadata: Metadata = {
   title: "スニペットが見つかりません",
+};
+
+/**
+ * スニペットのタイトルとコードからOGP用のdescriptionを組み立てる
+ */
+const toMetadata = (snippet: {
+  title: string;
+  description: string | null;
+  code: string;
+}): Metadata => {
+  const description =
+    snippet.description ?? snippet.code.slice(0, OGP_CODE_TRUNCATE_LENGTH);
+
+  return {
+    title: snippet.title,
+    openGraph: { title: snippet.title, description, type: "article" },
+  };
 };
 
 /**
@@ -16,32 +33,25 @@ export const buildSnippetMetadata = async (slug: Slug): Promise<Metadata> => {
   const currentSession = await session.get();
 
   if (currentSession.token) {
-    const mySnippet = await fetchMySnippet(slug);
+    const [mySnippet, publicSnippet] = await Promise.all([
+      fetchMySnippet(slug),
+      fetchSnippet(slug),
+    ]);
 
     if (mySnippet.isOk()) {
-      const snippet = mySnippet.value;
-      const description =
-        snippet.description ?? snippet.code.slice(0, OGP_CODE_TRUNCATE_LENGTH);
-
-      return {
-        title: snippet.title,
-        openGraph: { title: snippet.title, description, type: "article" },
-      };
+      return toMetadata(mySnippet.value);
     }
+
+    return publicSnippet.match(
+      (snippet) => toMetadata(snippet),
+      () => NotFoundMetadata,
+    );
   }
 
   const publicSnippet = await fetchSnippet(slug);
 
-  if (publicSnippet.isErr()) {
-    return NOT_FOUND_METADATA;
-  }
-
-  const snippet = publicSnippet.value;
-  const description =
-    snippet.description ?? snippet.code.slice(0, OGP_CODE_TRUNCATE_LENGTH);
-
-  return {
-    title: snippet.title,
-    openGraph: { title: snippet.title, description, type: "article" },
-  };
+  return publicSnippet.match(
+    (snippet) => toMetadata(snippet),
+    () => NotFoundMetadata,
+  );
 };

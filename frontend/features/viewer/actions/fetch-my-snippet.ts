@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { ResultAsync } from "neverthrow";
 import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
@@ -10,13 +11,13 @@ const SnippetResponse = z.object({
 });
 
 /**
- * 認証済みユーザーのスニペットをslug指定で取得する
+ * 認証済みユーザーのスニペットをslug指定で取得する（同一リクエスト内でキャッシュする）
  */
-export const fetchMySnippet = (
-  slug: Slug,
-): ResultAsync<Snippet, OutcomeError> =>
-  toOutcome(async () => {
-    const response = await fetcher.get(Endpoints.MySnippet(slug));
+export const fetchMySnippet = cache(
+  (slug: Slug): ResultAsync<Snippet, OutcomeError> =>
+    toOutcome(async () => {
+      const response = await fetcher.get(Endpoints.MySnippet(slug));
 
-    return SnippetResponse.parse(response).data;
-  });
+      return SnippetResponse.parse(response).data;
+    }),
+);

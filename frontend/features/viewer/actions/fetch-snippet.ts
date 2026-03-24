@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { ResultAsync } from "neverthrow";
 import { z } from "zod";
 import { CacheTags, Endpoints } from "@/foundations/definitions";
@@ -10,13 +11,16 @@ const SnippetResponse = z.object({
 });
 
 /**
- * 指定されたslugのスニペットをバックエンドから取得する
+ * 指定されたslugのスニペットをバックエンドから取得する（同一リクエスト内でキャッシュする）
  */
-export const fetchSnippet = (slug: Slug): ResultAsync<Snippet, OutcomeError> =>
-  toOutcome(async () => {
-    const response = await fetcher.get(Endpoints.Snippet(slug), {
-      tags: [CacheTags.Snippet(slug)],
-    });
+export const fetchSnippet = cache(
+  (slug: Slug): ResultAsync<Snippet, OutcomeError> =>
+    toOutcome(async () => {
+      const response = await fetcher.get(Endpoints.Snippet(slug), {
+        revalidate: 60,
+        tags: [CacheTags.Snippet(slug)],
+      });
 
-    return SnippetResponse.parse(response).data;
-  });
+      return SnippetResponse.parse(response).data;
+    }),
+);

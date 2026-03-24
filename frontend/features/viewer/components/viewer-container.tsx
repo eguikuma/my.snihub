@@ -17,12 +17,20 @@ export const ViewerContainer = async ({ params }: ViewerContainerProps) => {
   const slug = Slug.from(rawSlug);
   const currentSession = await session.get();
 
-  const mySnippet = currentSession.token
-    ? await fetchMySnippet(slug)
-    : undefined;
+  if (currentSession.token) {
+    const [mySnippet, publicSnippet] = await Promise.all([
+      fetchMySnippet(slug),
+      fetchSnippet(slug),
+    ]);
 
-  if (mySnippet?.isOk()) {
-    return <ViewerLayout snippet={mySnippet.value} />;
+    if (mySnippet.isOk()) {
+      return <ViewerLayout snippet={mySnippet.value} />;
+    }
+
+    return publicSnippet.match(
+      (snippet) => <ViewerLayout snippet={snippet} />,
+      () => <NotFound />,
+    );
   }
 
   const publicSnippet = await fetchSnippet(slug);
