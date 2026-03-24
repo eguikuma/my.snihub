@@ -29,6 +29,8 @@ export const GalleryFilter = ({ children }: GalleryFilterProps) => {
         <SearchInput
           value={keyword.value}
           onChange={keyword.onChange}
+          onCompositionStart={keyword.onCompositionStart}
+          onCompositionEnd={keyword.onCompositionEnd}
           onClear={keyword.onClear}
         />
         <LanguageChips

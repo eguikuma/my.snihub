@@ -3,13 +3,21 @@
 type SearchInputProps = {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onCompositionStart: () => void;
+  onCompositionEnd: (event: React.CompositionEvent<HTMLInputElement>) => void;
   onClear: () => void;
 };
 
 /**
  * キーワード検索用のテキスト入力とクリアボタンを提供する
  */
-export const SearchInput = ({ value, onChange, onClear }: SearchInputProps) => {
+export const SearchInput = ({
+  value,
+  onChange,
+  onCompositionStart,
+  onCompositionEnd,
+  onClear,
+}: SearchInputProps) => {
   const hasValue = !!value;
 
   return (
@@ -31,6 +39,8 @@ export const SearchInput = ({ value, onChange, onClear }: SearchInputProps) => {
         type="text"
         value={value}
         onChange={onChange}
+        onCompositionStart={onCompositionStart}
+        onCompositionEnd={onCompositionEnd}
         placeholder="スニペットを検索"
         maxLength={100}
         className="w-full rounded-lg border border-edge bg-surface py-2 pl-9 pr-8 text-base sm:text-sm text-ink placeholder:text-ink-muted transition-colors focus:border-accent focus:outline-none"

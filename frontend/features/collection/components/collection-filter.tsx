@@ -36,6 +36,8 @@ export const CollectionFilter = ({
         <SearchInput
           value={keyword.value}
           onChange={keyword.onChange}
+          onCompositionStart={keyword.onCompositionStart}
+          onCompositionEnd={keyword.onCompositionEnd}
           onClear={keyword.onClear}
         />
         <LanguageChips

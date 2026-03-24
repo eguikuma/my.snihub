@@ -12,6 +12,7 @@ export const useDebouncedInput = (
   onCommit: (value: string) => void,
 ) => {
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const isComposingRef = useRef(false);
   const [isPending, setIsPending] = useState(false);
   const [lastCommitted, setLastCommitted] = useState(externalValue);
 
@@ -29,9 +30,10 @@ export const useDebouncedInput = (
     }
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
+  /**
+   * デバウンスタイマーを開始し、遅延後にコミットする
+   */
+  const scheduleCommit = (value: string) => {
     setIsPending(true);
 
     if (timerRef.current) {
@@ -42,6 +44,29 @@ export const useDebouncedInput = (
       setLastCommitted(value);
       onCommit(value);
     }, DEBOUNCE_DELAY);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+
+    if (isComposingRef.current) return;
+
+    scheduleCommit(value);
+  };
+
+  const handleCompositionStart = () => {
+    isComposingRef.current = true;
+  };
+
+  /**
+   * IME変換確定後にデバウンスタイマーを開始する
+   */
+  const handleCompositionEnd = (
+    event: React.CompositionEvent<HTMLInputElement>,
+  ) => {
+    isComposingRef.current = false;
+    scheduleCommit(event.currentTarget.value);
   };
 
   const handleClear = () => {
@@ -56,5 +81,11 @@ export const useDebouncedInput = (
     onCommit("");
   };
 
-  return { inputValue, handleChange, handleClear } as const;
+  return {
+    inputValue,
+    handleChange,
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleClear,
+  } as const;
 };

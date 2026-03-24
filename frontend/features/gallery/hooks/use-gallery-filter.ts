@@ -17,10 +17,13 @@ export const useGalleryFilter = () => {
   const applyKeyword = (value: string) =>
     update(SearchParameterKeys.Keyword, value);
 
-  const { inputValue, handleChange, handleClear } = useDebouncedInput(
-    keyword,
-    applyKeyword,
-  );
+  const {
+    inputValue,
+    handleChange,
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleClear,
+  } = useDebouncedInput(keyword, applyKeyword);
 
   const toggleLanguage = (value: string) =>
     update(SearchParameterKeys.Language, language === value ? "" : value);
@@ -35,6 +38,8 @@ export const useGalleryFilter = () => {
     keyword: {
       value: inputValue,
       onChange: handleChange,
+      onCompositionStart: handleCompositionStart,
+      onCompositionEnd: handleCompositionEnd,
       onClear: handleClear,
     },
     language: {
