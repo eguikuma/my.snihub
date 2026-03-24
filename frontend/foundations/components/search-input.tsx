@@ -33,7 +33,7 @@ export const SearchInput = ({ value, onChange, onClear }: SearchInputProps) => {
         onChange={onChange}
         placeholder="スニペットを検索"
         maxLength={100}
-        className="w-full rounded-lg border border-edge bg-surface py-2 pl-9 pr-8 text-sm text-ink placeholder:text-ink-muted transition-colors focus:border-accent focus:outline-none"
+        className="w-full rounded-lg border border-edge bg-surface py-2 pl-9 pr-8 text-base sm:text-sm text-ink placeholder:text-ink-muted transition-colors focus:border-accent focus:outline-none"
       />
       {hasValue && (
         <button

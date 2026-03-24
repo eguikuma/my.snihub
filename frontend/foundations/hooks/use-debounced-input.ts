@@ -12,21 +12,25 @@ export const useDebouncedInput = (
   onCommit: (value: string) => void,
 ) => {
   const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const [isPending, setIsPending] = useState(false);
 
   const [inputValue, setInputValue] = useState(externalValue);
 
   /**
-   * 外部値が変わったらローカル値を同期する
+   * デバウンス中でなければ外部値の変更をローカル値に同期する
    */
   const [previousValue, setPreviousValue] = useState(externalValue);
   if (externalValue !== previousValue) {
     setPreviousValue(externalValue);
-    setInputValue(externalValue);
+    if (!isPending) {
+      setInputValue(externalValue);
+    }
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
+    setIsPending(true);
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -34,11 +38,13 @@ export const useDebouncedInput = (
 
     timerRef.current = setTimeout(() => {
       onCommit(value);
+      setIsPending(false);
     }, DEBOUNCE_DELAY);
   };
 
   const handleClear = () => {
     setInputValue("");
+    setIsPending(false);
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
