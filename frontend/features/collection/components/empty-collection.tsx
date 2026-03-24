@@ -25,7 +25,7 @@ const README_CONTENT = `# Welcome to SniHub
 
 ---
 
-*SniHub — コードスニペット共有サービス*`;
+*SniHub — コードスニペットを保存・共有できるシンプルなサービス*`;
 
 /**
  * スニペットが1件もないときに README.md 風の Getting Started ガイドを表示する

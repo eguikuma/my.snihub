@@ -25,7 +25,7 @@ const README_CONTENT = `# No Results Found
 
 ---
 
-*SniHub — コードスニペット共有サービス*`;
+*SniHub — コードスニペットを保存・共有できるシンプルなサービス*`;
 
 type ListProps = {
   snippets: SnippetSummary[];

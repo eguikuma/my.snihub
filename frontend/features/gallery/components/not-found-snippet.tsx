@@ -16,7 +16,7 @@ const README_CONTENT = `# No Results Found
 
 ---
 
-*SniHub — コードスニペット共有サービス*`;
+*SniHub — コードスニペットを保存・共有できるシンプルなサービス*`;
 
 /**
  * 検索結果が0件のときに README 風の空状態を表示する

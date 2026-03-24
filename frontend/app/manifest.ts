@@ -7,7 +7,7 @@ import { DEFAULT_THEME_ID, ThemeAccentColors } from "@/foundations/definitions";
 const manifest = (): MetadataRoute.Manifest => ({
   name: "SniHub",
   short_name: "SniHub",
-  description: "コードスニペット共有サービス",
+  description: "コードスニペットを保存・共有できるシンプルなサービス",
   start_url: "/",
   display: "standalone",
   background_color: "#ffffff",
