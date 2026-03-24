@@ -11,6 +11,7 @@ type RequestOptions = Omit<RequestInit, "method" | "headers"> & {
   headers?: Record<string, string>;
   revalidate?: number | false;
   tags?: string[];
+  anonymous?: boolean;
 };
 
 const buildUrl = (path: string): string => {
@@ -27,6 +28,7 @@ const buildUrl = (path: string): string => {
 
 const buildHeaders = async (
   customHeaders?: Record<string, string>,
+  anonymous = false,
 ): Promise<Record<string, string>> => {
   const mergedHeaders: Record<string, string> = {
     "Content-Type": "application/json",
@@ -34,10 +36,12 @@ const buildHeaders = async (
     ...customHeaders,
   };
 
-  const currentSession = await session.get();
+  if (!anonymous) {
+    const currentSession = await session.get();
 
-  if (currentSession.token) {
-    mergedHeaders["Authorization"] = `Bearer ${currentSession.token}`;
+    if (currentSession.token) {
+      mergedHeaders["Authorization"] = `Bearer ${currentSession.token}`;
+    }
   }
 
   return mergedHeaders;
@@ -70,7 +74,7 @@ const sendRequest = async (
   path: string,
   options: RequestOptions = {},
 ): Promise<unknown> => {
-  const { revalidate, tags, ...fetchOptions } = options;
+  const { revalidate, tags, anonymous, ...fetchOptions } = options;
   const url = buildUrl(path);
   const next: Record<string, unknown> = {};
   if (revalidate !== undefined) next.revalidate = revalidate;
@@ -79,7 +83,7 @@ const sendRequest = async (
   const response = await fetch(url, {
     ...fetchOptions,
     method,
-    headers: await buildHeaders(fetchOptions.headers),
+    headers: await buildHeaders(fetchOptions.headers, anonymous),
     ...(Object.keys(next).length > 0 && { next }),
   });
 

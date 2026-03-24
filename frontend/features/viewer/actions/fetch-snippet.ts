@@ -19,6 +19,7 @@ export const fetchSnippet = cache(
       const response = await fetcher.get(Endpoints.Snippet(slug), {
         revalidate: 60,
         tags: [CacheTags.Snippet(slug)],
+        anonymous: true,
       });
 
       return SnippetResponse.parse(response).data;
