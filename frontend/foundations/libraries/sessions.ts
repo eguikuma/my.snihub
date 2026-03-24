@@ -1,44 +1,8 @@
 import { cookies } from "next/headers";
-import { getIronSession, type SessionOptions } from "iron-session";
-import type { Token } from "../schemas/brand";
+import { getIronSession } from "iron-session";
+import { SessionOptions, type Session } from "./session-options";
 
-/**
- * セッションを管理するCookieの名前
- */
-const SESSION_COOKIE_NAME = "snihub-session";
-
-export type Session = {
-  /**
-   * 認証トークン
-   */
-  token?: Token;
-  /**
-   * CSRF対策のstate
-   */
-  state?: string;
-  /**
-   * 認可後のリダイレクト先
-   */
-  redirectTo?: string;
-};
-
-/**
- * セッションの設定
- */
-const SessionOptions: SessionOptions = {
-  password: process.env.SESSION_SECRET!,
-  cookieName: SESSION_COOKIE_NAME,
-  cookieOptions: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    path: "/",
-    /**
-     * 30日間の有効期限
-     */
-    maxAge: 60 * 60 * 24 * 30,
-  },
-};
+export type { Session };
 
 /**
  * 暗号化されたセッションをCookieから取得する
