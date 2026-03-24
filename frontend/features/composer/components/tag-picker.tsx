@@ -14,13 +14,20 @@ type TagPickerProps = {
  * タグの追加・削除を行うインラインタグ入力コンポーネントを描画する
  */
 export const TagPicker = ({ tags, onChange, hasError }: TagPickerProps) => {
-  const { input, setInput, isAtLimit, removeTag, handleKeyDown } = useTagInput({
-    tags,
-    onChange,
-  });
+  const {
+    input,
+    setInput,
+    isAtLimit,
+    removeTag,
+    handleSubmit,
+    handleKeyDown,
+    handleCompositionStart,
+    handleCompositionEnd,
+  } = useTagInput({ tags, onChange });
 
   return (
-    <div
+    <form
+      onSubmit={handleSubmit}
       className={clsx(
         "flex flex-wrap items-center gap-1.5 rounded-lg border bg-surface-raised px-3 py-2 transition-colors focus-within:ring-3",
         hasError
@@ -44,21 +51,26 @@ export const TagPicker = ({ tags, onChange, hasError }: TagPickerProps) => {
         </span>
       ))}
 
-      {!isAtLimit && (
-        <input
-          type="text"
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={tags.length === 0 ? "タグを入力" : ""}
-          maxLength={SnippetDraftLimits.TagMax}
-          className="min-w-[80px] flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink-muted"
-        />
-      )}
+      <input
+        type="text"
+        value={input}
+        onChange={(event) => setInput(event.target.value)}
+        onKeyDown={handleKeyDown}
+        onCompositionStart={handleCompositionStart}
+        onCompositionEnd={handleCompositionEnd}
+        enterKeyHint="done"
+        placeholder={tags.length === 0 ? "タグを入力" : ""}
+        maxLength={SnippetDraftLimits.TagMax}
+        disabled={isAtLimit}
+        className={clsx(
+          "min-w-[80px] flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink-muted",
+          isAtLimit && "hidden",
+        )}
+      />
 
       <span className="ml-auto shrink-0 text-xs text-ink-muted">
         {tags.length}/{SnippetDraftLimits.TagsMax}
       </span>
-    </div>
+    </form>
   );
 };

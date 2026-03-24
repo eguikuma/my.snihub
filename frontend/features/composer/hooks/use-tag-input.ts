@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { SnippetDraftLimits } from "../definitions";
 
 type UseTagInputOptions = {
@@ -9,10 +9,11 @@ type UseTagInputOptions = {
 };
 
 /**
- * タグ入力の状態管理・追加/削除ロジック・キーボード操作を提供する
+ * タグ入力の状態管理・追加/削除ロジック・キーボード操作・IME対応を提供する
  */
 export const useTagInput = ({ tags, onChange }: UseTagInputOptions) => {
   const [input, setInput] = useState("");
+  const isComposingRef = useRef(false);
   const isAtLimit = tags.length >= SnippetDraftLimits.TagsMax;
 
   /**
@@ -37,10 +38,20 @@ export const useTagInput = ({ tags, onChange }: UseTagInputOptions) => {
   };
 
   /**
+   * フォーム送信でタグを追加する（モバイルソフトキーボードの確定ボタンに対応）
+   */
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (isComposingRef.current) return;
+    addTag();
+  };
+
+  /**
    * Enterでタグ追加、Backspaceで末尾タグ削除を処理する
    */
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+      if (event.nativeEvent.isComposing || isComposingRef.current) return;
       event.preventDefault();
       addTag();
       return;
@@ -51,5 +62,23 @@ export const useTagInput = ({ tags, onChange }: UseTagInputOptions) => {
     }
   };
 
-  return { input, setInput, isAtLimit, addTag, removeTag, handleKeyDown };
+  const handleCompositionStart = () => {
+    isComposingRef.current = true;
+  };
+
+  const handleCompositionEnd = () => {
+    isComposingRef.current = false;
+  };
+
+  return {
+    input,
+    setInput,
+    isAtLimit,
+    addTag,
+    removeTag,
+    handleSubmit,
+    handleKeyDown,
+    handleCompositionStart,
+    handleCompositionEnd,
+  };
 };
