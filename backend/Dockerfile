@@ -1,4 +1,4 @@
-FROM php:8.4-cli-alpine
+FROM php:8.4.7-cli-alpine3.21
 
 # ホストの UID/GID と一致させる
 ARG UID=1000

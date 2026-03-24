@@ -1,4 +1,4 @@
-FROM node:22-slim
+FROM node:22.16.0-slim
 
 # ホストの UID/GID と一致させる
 ARG UID=1000
