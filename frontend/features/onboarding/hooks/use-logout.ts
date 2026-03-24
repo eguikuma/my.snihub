@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSessionStore } from "@/foundations/stores";
 import { logout } from "../actions/logout";
 
@@ -10,8 +10,11 @@ export const useLogout = () => {
   const clear = useSessionStore((state) => state.clear);
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const isLockedRef = useRef(false);
 
   const handleLogout = async () => {
+    if (isLockedRef.current) return;
+    isLockedRef.current = true;
     setIsLoggingOut(true);
 
     try {
@@ -20,7 +23,8 @@ export const useLogout = () => {
       clear();
 
       router.refresh();
-    } finally {
+    } catch {
+      isLockedRef.current = false;
       setIsLoggingOut(false);
     }
   };

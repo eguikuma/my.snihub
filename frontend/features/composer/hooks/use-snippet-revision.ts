@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Snippet } from "@/foundations/schemas";
 import { useToastStore } from "@/foundations/stores";
 import { updateSnippet } from "../actions/update-snippet";
@@ -32,6 +32,7 @@ export const useSnippetRevision = ({
     tags: snippet.tags,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isLockedRef = useRef(false);
 
   const {
     mergedErrors,
@@ -56,9 +57,12 @@ export const useSnippetRevision = ({
    * 全フィールドを検証し、問題なければAPIに送信する
    */
   const handleSubmit = async () => {
+    if (isLockedRef.current) return;
+
     const errors = validateAll(fields);
     if (Object.keys(errors).length > 0) return;
 
+    isLockedRef.current = true;
     setIsSubmitting(true);
 
     try {
@@ -74,9 +78,12 @@ export const useSnippetRevision = ({
       } else {
         notify("更新に失敗しました");
       }
-    } finally {
-      setIsSubmitting(false);
+    } catch {
+      notify("更新に失敗しました");
     }
+
+    isLockedRef.current = false;
+    setIsSubmitting(false);
   };
 
   /**

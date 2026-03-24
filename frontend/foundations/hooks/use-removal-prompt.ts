@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useRef, useTransition } from "react";
 import { useDismiss } from "./use-dismiss";
 import { useScrollLock } from "./use-scroll-lock";
 
@@ -20,6 +20,7 @@ export const useRemovalPrompt = ({
   onClose,
 }: UseRemovalPromptOptions) => {
   const [isPending, startTransition] = useTransition();
+  const isLockedRef = useRef(false);
   const contentRef = useDismiss<HTMLDivElement>(isOpen, onClose, {
     disabled: isPending,
   });
@@ -27,13 +28,19 @@ export const useRemovalPrompt = ({
   const router = useRouter();
 
   const handleRemove = () => {
+    if (isLockedRef.current) return;
+    isLockedRef.current = true;
+
     startTransition(async () => {
       const result = await onRemove();
 
       if (result.success) {
         onClose();
         router.refresh();
+        return;
       }
+
+      isLockedRef.current = false;
     });
   };
 

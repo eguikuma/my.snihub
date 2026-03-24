@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Routes } from "@/foundations/definitions";
 import { useToastStore } from "@/foundations/stores";
 import { createSnippet } from "../actions/create-snippet";
@@ -26,6 +26,7 @@ export const useSnippetDraft = () => {
     tags: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isLockedRef = useRef(false);
 
   const {
     mergedErrors,
@@ -50,9 +51,12 @@ export const useSnippetDraft = () => {
    * 全フィールドを検証し、問題なければAPIに送信する
    */
   const handleSubmit = async () => {
+    if (isLockedRef.current) return;
+
     const errors = validateAll(fields);
     if (Object.keys(errors).length > 0) return;
 
+    isLockedRef.current = true;
     setIsSubmitting(true);
 
     try {
@@ -68,9 +72,12 @@ export const useSnippetDraft = () => {
       } else {
         notify("作成に失敗しました");
       }
-    } finally {
-      setIsSubmitting(false);
+    } catch {
+      notify("作成に失敗しました");
     }
+
+    isLockedRef.current = false;
+    setIsSubmitting(false);
   };
 
   /**
