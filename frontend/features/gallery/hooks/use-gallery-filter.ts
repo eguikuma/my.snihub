@@ -27,6 +27,9 @@ export const useGalleryFilter = () => {
 
   const resetLanguage = () => update(SearchParameterKeys.Language, "");
 
+  const changePage = (page: number) =>
+    update(SearchParameterKeys.Page, page > 1 ? String(page) : "");
+
   return {
     isPending,
     keyword: {
@@ -38,6 +41,9 @@ export const useGalleryFilter = () => {
       value: language,
       onSelect: toggleLanguage,
       onReset: resetLanguage,
+    },
+    page: {
+      onChange: changePage,
     },
   };
 };

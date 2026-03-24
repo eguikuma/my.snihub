@@ -1,7 +1,10 @@
+"use client";
+
 import { HelpReadme } from "@/foundations/components/help-readme";
 import { Pagination } from "@/foundations/components/pagination";
 import { Routes } from "@/foundations/definitions";
 import type { PaginationMeta, SnippetSummary } from "@/foundations/schemas";
+import { usePaginationContext } from "../contexts";
 import { Card } from "./card";
 import { CollectionShell } from "./collection-shell";
 import { EmptyCollection } from "./empty-collection";
@@ -34,6 +37,8 @@ type ListProps = {
  * マイスニペット一覧をグリッド表示する
  */
 export const List = ({ snippets, meta, isEmpty }: ListProps) => {
+  const { isPending, onPageChange } = usePaginationContext();
+
   if (snippets.length === 0) {
     if (isEmpty) {
       return <EmptyCollection />;
@@ -55,7 +60,11 @@ export const List = ({ snippets, meta, isEmpty }: ListProps) => {
           <Card key={snippet.slug} snippet={snippet} />
         ))}
       </CollectionShell.CardGrid>
-      <Pagination meta={meta} />
+      <Pagination
+        meta={meta}
+        onPageChange={onPageChange}
+        isPending={isPending}
+      />
     </CollectionShell.ResultArea>
   );
 };

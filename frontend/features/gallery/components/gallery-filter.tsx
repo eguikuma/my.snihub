@@ -1,9 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import clsx from "clsx";
 import { LanguageChips } from "@/foundations/components/language-chips";
 import { SearchInput } from "@/foundations/components/search-input";
+import { PaginationProvider } from "../contexts";
 import { useGalleryFilter } from "../hooks";
 import { GalleryShell } from "./gallery-shell";
 
@@ -15,7 +16,12 @@ type GalleryFilterProps = {
  * ギャラリー画面のクライアント境界を担い、フィルターパネルと子要素を配置する
  */
 export const GalleryFilter = ({ children }: GalleryFilterProps) => {
-  const { isPending, keyword, language } = useGalleryFilter();
+  const { isPending, keyword, language, page } = useGalleryFilter();
+
+  const paginationValue = useMemo(
+    () => ({ isPending, onPageChange: page.onChange }),
+    [isPending, page.onChange],
+  );
 
   return (
     <GalleryShell.Root>
@@ -31,14 +37,16 @@ export const GalleryFilter = ({ children }: GalleryFilterProps) => {
           onReset={language.onReset}
         />
       </GalleryShell.FilterPanel>
-      <div
-        className={clsx(
-          "transition-opacity duration-200",
-          isPending && "pointer-events-none opacity-60",
-        )}
-      >
-        {children}
-      </div>
+      <PaginationProvider value={paginationValue}>
+        <div
+          className={clsx(
+            "transition-opacity duration-200",
+            isPending && "pointer-events-none opacity-60",
+          )}
+        >
+          {children}
+        </div>
+      </PaginationProvider>
     </GalleryShell.Root>
   );
 };

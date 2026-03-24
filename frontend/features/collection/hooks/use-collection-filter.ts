@@ -33,6 +33,9 @@ export const useCollectionFilter = () => {
 
   const resetVisibility = () => update(SearchParameterKeys.Visibility, "");
 
+  const changePage = (page: number) =>
+    update(SearchParameterKeys.Page, page > 1 ? String(page) : "");
+
   return {
     isPending,
     keyword: {
@@ -49,6 +52,9 @@ export const useCollectionFilter = () => {
       value: visibility,
       onSelect: toggleVisibility,
       onReset: resetVisibility,
+    },
+    page: {
+      onChange: changePage,
     },
   };
 };

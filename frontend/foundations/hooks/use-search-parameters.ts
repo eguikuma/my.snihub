@@ -35,7 +35,9 @@ export const useSearchParameters = (
     }
 
     for (const resetKey of resetKeys) {
-      nextParameters.delete(resetKey);
+      if (resetKey !== key) {
+        nextParameters.delete(resetKey);
+      }
     }
 
     const queryString = nextParameters.toString();

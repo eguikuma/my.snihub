@@ -1,10 +1,11 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import clsx from "clsx";
 import { LanguageChips } from "@/foundations/components/language-chips";
 import { SearchInput } from "@/foundations/components/search-input";
 import type { Statistics } from "../actions/fetch-my-snippet-statistics";
+import { PaginationProvider } from "../contexts";
 import { useCollectionFilter } from "../hooks";
 import { CollectionShell } from "./collection-shell";
 import { VisibilityTabs } from "./visibility-tabs";
@@ -21,7 +22,13 @@ export const CollectionFilter = ({
   statistics,
   children,
 }: CollectionFilterProps) => {
-  const { isPending, keyword, language, visibility } = useCollectionFilter();
+  const { isPending, keyword, language, visibility, page } =
+    useCollectionFilter();
+
+  const paginationValue = useMemo(
+    () => ({ isPending, onPageChange: page.onChange }),
+    [isPending, page.onChange],
+  );
 
   return (
     <CollectionShell.Root>
@@ -43,14 +50,16 @@ export const CollectionFilter = ({
           onReset={visibility.onReset}
         />
       </CollectionShell.FilterPanel>
-      <div
-        className={clsx(
-          "transition-opacity duration-200",
-          isPending && "pointer-events-none opacity-60",
-        )}
-      >
-        {children}
-      </div>
+      <PaginationProvider value={paginationValue}>
+        <div
+          className={clsx(
+            "transition-opacity duration-200",
+            isPending && "pointer-events-none opacity-60",
+          )}
+        >
+          {children}
+        </div>
+      </PaginationProvider>
     </CollectionShell.Root>
   );
 };
