@@ -3,6 +3,7 @@ import { Slug } from "@/foundations/schemas";
 import { fetchSnippet } from "@/features/viewer/actions/fetch-snippet";
 import { NotFoundCard, SnippetCard } from "@/features/viewer/opengraph";
 
+export const revalidate = 3600;
 export const alt = "SniHub";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
