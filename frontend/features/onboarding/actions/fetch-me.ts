@@ -1,5 +1,4 @@
-"use server";
-
+import { cache } from "react";
 import { z } from "zod";
 import { Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
@@ -10,9 +9,9 @@ const MeResponse = z.object({
 });
 
 /**
- * 認証済みユーザーを取得し、未認証または失敗時はnullを返す
+ * 認証済みユーザーを取得し、未認証または失敗時はnullを返す（同一リクエスト内でキャッシュする）
  */
-export const fetchMe = async (): Promise<User | null> => {
+export const fetchMe = cache(async (): Promise<User | null> => {
   try {
     const response = await fetcher.get(Endpoints.Me);
 
@@ -20,4 +19,4 @@ export const fetchMe = async (): Promise<User | null> => {
   } catch {
     return null;
   }
-};
+});

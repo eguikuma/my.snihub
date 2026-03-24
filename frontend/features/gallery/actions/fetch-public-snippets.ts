@@ -47,7 +47,7 @@ export const fetchPublicSnippets = (
   toOutcome(async () => {
     const response = await fetcher.get(
       `${Endpoints.Snippets}${buildQueryString(parameters)}`,
-      { tags: [CacheTags.Snippets] },
+      { revalidate: 30, tags: [CacheTags.Snippets] },
     );
 
     return PublicSnippetsResponse.parse(response);
