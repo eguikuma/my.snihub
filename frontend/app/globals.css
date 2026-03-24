@@ -284,6 +284,16 @@ button,
   cursor: pointer;
 }
 
+/* モバイルでのダブルタップズーム判定によるタップ遅延を解消する */
+button,
+a,
+[role="button"],
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
 /* ========================================
  * スクロールバー
  * ======================================== */
