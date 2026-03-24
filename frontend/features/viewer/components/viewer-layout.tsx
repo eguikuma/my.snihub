@@ -1,5 +1,4 @@
 import { LanguageBadge } from "@/foundations/components/language-badge";
-import { PageTitle } from "@/foundations/components/page-title";
 import type { Snippet } from "@/foundations/schemas";
 import { ModeSwitch } from "./mode-switch";
 import { SnippetSidebar } from "./sidebar";
@@ -14,17 +13,11 @@ type ViewerLayoutProps = {
  */
 export const ViewerLayout = ({ snippet }: ViewerLayoutProps) => {
   if (snippet.is_owner) {
-    return (
-      <>
-        <PageTitle title={snippet.title} />
-        <ModeSwitch snippet={snippet} />
-      </>
-    );
+    return <ModeSwitch snippet={snippet} />;
   }
 
   return (
     <SnippetViewer.Root>
-      <PageTitle title={snippet.title} />
       <SnippetViewer.ContentGrid>
         <SnippetViewer.MainColumn>
           <SnippetViewer.CodeBlock
