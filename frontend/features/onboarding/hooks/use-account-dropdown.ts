@@ -9,7 +9,9 @@ import { useLogout } from "./use-logout";
 export const useAccountDropdown = () => {
   const { opened, close, toggle } = useToggle(false);
   const { handleLogout, isLoggingOut } = useLogout();
-  const menuRef = useDismiss<HTMLDivElement>(opened, close);
+  const menuRef = useDismiss<HTMLDivElement>(opened, close, {
+    disabled: isLoggingOut,
+  });
 
   return { opened, close, toggle, menuRef, handleLogout, isLoggingOut };
 };
