@@ -21,6 +21,7 @@ class SnippetController extends Controller
      */
     public function index(IndexSnippetRequest $request, SearchSnippetsUseCase $useCase): AnonymousResourceCollection
     {
+        throw new \RuntimeException('[Sentry Test] Laravel controller error');
         $validated = $request->validated();
 
         $snippets = $useCase->execute(
