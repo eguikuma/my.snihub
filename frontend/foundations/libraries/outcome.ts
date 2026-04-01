@@ -16,6 +16,8 @@ export type OutcomeError =
  * 例外を OutcomeError に変換する
  */
 export const toOutcomeError = (error: unknown): OutcomeError => {
+  console.error("[toOutcomeError]", error);
+
   if (error instanceof BackendFailure) {
     if (error.status === StatusCodes.UNPROCESSABLE_ENTITY && error.errors) {
       return { kind: "validation", fields: error.errors };
