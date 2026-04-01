@@ -9,7 +9,7 @@ const SnippetBase = z.object({
   description: z.nullable(z.string()),
   visibility: z.enum(Visibilities),
   expires_at: z.nullable(z.string()),
-  expires_in: z.nullable(z.enum(ExpiresIn)),
+  expires_in: z.nullable(z.enum(ExpiresIn)).catch(null),
   tags: z.array(z.string()),
   user: z.object({
     name: z.string(),
