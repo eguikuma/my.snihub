@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/nextjs";
 import { StatusCodes } from "http-status-codes";
 import { ResultAsync } from "neverthrow";
 import { BackendFailure, BackendUnreadable } from "../errors";
@@ -29,13 +30,16 @@ export const toOutcomeError = (error: unknown): OutcomeError => {
       return { kind: "unauthorized" };
     }
 
+    Sentry.captureException(error);
     return { kind: "server", message: error.message };
   }
 
   if (error instanceof BackendUnreadable) {
+    Sentry.captureException(error);
     return { kind: "network", message: error.message };
   }
 
+  Sentry.captureException(error);
   return {
     kind: "server",
     message: "予期しないエラーが発生しました",

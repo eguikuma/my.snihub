@@ -45,6 +45,19 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         /**
+         * 正常なアプリケーションフローで発生する例外は Sentry に報告しない
+         */
+        $exceptions->dontReport([
+            AuthenticationException::class,
+            AuthorizationException::class,
+            AccessDeniedHttpException::class,
+            ModelNotFoundException::class,
+            NotFoundHttpException::class,
+            ValidationException::class,
+            ThrottleRequestsException::class,
+        ]);
+
+        /**
          * Accept ヘッダーに関わらず常に JSON でエラーを返す
          */
         $exceptions->shouldRenderJsonWhen(fn () => true);

@@ -1,4 +1,5 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next/dist/server/config-shared";
+import { withSentryConfig } from "@sentry/nextjs";
 
 /**
  * すべてのレスポンスに付与するセキュリティヘッダー
@@ -42,4 +43,17 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  /** Sentry の組織名 */
+  org: process.env.SENTRY_ORG,
+  /** Sentry のプロジェクト名 */
+  project: process.env.SENTRY_PROJECT,
+  /** CI 環境以外ではビルドログを抑制する */
+  silent: !process.env.CI,
+  /** ソースマップのアップロードは CI 環境でのみ有効にする */
+  sourcemaps: {
+    disable: !process.env.CI,
+  },
+  /** 広告ブロッカーによる Sentry への送信ブロックを回避するためのプロキシルート */
+  tunnelRoute: "/monitoring",
+});
