@@ -86,9 +86,9 @@ const GlobalError = ({ error }: { error: Error & { digest?: string } }) => {
               {"<!>"}
             </text>
           </svg>
-          <h1 className="title">Something Went Wrong</h1>
+          <h1 className="title">Service Unavailable</h1>
           <p className="description">
-            アプリケーションの読み込み中に予期しないエラーが発生しました
+            サービスに一時的な問題が発生しています
             <br />
             しばらく時間をおいてから再度アクセスしてください
           </p>
