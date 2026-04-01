@@ -1,8 +1,9 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
 type HelpReadmeProps = {
   content: string;
+  action?: ReactNode;
 };
 
 /**
@@ -90,7 +91,7 @@ const renderInline = (text: string): ReactNode[] => {
 /**
  * マークダウン文字列を軽量にJSXへレンダリングする
  */
-export const HelpReadme = ({ content }: HelpReadmeProps) => {
+export const HelpReadme = ({ content, action }: HelpReadmeProps) => {
   const lines = content.split("\n");
   const elements: ReactNode[] = [];
   let key = 0;
@@ -100,6 +101,12 @@ export const HelpReadme = ({ content }: HelpReadmeProps) => {
     const line = lines[index];
 
     if (line === "") {
+      index++;
+      continue;
+    }
+
+    if (line === "{{slot}}" && action) {
+      elements.push(<Fragment key={key++}>{action}</Fragment>);
       index++;
       continue;
     }

@@ -1,3 +1,4 @@
+import { StatusCodes } from "http-status-codes";
 import {
   BackendFailure,
   BackendUnreadable,
@@ -7,6 +8,8 @@ import { session } from "./sessions";
 
 const BACKEND_URL = process.env.BACKEND_URL;
 const FETCH_TIMEOUT_MS = 60_000;
+const MAX_RETRIES = 2;
+const RETRY_BASE_DELAY_MS = 1_000;
 
 type RequestOptions = Omit<RequestInit, "method" | "headers" | "signal"> & {
   headers?: Record<string, string>;
@@ -48,6 +51,23 @@ const buildHeaders = async (
   return mergedHeaders;
 };
 
+/**
+ * 5xx系エラーまたはネットワーク障害かどうかを判定する
+ */
+const isRetryable = (error: unknown): boolean => {
+  if (error instanceof BackendFailure) {
+    return error.status >= StatusCodes.INTERNAL_SERVER_ERROR;
+  }
+
+  return error instanceof TypeError || error instanceof DOMException;
+};
+
+/**
+ * 指数バックオフで指定ミリ秒待機する
+ */
+const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 const parseResponse = async (response: Response): Promise<unknown> => {
   if (!response.ok) {
     const body = await response.json().catch((cause) => {
@@ -81,15 +101,33 @@ const sendRequest = async (
   if (revalidate !== undefined) next.revalidate = revalidate;
   if (tags !== undefined) next.tags = tags;
 
-  const response = await fetch(url, {
-    ...fetchOptions,
-    method,
-    headers: await buildHeaders(fetchOptions.headers, anonymous),
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-    ...(Object.keys(next).length > 0 && { next }),
-  });
+  const headers = await buildHeaders(fetchOptions.headers, anonymous);
 
-  return parseResponse(response);
+  let lastError: unknown;
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const response = await fetch(url, {
+        ...fetchOptions,
+        method,
+        headers,
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+        ...(Object.keys(next).length > 0 && { next }),
+      });
+
+      return await parseResponse(response);
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < MAX_RETRIES && isRetryable(error)) {
+        await delay(RETRY_BASE_DELAY_MS * 2 ** attempt);
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  throw lastError;
 };
 
 /**
