@@ -18,7 +18,6 @@ export const GalleryContainer = async ({
   searchParams,
 }: GalleryContainerProps) => {
   const resolvedSearchParams = await searchParams;
-  throw new Error("[Sentry Test] server component error");
 
   const keyword =
     (resolvedSearchParams[SearchParameterKeys.Keyword] as string) ?? "";
