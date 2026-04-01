@@ -8,23 +8,12 @@ import { ThemeDropdown } from "../theme-dropdown";
  * テーマカラーを切り替えるドロップダウンを提供する
  */
 export const ThemeSwitcher = () => {
-  const {
-    themeId,
-    currentThemeLabel,
-    opened,
-    toggle,
-    dropdownRef,
-    selectTheme,
-  } = useThemeDropdown();
+  const { themeId, opened, toggle, dropdownRef, selectTheme } =
+    useThemeDropdown();
 
   return (
     <ThemeDropdown.Root dropdownRef={dropdownRef}>
-      <ThemeDropdown.Trigger
-        themeId={themeId}
-        themeLabel={currentThemeLabel}
-        opened={opened}
-        onToggle={toggle}
-      />
+      <ThemeDropdown.Trigger opened={opened} onToggle={toggle} />
       {opened && (
         <ThemeDropdown.Panel>
           <ThemeDropdown.Group

@@ -22,10 +22,14 @@ export const ThemeColorContext = createContext<ReturnType<
 > | null>(null);
 
 /**
- * CookieからテーマIDを読み取り、無効な値の場合はデフォルトにフォールバックする
+ * DOMのdata-theme属性からテーマIDを読み取り、無効な値の場合はデフォルトにフォールバックする
  */
-const readThemeIdFromCookie = (): ThemeId => {
-  const raw = Cookies.get(THEME_COOKIE_NAME);
+const readInitialThemeId = (): ThemeId => {
+  if (typeof window === "undefined") {
+    return DEFAULT_THEME_ID;
+  }
+
+  const raw = document.documentElement.getAttribute("data-theme");
 
   return raw && Themes.some(({ value }) => value === raw)
     ? (raw as ThemeId)
@@ -40,9 +44,7 @@ export const ThemeColorProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [store] = useState(() =>
-    createThemeColorStore(readThemeIdFromCookie()),
-  );
+  const [store] = useState(() => createThemeColorStore(readInitialThemeId()));
 
   return (
     <ThemeColorContext.Provider value={store}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Themes, type ThemeId } from "../definitions";
+import type { ThemeId } from "../definitions";
 import { useDismiss } from "./use-dismiss";
 import { useThemeColor } from "./use-theme-color";
 import { useToggle } from "./use-toggle";
@@ -13,9 +13,6 @@ export const useThemeDropdown = () => {
   const { opened, close, toggle } = useToggle();
   const dropdownRef = useDismiss<HTMLDivElement>(opened, close);
 
-  const currentThemeLabel =
-    Themes.find(({ value }) => value === themeColor.id)?.label ?? "";
-
   const selectTheme = (themeId: ThemeId) => {
     themeColor.change(themeId);
     close();
@@ -23,7 +20,6 @@ export const useThemeDropdown = () => {
 
   return {
     themeId: themeColor.id,
-    currentThemeLabel,
     opened,
     toggle,
     dropdownRef,
