@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? "https://snihub.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 
 /**
  * 検索エンジン向けのsitemap.xmlを生成する
