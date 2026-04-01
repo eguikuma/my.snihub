@@ -54,7 +54,7 @@ return [
 
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', (string) env('LOG_STACK', 'single')),
+            'channels' => explode(',', (string) env('LOG_STACK', 'single,sentry')),
             'ignore_exceptions' => false,
         ],
 
@@ -121,6 +121,12 @@ return [
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
+        ],
+
+        'sentry' => [
+            'driver' => 'sentry',
+            'level' => env('LOG_LEVEL', 'error'),
+            'bubble' => true,
         ],
 
         'emergency' => [
