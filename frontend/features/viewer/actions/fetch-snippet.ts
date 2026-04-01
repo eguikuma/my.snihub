@@ -17,7 +17,7 @@ export const fetchSnippet = cache(
   (slug: Slug): ResultAsync<Snippet, OutcomeError> =>
     toOutcome(async () => {
       const response = await fetcher.get(Endpoints.Snippet(slug), {
-        revalidate: 60,
+        revalidate: 3600,
         tags: [CacheTags.Snippet(slug)],
         anonymous: true,
       });
