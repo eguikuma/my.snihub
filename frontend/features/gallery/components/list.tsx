@@ -16,6 +16,7 @@ type ListProps = {
  * スニペット一覧をグリッド表示し、0件の場合は空状態コンポーネントを表示する
  */
 export const List = ({ snippets, meta }: ListProps) => {
+  throw new Error("[Sentry Test] client component error");
   const { isPending, onPageChange } = usePaginationContext();
 
   if (snippets.length === 0) {
