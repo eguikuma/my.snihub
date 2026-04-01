@@ -7,7 +7,7 @@ import { Routes } from "@/foundations/definitions";
 
 const README_CONTENT = `# Something Went Wrong
 
-> \`サーバーとの通信中にエラーが発生しました\`
+> \`予期しないエラーが発生しました\`
 
 ## どうすればいいですか？
 
