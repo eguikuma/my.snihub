@@ -30,10 +30,15 @@ RUN if [ -f composer.json ]; then composer dump-autoload --optimize; fi
 
 # PHP のバージョン情報をレスポンスヘッダーに含めない
 RUN echo 'expose_php = Off' > /usr/local/etc/php/conf.d/security.ini
+
+COPY --chown=appuser:appuser entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 RUN chown -R appuser:appuser /var/www/html
 
 USER appuser
 
 EXPOSE 8000
 
-CMD php artisan migrate --force && PHP_CLI_SERVER_WORKERS=4 php artisan serve --host=0.0.0.0 --port=8000 --no-reload
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000", "--no-reload"]
