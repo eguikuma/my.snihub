@@ -58,35 +58,41 @@ export const viewport: Viewport = {
 /**
  * 全ページ共通のレイアウトを提供する
  */
-const RootLayout = ({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => (
-  <html lang="ja" data-theme={DEFAULT_THEME_ID} suppressHydrationWarning>
-    <head>
-      <ThemeScript />
-    </head>
-    <body
-      className={clsx(
-        plusJakartaSans.variable,
-        geistMono.variable,
-        "antialiased",
-      )}
-    >
-      <ThemeColorProvider>
-        <Suspense fallback={<TopBarSkeleton />}>
-          <TopBar />
-        </Suspense>
-        <Suspense>
-          <SessionHydrator />
-        </Suspense>
-        <main>{children}</main>
-        <LoginOverlay />
-        <Toast />
-      </ThemeColorProvider>
-    </body>
-  </html>
-);
+}>) => {
+  const { headers } = await import("next/headers");
+  await headers();
+  throw new Error("[Sentry Test] root layout error");
+
+  return (
+    <html lang="ja" data-theme={DEFAULT_THEME_ID} suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
+      <body
+        className={clsx(
+          plusJakartaSans.variable,
+          geistMono.variable,
+          "antialiased",
+        )}
+      >
+        <ThemeColorProvider>
+          <Suspense fallback={<TopBarSkeleton />}>
+            <TopBar />
+          </Suspense>
+          <Suspense>
+            <SessionHydrator />
+          </Suspense>
+          <main>{children}</main>
+          <LoginOverlay />
+          <Toast />
+        </ThemeColorProvider>
+      </body>
+    </html>
+  );
+};
 
 export default RootLayout;
