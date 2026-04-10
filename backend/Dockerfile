@@ -37,8 +37,13 @@ RUN if [ -f composer.json ]; then composer dump-autoload --optimize; fi
 # PHP のバージョン情報をレスポンスヘッダーに含めない
 RUN echo 'expose_php = Off' > /usr/local/etc/php/conf.d/security.ini
 
-# PHP-FPM をポート 9000 でリッスンさせる
-RUN sed -i 's|listen = 127.0.0.1:9000|listen = 9000|' /usr/local/etc/php-fpm.d/www.conf
+# PHP-FPM の設定を調整する
+RUN sed -i 's|listen = 127.0.0.1:9000|listen = 9000|' /usr/local/etc/php-fpm.d/www.conf \
+    # エラーログを stderr に出力し、Render のログで確認できるようにする
+    && sed -i 's|;catch_workers_output = yes|catch_workers_output = yes|' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's|;decorate_workers_output = no|decorate_workers_output = no|' /usr/local/etc/php-fpm.d/www.conf \
+    # ワーカー数をRender free tierのメモリに合わせて調整する
+    && sed -i 's|pm.max_children = 5|pm.max_children = 10|' /usr/local/etc/php-fpm.d/www.conf
 
 COPY --chown=appuser:appuser entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
