@@ -7,13 +7,14 @@ import { SnippetViewer } from "./snippet-viewer";
 
 type ViewerLayoutProps = {
   snippet: Snippet;
+  isOwner: boolean;
 };
 
 /**
  * スニペット閲覧画面のレイアウトを担い、コードビューア・メタ情報・サイドバーを配置する
  */
-export const ViewerLayout = ({ snippet }: ViewerLayoutProps) => {
-  if (snippet.is_owner) {
+export const ViewerLayout = ({ snippet, isOwner }: ViewerLayoutProps) => {
+  if (isOwner) {
     return (
       <>
         <PageTitle title={snippet.title} />

@@ -15,6 +15,7 @@ const SnippetBase = z.object({
     name: z.string(),
     avatar_url: z.nullish(z.string()),
   }),
+  owner_hash: z.string().optional(),
   is_owner: z.boolean(),
   created_at: z.string(),
   updated_at: z.string(),

@@ -38,7 +38,9 @@ export const GET = async (request: Request) => {
 
   try {
     const response = await fetcher.get(Endpoints.Me);
-    currentSession.user = MeResponse.parse(response).data;
+    const user = MeResponse.parse(response).data;
+    currentSession.user = user;
+    currentSession.ownerHash = user.owner_hash;
   } catch {
     /* ユーザー情報の事前取得は最適化目的のため、失敗してもログインは続行する */
   }

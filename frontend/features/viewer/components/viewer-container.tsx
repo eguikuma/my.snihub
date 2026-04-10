@@ -11,23 +11,39 @@ type ViewerContainerProps = {
 };
 
 /**
- * 認証状態に応じてスニペット詳細を取得し表示する
+ * キャッシュ済み匿名エンドポイントを優先し、オーナー判定はセッションとローカル比較する
  *
- * 認証ユーザーは自分のスニペットを取得する（非公開スニペットも含む）
- * 未認証ユーザーはキャッシュ済みの匿名エンドポイントを使う
+ * 非公開・期限切れスニペットは匿名エンドポイントで404になるため、認証付きフォールバックで取得する
  */
 export const ViewerContainer = async ({ params }: ViewerContainerProps) => {
   const { slug: rawSlug } = await params;
   const slug = Slug.from(rawSlug);
   const currentSession = await session.get();
 
-  const snippet = currentSession.token
-    ? await fetchMySnippet(slug)
-    : await fetchSnippet(slug);
+  const snippet = await fetchSnippet(slug);
 
-  return snippet.match(
-    (value) => <ViewerLayout snippet={value} />,
-    (error) =>
-      error.kind === "not_found" ? <NotFound /> : throwOutcomeError(error),
+  if (snippet.isOk()) {
+    const isOwner =
+      currentSession.ownerHash != null &&
+      snippet.value.owner_hash != null &&
+      currentSession.ownerHash === snippet.value.owner_hash;
+
+    return <ViewerLayout snippet={snippet.value} isOwner={isOwner} />;
+  }
+
+  if (snippet.error.kind === "not_found" && currentSession.token) {
+    const fallback = await fetchMySnippet(slug);
+
+    return fallback.match(
+      (value) => <ViewerLayout snippet={value} isOwner />,
+      (error) =>
+        error.kind === "not_found" ? <NotFound /> : throwOutcomeError(error),
+    );
+  }
+
+  return snippet.error.kind === "not_found" ? (
+    <NotFound />
+  ) : (
+    throwOutcomeError(snippet.error)
   );
 };
