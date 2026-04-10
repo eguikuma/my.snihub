@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import clsx from "clsx";
 import { LanguageChips } from "@/foundations/components/language-chips";
 import { SearchInput } from "@/foundations/components/search-input";
@@ -18,10 +18,7 @@ type GalleryFilterProps = {
 export const GalleryFilter = ({ children }: GalleryFilterProps) => {
   const { isPending, keyword, language, page } = useGalleryFilter();
 
-  const paginationValue = useMemo(
-    () => ({ isPending, onPageChange: page.onChange }),
-    [isPending, page.onChange],
-  );
+  const paginationValue = { isPending, onPageChange: page.onChange };
 
   return (
     <GalleryShell.Root>
