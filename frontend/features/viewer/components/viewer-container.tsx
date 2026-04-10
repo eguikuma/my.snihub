@@ -11,34 +11,22 @@ type ViewerContainerProps = {
 };
 
 /**
- * オーナー判定を行ったうえで、スニペット詳細を表示する
+ * 認証状態に応じてスニペット詳細を取得し表示する
+ *
+ * 認証ユーザーは自分のスニペットを取得する（非公開スニペットも含む）
+ * 未認証ユーザーはキャッシュ済みの匿名エンドポイントを使う
  */
 export const ViewerContainer = async ({ params }: ViewerContainerProps) => {
   const { slug: rawSlug } = await params;
   const slug = Slug.from(rawSlug);
   const currentSession = await session.get();
 
-  if (currentSession.token) {
-    const [mySnippet, publicSnippet] = await Promise.all([
-      fetchMySnippet(slug),
-      fetchSnippet(slug),
-    ]);
+  const snippet = currentSession.token
+    ? await fetchMySnippet(slug)
+    : await fetchSnippet(slug);
 
-    if (mySnippet.isOk()) {
-      return <ViewerLayout snippet={mySnippet.value} />;
-    }
-
-    return publicSnippet.match(
-      (snippet) => <ViewerLayout snippet={snippet} />,
-      (error) =>
-        error.kind === "not_found" ? <NotFound /> : throwOutcomeError(error),
-    );
-  }
-
-  const publicSnippet = await fetchSnippet(slug);
-
-  return publicSnippet.match(
-    (snippet) => <ViewerLayout snippet={snippet} />,
+  return snippet.match(
+    (value) => <ViewerLayout snippet={value} />,
     (error) =>
       error.kind === "not_found" ? <NotFound /> : throwOutcomeError(error),
   );

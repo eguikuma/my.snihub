@@ -11,12 +11,14 @@ const SnippetResponse = z.object({
 });
 
 /**
- * 認証済みユーザーのスニペットをslug指定で取得する（同一リクエスト内でキャッシュする）
+ * 認証付きで公開エンドポイントからスニペットを取得する（同一リクエスト内でキャッシュする）
+ *
+ * is_ownerが正しく判定され、非公開・期限切れスニペットもオーナーなら閲覧できる
  */
 export const fetchMySnippet = cache(
   (slug: Slug): ResultAsync<Snippet, OutcomeError> =>
     toOutcome(async () => {
-      const response = await fetcher.get(Endpoints.MySnippet(slug));
+      const response = await fetcher.get(Endpoints.Snippet(slug));
 
       return SnippetResponse.parse(response).data;
     }),

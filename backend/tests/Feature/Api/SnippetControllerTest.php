@@ -4,7 +4,9 @@ namespace Tests\Feature\Api;
 
 use App\Models\Snippet;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -132,5 +134,74 @@ class SnippetControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonPath('data.visibility', 'public');
+    }
+
+    #[Test]
+    public function 認証ユーザーが自分のスニペットを閲覧するとis_ownerがtrueであること(): void
+    {
+        $user = User::factory()->create();
+        $snippet = Snippet::factory()->for($user)->create();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson("/api/snippets/{$snippet->slug}");
+
+        $response->assertOk();
+        $response->assertJsonPath('data.is_owner', true);
+    }
+
+    #[Test]
+    public function 認証ユーザーが他人のスニペットを閲覧するとis_ownerがfalseであること(): void
+    {
+        $snippet = Snippet::factory()->create();
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $response = $this->getJson("/api/snippets/{$snippet->slug}");
+
+        $response->assertOk();
+        $response->assertJsonPath('data.is_owner', false);
+    }
+
+    #[Test]
+    public function 認証ユーザーが自分の非公開スニペットを閲覧できること(): void
+    {
+        $user = User::factory()->create();
+        $snippet = Snippet::factory()->for($user)->private()->create();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson("/api/snippets/{$snippet->slug}");
+
+        $response->assertOk();
+        $response->assertJsonPath('data.is_owner', true);
+    }
+
+    #[Test]
+    public function 認証ユーザーが自分の期限切れスニペットを閲覧できること(): void
+    {
+        $user = User::factory()->create();
+        $snippet = Snippet::factory()->for($user)->create([
+            'expires_at' => now()->subHour(),
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson("/api/snippets/{$snippet->slug}");
+
+        $response->assertOk();
+        $response->assertJsonPath('data.is_owner', true);
+    }
+
+    #[Test]
+    public function 認証ユーザーが他人の非公開スニペットにアクセスすると404を返すこと(): void
+    {
+        $snippet = Snippet::factory()->private()->create();
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $response = $this->getJson("/api/snippets/{$snippet->slug}");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

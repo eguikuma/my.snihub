@@ -9,6 +9,7 @@ use App\Http\Resources\SnippetSummaryResource;
 use App\UseCases\Snippet\Dtos\SnippetSearchDto;
 use App\UseCases\Snippet\FindSnippetUseCase;
 use App\UseCases\Snippet\SearchSnippetsUseCase;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
@@ -38,10 +39,12 @@ class SnippetController extends Controller
 
     /**
      * スニペットを取得する
+     *
+     * Bearerトークンがあれば認証を試み、オーナー判定や非公開スニペットの表示に利用する
      */
-    public function show(string $slug, FindSnippetUseCase $useCase): SnippetResource
+    public function show(string $slug, Request $request, FindSnippetUseCase $useCase): SnippetResource
     {
-        $snippet = $useCase->execute($slug, user: null);
+        $snippet = $useCase->execute($slug, $request->user('sanctum'));
 
         return SnippetResource::make($snippet);
     }

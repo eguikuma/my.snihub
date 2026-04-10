@@ -1,11 +1,16 @@
 import type { SessionOptions as IronSessionOptions } from "iron-session";
 import type { Token } from "../schemas/brand";
+import type { User } from "../schemas/user";
 
 export type Session = {
   /**
    * 認証トークン
    */
   token?: Token;
+  /**
+   * ログイン中のユーザー情報
+   */
+  user?: User;
   /**
    * CSRF対策のstate
    */

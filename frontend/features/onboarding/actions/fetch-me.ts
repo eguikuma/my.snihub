@@ -11,6 +11,9 @@ const MeResponse = z.object({
 
 /**
  * 認証済みユーザーを取得し、未認証または失敗時はnullを返す（同一リクエスト内でキャッシュする）
+ *
+ * セッションCookieにユーザー情報があればAPIコールなしで返す
+ * ない場合はAPIで取得して返す
  */
 export const fetchMe = cache(async (): Promise<User | null> => {
   try {
@@ -18,6 +21,10 @@ export const fetchMe = cache(async (): Promise<User | null> => {
 
     if (!currentSession.token) {
       return null;
+    }
+
+    if (currentSession.user) {
+      return currentSession.user;
     }
 
     const response = await fetcher.get(Endpoints.Me);
