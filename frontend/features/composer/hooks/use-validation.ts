@@ -67,7 +67,7 @@ export const useValidation = <S extends z.ZodObject<z.ZodRawShape>>(
     setClientErrors((previous) => {
       if (!error) {
         if (!previous[name]) return previous;
-        /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+
         const { [name]: _, ...rest } = previous;
         return rest;
       }
@@ -101,7 +101,7 @@ export const useValidation = <S extends z.ZodObject<z.ZodRawShape>>(
   const clearServerError = (name: FieldName) => {
     setServerErrorsState((previous) => {
       if (!previous[name]) return previous;
-      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+
       const { [name]: _, ...rest } = previous;
       return rest;
     });
