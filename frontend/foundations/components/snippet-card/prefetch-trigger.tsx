@@ -1,8 +1,8 @@
 "use client";
 
-import { startTransition, useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { BffEndpoints } from "@/foundations/definitions";
 import type { Slug } from "@/foundations/schemas";
-import { prefetchSnippet } from "@/features/viewer/actions/prefetch-snippet";
 
 const prefetchedSlugs = new Set<string>();
 
@@ -13,6 +13,8 @@ type PrefetchTriggerProps = {
 
 /**
  * ビューポートに入った時点でスニペットデータをData Cacheに事前読み込みする
+ *
+ * Server ActionではなくRoute Handlerを使うことでRSCツリーの再レンダリングを回避する
  */
 export const PrefetchTrigger = ({ slug, children }: PrefetchTriggerProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,9 +30,7 @@ export const PrefetchTrigger = ({ slug, children }: PrefetchTriggerProps) => {
         prefetchedSlugs.add(slug);
         observer.disconnect();
 
-        startTransition(() => {
-          prefetchSnippet(slug);
-        });
+        fetch(`${BffEndpoints.PrefetchSnippet}?slug=${slug}`);
       },
       { rootMargin: "200px" },
     );
