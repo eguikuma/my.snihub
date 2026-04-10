@@ -41,8 +41,8 @@ export const GET = async (request: Request) => {
     const user = MeResponse.parse(response).data;
     currentSession.user = user;
     currentSession.ownerHash = user.owner_hash;
-  } catch {
-    /* ユーザー情報の事前取得は最適化目的のため、失敗してもログインは続行する */
+  } catch (error) {
+    console.error("[OAuthCallback] /api/me failed:", error);
   }
 
   const redirectTo = currentSession.redirectTo ?? Routes.Snippets;
