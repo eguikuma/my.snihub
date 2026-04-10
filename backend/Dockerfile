@@ -50,7 +50,8 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # storage 配下のディレクトリを事前作成し、PHP-FPM が書き込めるようにする
 RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs \
-    && chown -R appuser:appuser /var/www/html
+    && chown -R appuser:appuser /var/www/html \
+    && chmod -R 775 storage
 
 EXPOSE 8000
 
