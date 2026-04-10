@@ -39,8 +39,8 @@ return [
         'logs' => true,
         /** キャッシュの読み書きを記録する */
         'cache' => true,
-        /** 実行された SQL クエリを記録する */
-        'sql_queries' => true,
+        /** 実行された SQL クエリを記録する（本番ではオーバーヘッド軽減のため無効） */
+        'sql_queries' => env('SENTRY_SQL_BREADCRUMBS', false),
         /** SQL のバインドパラメータは個人情報を含む可能性があるため記録しない */
         'sql_bindings' => false,
         /** キュージョブの実行を記録する */
