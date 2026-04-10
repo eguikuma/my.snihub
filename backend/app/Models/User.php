@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,6 +23,18 @@ class User extends Authenticatable
         'email',
         'avatar_url',
     ];
+
+    /**
+     * user_idからオーナー判定用のハッシュを導出する
+     *
+     * @return Attribute<string, never>
+     */
+    protected function ownerHash(): Attribute
+    {
+        return Attribute::get(
+            fn (): string => hash_hmac('sha256', (string) $this->id, config('app.key')),
+        );
+    }
 
     /**
      * ユーザーが作成したスニペットを取得する
