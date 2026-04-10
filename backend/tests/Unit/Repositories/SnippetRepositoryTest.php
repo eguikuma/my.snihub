@@ -104,11 +104,11 @@ class SnippetRepositoryTest extends TestCase
     }
 
     #[Test]
-    public function paginateで、キーワード検索がtitleとcodeとdescriptionに適用されること(): void
+    public function paginateで、キーワード検索がtitleとdescriptionに適用されること(): void
     {
         $byTitle = Snippet::factory()->create(['title' => 'React hooks example']);
-        $byCode = Snippet::factory()->create(['code' => 'const useHooks = () => {}']);
         $byDesc = Snippet::factory()->create(['description' => 'A hooks tutorial']);
+        Snippet::factory()->create(['code' => 'const useHooks = () => {}']);
         Snippet::factory()->create([
             'title' => 'Unrelated',
             'code' => 'unrelated code',
@@ -117,10 +117,9 @@ class SnippetRepositoryTest extends TestCase
 
         $result = $this->repository->paginate(new SnippetSearchDto(keyword: 'hooks'), 20);
 
-        $this->assertCount(3, $result->items());
+        $this->assertCount(2, $result->items());
         $slugs = collect($result->items())->pluck('slug')->all();
         $this->assertContains($byTitle->slug, $slugs);
-        $this->assertContains($byCode->slug, $slugs);
         $this->assertContains($byDesc->slug, $slugs);
     }
 
