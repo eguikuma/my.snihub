@@ -7,6 +7,7 @@ import type { Statistics } from "../actions/fetch-my-snippet-statistics";
 type VisibilityTabsProps = {
   visibility: string;
   statistics: Statistics;
+  disabled?: boolean;
   onSelect: (value: string) => void;
   onReset: () => void;
 };
@@ -25,6 +26,7 @@ const tab = (isActive: boolean) =>
 export const VisibilityTabs = ({
   visibility,
   statistics,
+  disabled = false,
   onSelect,
   onReset,
 }: VisibilityTabsProps) => {
@@ -36,7 +38,12 @@ export const VisibilityTabs = ({
   };
 
   return (
-    <div className="flex items-center gap-1 border-b border-edge pb-2">
+    <div
+      className={clsx(
+        "flex items-center gap-1 border-b border-edge pb-2 transition-opacity",
+        disabled && "pointer-events-none opacity-60",
+      )}
+    >
       <button type="button" onClick={onReset} className={tab(!visibility)}>
         すべて
         <span className="ml-1 opacity-60">({statistics.total})</span>

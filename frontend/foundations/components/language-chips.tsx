@@ -8,6 +8,7 @@ const VISIBLE_LANGUAGE_COUNT = 8;
 
 type LanguageChipsProps = {
   language: string;
+  disabled?: boolean;
   onSelect: (value: string) => void;
   onReset: () => void;
 };
@@ -25,6 +26,7 @@ const chip = (isActive: boolean) =>
  */
 export const LanguageChips = ({
   language,
+  disabled = false,
   onSelect,
   onReset,
 }: LanguageChipsProps) => {
@@ -46,7 +48,12 @@ export const LanguageChips = ({
   const options = isExpanded ? LanguageOptions : visibleLanguageOptions;
 
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
+    <div
+      className={clsx(
+        "flex flex-wrap items-center gap-1.5 transition-opacity",
+        disabled && "pointer-events-none opacity-60",
+      )}
+    >
       <button type="button" onClick={onReset} className={chip(!language)}>
         すべて
       </button>

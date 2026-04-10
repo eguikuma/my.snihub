@@ -28,6 +28,7 @@ export const GalleryFilter = ({ children }: GalleryFilterProps) => {
       <GalleryShell.FilterPanel>
         <SearchInput
           value={keyword.value}
+          disabled={isPending}
           onChange={keyword.onChange}
           onCompositionStart={keyword.onCompositionStart}
           onCompositionEnd={keyword.onCompositionEnd}
@@ -35,6 +36,7 @@ export const GalleryFilter = ({ children }: GalleryFilterProps) => {
         />
         <LanguageChips
           language={language.value}
+          disabled={isPending}
           onSelect={language.onSelect}
           onReset={language.onReset}
         />

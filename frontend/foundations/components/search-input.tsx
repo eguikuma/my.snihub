@@ -2,6 +2,7 @@
 
 type SearchInputProps = {
   value: string;
+  disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onCompositionStart: () => void;
   onCompositionEnd: (event: React.CompositionEvent<HTMLInputElement>) => void;
@@ -13,6 +14,7 @@ type SearchInputProps = {
  */
 export const SearchInput = ({
   value,
+  disabled = false,
   onChange,
   onCompositionStart,
   onCompositionEnd,
@@ -38,6 +40,7 @@ export const SearchInput = ({
       <input
         type="text"
         value={value}
+        disabled={disabled}
         onChange={onChange}
         onCompositionStart={onCompositionStart}
         onCompositionEnd={onCompositionEnd}
