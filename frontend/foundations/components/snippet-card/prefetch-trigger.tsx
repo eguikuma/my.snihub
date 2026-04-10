@@ -7,10 +7,40 @@ import type { Slug } from "@/foundations/schemas";
 const prefetchedSlugs = new Set<string>();
 
 /**
- * スクロール時に大量のプリフェッチが同時発火してバックエンドに負荷をかけないよう制限する
+ * スクロール時に大量のプリフェッチが同時発火してバックエンドに負荷をかけないよう、キューで順次実行する
  */
-const MAX_CONCURRENT_PREFETCHES = 3;
+const MAX_CONCURRENT_PREFETCHES = 6;
 let activePrefetches = 0;
+const pendingQueue: string[] = [];
+
+const executePrefetch = (slug: string) => {
+  activePrefetches++;
+  fetch(`${BffEndpoints.PrefetchSnippet}?slug=${slug}`).finally(() => {
+    activePrefetches--;
+    drainQueue();
+  });
+};
+
+const drainQueue = () => {
+  while (
+    pendingQueue.length > 0 &&
+    activePrefetches < MAX_CONCURRENT_PREFETCHES
+  ) {
+    const next = pendingQueue.shift()!;
+    executePrefetch(next);
+  }
+};
+
+const enqueue = (slug: string) => {
+  if (prefetchedSlugs.has(slug)) return;
+  prefetchedSlugs.add(slug);
+
+  if (activePrefetches < MAX_CONCURRENT_PREFETCHES) {
+    executePrefetch(slug);
+  } else {
+    pendingQueue.push(slug);
+  }
+};
 
 type PrefetchTriggerProps = {
   slug: Slug;
@@ -33,15 +63,8 @@ export const PrefetchTrigger = ({ slug, children }: PrefetchTriggerProps) => {
       ([entry]) => {
         if (!entry.isIntersecting) return;
 
-        if (activePrefetches >= MAX_CONCURRENT_PREFETCHES) return;
-
-        prefetchedSlugs.add(slug);
         observer.disconnect();
-
-        activePrefetches++;
-        fetch(`${BffEndpoints.PrefetchSnippet}?slug=${slug}`).finally(() => {
-          activePrefetches--;
-        });
+        enqueue(slug);
       },
       { rootMargin: "200px" },
     );
