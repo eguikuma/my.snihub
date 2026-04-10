@@ -12,6 +12,10 @@ export type Session = {
    */
   user?: User;
   /**
+   * オーナー判定用のハッシュ（スニペットの owner_hash とローカル比較する）
+   */
+  ownerHash?: string;
+  /**
    * CSRF対策のstate
    */
   state?: string;

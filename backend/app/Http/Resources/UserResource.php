@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'avatar_url' => $this->avatar_url,
+            'owner_hash' => $this->owner_hash,
             'providers' => $this->userProviders->pluck('type'),
             'created_at' => $this->created_at,
         ];

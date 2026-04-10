@@ -32,6 +32,7 @@ class SnippetSummaryResource extends JsonResource
                 'name' => $this->user->name,
                 'avatar_url' => $this->user->avatar_url,
             ],
+            'owner_hash' => $this->user->owner_hash,
             'is_owner' => $request->user()?->id === $this->user_id,
             'created_at' => $this->created_at->toIso8601String(),
             'updated_at' => $this->updated_at->toIso8601String(),

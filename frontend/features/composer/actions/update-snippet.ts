@@ -6,6 +6,7 @@ import { CacheProfiles, CacheTags, Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toActionOutcome } from "@/foundations/libraries/outcome";
 import { Slug } from "@/foundations/schemas";
+import { fetchSnippet } from "@/features/viewer/actions/fetch-snippet";
 import type { SnippetRevision } from "../schemas";
 
 /**
@@ -36,6 +37,12 @@ export const updateSnippet = async (slug: Slug, fields: SnippetRevision) =>
     const { data } = UpdateSnippetResponse.parse(response);
     revalidateTag(CacheTags.Snippet(slug), CacheProfiles.Default);
     revalidateTag(CacheTags.Snippets, CacheProfiles.Default);
+
+    try {
+      await fetchSnippet(data.slug);
+    } catch {
+      /* キャッシュウォームはベストエフォート */
+    }
 
     return { slug: data.slug };
   });
