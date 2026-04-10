@@ -48,7 +48,9 @@ RUN sed -i 's|listen = 127.0.0.1:9000|listen = 9000|' /usr/local/etc/php-fpm.d/w
 COPY --chown=appuser:appuser entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-RUN chown -R appuser:appuser /var/www/html
+# storage 配下のディレクトリを事前作成し、PHP-FPM が書き込めるようにする
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs \
+    && chown -R appuser:appuser /var/www/html
 
 EXPOSE 8000
 
