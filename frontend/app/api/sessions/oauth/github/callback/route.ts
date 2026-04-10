@@ -37,6 +37,10 @@ export const GET = async (request: Request) => {
   }
 
   try {
+    /**
+     * Route Handler 内では session.get() のキャッシュが共有されず、
+     * fetcher が自動付与する Authorization ヘッダーにトークンが載らないため直接渡す
+     */
     const response = await fetcher.get(Endpoints.Me, {
       headers: { Authorization: `Bearer ${currentSession.token}` },
       anonymous: true,
