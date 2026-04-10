@@ -9,7 +9,7 @@ const prefetchedSlugs = new Set<string>();
 /**
  * スクロール時に大量のプリフェッチが同時発火してバックエンドに負荷をかけないよう、キューで順次実行する
  */
-const MAX_CONCURRENT_PREFETCHES = 6;
+const MAX_CONCURRENT_PREFETCHES = 3;
 let activePrefetches = 0;
 const pendingQueue: string[] = [];
 
