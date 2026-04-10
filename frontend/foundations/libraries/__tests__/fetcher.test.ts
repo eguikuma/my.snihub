@@ -1,12 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  test,
-  vi,
-  type Mock,
-} from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { BackendFailure, BackendUnreadable } from "../../errors";
 import { fetcher } from "../fetcher";
 
@@ -186,58 +178,30 @@ describe("fetcher", () => {
     });
   });
 
-  describe("リトライ", () => {
-    test("5xxエラーで最大1回リトライする", async () => {
-      vi.useFakeTimers();
-      const mockFetch = vi.mocked(fetch);
-      mockFetch.mockImplementation(() =>
+  describe("エラー", () => {
+    test("5xxエラーはリトライせず即座にスローする", async () => {
+      vi.mocked(fetch).mockImplementation(() =>
         Promise.resolve(createErrorResponse("Server Error", 500)),
       );
-
-      const caught = fetcher.get("/api/test").catch((error: unknown) => error);
-      await vi.runAllTimersAsync();
-      const error = await caught;
-
-      expect(error).toBeInstanceOf(BackendFailure);
-      expect(mockFetch).toHaveBeenCalledTimes(2);
-    });
-
-    test("ネットワークエラー（TypeError）でリトライする", async () => {
-      vi.useFakeTimers();
-      const mockFetch = vi.mocked(fetch);
-      mockFetch.mockImplementation(() =>
-        Promise.reject(new TypeError("fetch failed")),
-      );
-
-      const caught = fetcher.get("/api/test").catch((error: unknown) => error);
-      await vi.runAllTimersAsync();
-      const error = await caught;
-
-      expect(error).toBeInstanceOf(TypeError);
-      expect(mockFetch).toHaveBeenCalledTimes(2);
-    });
-
-    test("4xxエラーではリトライしない", async () => {
-      vi.mocked(fetch).mockResolvedValue(createErrorResponse("Not Found", 404));
 
       await expect(fetcher.get("/api/test")).rejects.toThrow(BackendFailure);
       expect(fetch).toHaveBeenCalledTimes(1);
     });
 
-    test("リトライ後に成功した場合は結果を返す", async () => {
-      vi.useFakeTimers();
-      const mockFetch = vi.mocked(fetch) as Mock;
-      mockFetch
-        .mockResolvedValueOnce(createErrorResponse("Server Error", 500))
-        .mockResolvedValueOnce(createJsonResponse({ recovered: true }));
+    test("ネットワークエラーはリトライせず即座にスローする", async () => {
+      vi.mocked(fetch).mockImplementation(() =>
+        Promise.reject(new TypeError("fetch failed")),
+      );
 
-      const promise = fetcher.get("/api/test");
-      await vi.advanceTimersByTimeAsync(1_000);
+      await expect(fetcher.get("/api/test")).rejects.toThrow(TypeError);
+      expect(fetch).toHaveBeenCalledTimes(1);
+    });
 
-      const result = await promise;
+    test("4xxエラーは即座にスローする", async () => {
+      vi.mocked(fetch).mockResolvedValue(createErrorResponse("Not Found", 404));
 
-      expect(result).toEqual({ recovered: true });
-      expect(mockFetch).toHaveBeenCalledTimes(2);
+      await expect(fetcher.get("/api/test")).rejects.toThrow(BackendFailure);
+      expect(fetch).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useDebouncedInput, useSearchParameters } from "@/foundations/hooks";
+import { useSearchInput, useSearchParameters } from "@/foundations/hooks";
 import { SearchParameterKeys } from "../definitions";
 
 /**
@@ -20,10 +20,11 @@ export const useGalleryFilter = () => {
   const {
     inputValue,
     handleChange,
+    handleSubmit,
+    handleClear,
     handleCompositionStart,
     handleCompositionEnd,
-    handleClear,
-  } = useDebouncedInput(keyword, applyKeyword);
+  } = useSearchInput(keyword, applyKeyword);
 
   const toggleLanguage = (value: string) =>
     update(SearchParameterKeys.Language, language === value ? "" : value);
@@ -38,6 +39,7 @@ export const useGalleryFilter = () => {
     keyword: {
       value: inputValue,
       onChange: handleChange,
+      onSubmit: handleSubmit,
       onCompositionStart: handleCompositionStart,
       onCompositionEnd: handleCompositionEnd,
       onClear: handleClear,

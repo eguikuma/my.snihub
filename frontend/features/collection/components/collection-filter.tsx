@@ -35,19 +35,23 @@ export const CollectionFilter = ({
       <CollectionShell.FilterPanel>
         <SearchInput
           value={keyword.value}
+          disabled={isPending}
           onChange={keyword.onChange}
+          onSubmit={keyword.onSubmit}
           onCompositionStart={keyword.onCompositionStart}
           onCompositionEnd={keyword.onCompositionEnd}
           onClear={keyword.onClear}
         />
         <LanguageChips
           language={language.value}
+          disabled={isPending}
           onSelect={language.onSelect}
           onReset={language.onReset}
         />
         <VisibilityTabs
           visibility={visibility.value}
           statistics={statistics}
+          disabled={isPending}
           onSelect={visibility.onSelect}
           onReset={visibility.onReset}
         />
