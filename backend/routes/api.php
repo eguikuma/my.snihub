@@ -37,7 +37,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('snippets')->name('snippets.')->group(function () {
             Route::get('statistics', [MySnippetStatisticsController::class, 'show'])->name('statistics');
             Route::get('/', [MySnippetController::class, 'index'])->name('index');
-            Route::get('{slug}', [MySnippetController::class, 'show'])->name('show');
             Route::post('/', [MySnippetController::class, 'store'])->name('store');
             Route::put('{slug}', [MySnippetController::class, 'update'])->name('update');
             Route::delete('{slug}', [MySnippetController::class, 'destroy'])->name('destroy');

@@ -15,7 +15,7 @@ class CachePublicResponse
     {
         $response = $next($request);
 
-        if ($response->isSuccessful()) {
+        if ($response->isSuccessful() && ! $request->bearerToken()) {
             $response->headers->set(
                 'Cache-Control',
                 'public, s-maxage=300, stale-while-revalidate=600',

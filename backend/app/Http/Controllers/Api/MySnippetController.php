@@ -50,16 +50,6 @@ class MySnippetController extends Controller
     }
 
     /**
-     * スニペットを取得する
-     */
-    public function show(string $slug, Request $request, FindSnippetUseCase $useCase): SnippetResource
-    {
-        $snippet = $useCase->execute($slug, $request->user());
-
-        return SnippetResource::make($snippet);
-    }
-
-    /**
      * スニペットを新規作成する
      */
     public function store(StoreSnippetRequest $request, CreateSnippetUseCase $useCase): JsonResponse
