@@ -30,7 +30,7 @@ describe("User", () => {
   });
 
   test("owner_hashが省略されてもパースできる", () => {
-    const { owner_hash: _owner_hash, ...withoutOwnerHash } = validUser;
+    const { owner_hash: _, ...withoutOwnerHash } = validUser;
     const result = User.safeParse(withoutOwnerHash);
 
     expect(result.success).toBe(true);
@@ -38,7 +38,7 @@ describe("User", () => {
   });
 
   test("nameが欠けている場合はパースに失敗する", () => {
-    const { name: _name, ...withoutName } = validUser;
+    const { name: _, ...withoutName } = validUser;
     const result = User.safeParse(withoutName);
 
     expect(result.success).toBe(false);
