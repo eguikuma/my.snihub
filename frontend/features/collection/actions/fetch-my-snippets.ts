@@ -57,7 +57,7 @@ export const fetchMySnippets = (
     const cacheKeyQuery = ownerHash ? `&cache-key=${ownerHash}` : "";
     const response = await fetcher.get(
       `${Endpoints.MySnippets}${buildQueryString(parameters)}${cacheKeyQuery}`,
-      ownerHash ? { revalidate: 60, tags: [CacheTags.Snippets] } : undefined,
+      ownerHash ? { revalidate: 300, tags: [CacheTags.Snippets] } : undefined,
     );
 
     return MySnippetsResponse.parse(response);

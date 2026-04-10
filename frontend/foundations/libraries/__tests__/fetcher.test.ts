@@ -187,7 +187,7 @@ describe("fetcher", () => {
   });
 
   describe("リトライ", () => {
-    test("5xxエラーで最大2回リトライする", async () => {
+    test("5xxエラーで最大1回リトライする", async () => {
       vi.useFakeTimers();
       const mockFetch = vi.mocked(fetch);
       mockFetch.mockImplementation(() =>
@@ -199,7 +199,7 @@ describe("fetcher", () => {
       const error = await caught;
 
       expect(error).toBeInstanceOf(BackendFailure);
-      expect(mockFetch).toHaveBeenCalledTimes(3);
+      expect(mockFetch).toHaveBeenCalledTimes(2);
     });
 
     test("ネットワークエラー（TypeError）でリトライする", async () => {
@@ -214,7 +214,7 @@ describe("fetcher", () => {
       const error = await caught;
 
       expect(error).toBeInstanceOf(TypeError);
-      expect(mockFetch).toHaveBeenCalledTimes(3);
+      expect(mockFetch).toHaveBeenCalledTimes(2);
     });
 
     test("4xxエラーではリトライしない", async () => {
