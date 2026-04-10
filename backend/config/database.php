@@ -98,6 +98,12 @@ return [
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
             'persistent' => true,
+            /**
+             * Neon free tier のコネクション上限に達した際に、接続待ちで長時間ブロックしないようにする
+             */
+            'options' => [
+                PDO::ATTR_TIMEOUT => 5,
+            ],
         ],
 
         'sqlsrv' => [

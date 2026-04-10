@@ -6,6 +6,12 @@ import type { Slug } from "@/foundations/schemas";
 
 const prefetchedSlugs = new Set<string>();
 
+/**
+ * スクロール時に大量のプリフェッチが同時発火してバックエンドに負荷をかけないよう制限する
+ */
+const MAX_CONCURRENT_PREFETCHES = 3;
+let activePrefetches = 0;
+
 type PrefetchTriggerProps = {
   slug: Slug;
   children: ReactNode;
@@ -27,10 +33,15 @@ export const PrefetchTrigger = ({ slug, children }: PrefetchTriggerProps) => {
       ([entry]) => {
         if (!entry.isIntersecting) return;
 
+        if (activePrefetches >= MAX_CONCURRENT_PREFETCHES) return;
+
         prefetchedSlugs.add(slug);
         observer.disconnect();
 
-        fetch(`${BffEndpoints.PrefetchSnippet}?slug=${slug}`);
+        activePrefetches++;
+        fetch(`${BffEndpoints.PrefetchSnippet}?slug=${slug}`).finally(() => {
+          activePrefetches--;
+        });
       },
       { rootMargin: "200px" },
     );
