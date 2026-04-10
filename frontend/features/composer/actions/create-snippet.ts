@@ -11,6 +11,7 @@ import {
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toActionOutcome } from "@/foundations/libraries/outcome";
 import { Slug } from "@/foundations/schemas";
+import { fetchSnippet } from "@/features/viewer/actions/fetch-snippet";
 import type { SnippetDraft } from "../schemas";
 
 /**
@@ -42,6 +43,12 @@ export const createSnippet = async (fields: SnippetDraft) =>
     const { data } = CreateSnippetResponse.parse(response);
     revalidatePath(Routes.SnippetMine);
     revalidateTag(CacheTags.Snippets, CacheProfiles.Default);
+
+    try {
+      await fetchSnippet(data.slug);
+    } catch {
+      /* キャッシュウォームはベストエフォート */
+    }
 
     return { slug: data.slug };
   });
