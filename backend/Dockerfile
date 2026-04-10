@@ -1,4 +1,4 @@
-FROM php:8.4.7-cli-alpine3.21
+FROM dunglas/frankenphp:php8.4-alpine
 
 # ホストの UID/GID と一致させる
 ARG UID=1000
@@ -10,7 +10,9 @@ RUN apk add --no-cache \
     curl \
     postgresql-dev \
     shadow \
-    && docker-php-ext-install pdo_pgsql
+    && docker-php-ext-install pdo_pgsql \
+    # Octane のシグナルハンドリング（SIGINT/SIGTERM）に必要
+    pcntl
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -41,4 +43,4 @@ USER appuser
 EXPOSE 8000
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000", "--no-reload"]
+CMD ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=8000"]
