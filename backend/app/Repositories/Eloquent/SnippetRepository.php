@@ -168,7 +168,6 @@ class SnippetRepository implements SnippetRepositoryInterface
              */
             $builder->where(function ($subBuilder) use ($keyword) {
                 $subBuilder->where('title', 'ILIKE', "%{$keyword}%")
-                    ->orWhere('code', 'ILIKE', "%{$keyword}%")
                     ->orWhere('description', 'ILIKE', "%{$keyword}%")
                     ->orWhereHas('tags', function ($tagBuilder) use ($keyword) {
                         $tagBuilder->where('name', 'ILIKE', "%{$keyword}%");
