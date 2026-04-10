@@ -1,8 +1,10 @@
 "use client";
 
-import { startTransition, useCallback, useRef, type ReactNode } from "react";
+import { startTransition, useCallback, type ReactNode } from "react";
 import type { Slug } from "@/foundations/schemas";
 import { prefetchSnippet } from "@/features/viewer/actions/prefetch-snippet";
+
+const prefetchedSlugs = new Set<string>();
 
 type PrefetchTriggerProps = {
   slug: Slug;
@@ -13,11 +15,10 @@ type PrefetchTriggerProps = {
  * ホバー時にスニペットデータをData Cacheに事前読み込みする
  */
 export const PrefetchTrigger = ({ slug, children }: PrefetchTriggerProps) => {
-  const prefetched = useRef(false);
-
   const mouseEnter = useCallback(() => {
-    if (prefetched.current) return;
-    prefetched.current = true;
+    if (prefetchedSlugs.has(slug)) return;
+
+    prefetchedSlugs.add(slug);
 
     startTransition(() => {
       prefetchSnippet(slug);
