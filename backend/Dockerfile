@@ -39,6 +39,9 @@ RUN echo 'expose_php = Off' > /usr/local/etc/php/conf.d/security.ini
 
 # PHP-FPM の設定を調整する
 RUN sed -i 's|listen = 127.0.0.1:9000|listen = 9000|' /usr/local/etc/php-fpm.d/www.conf \
+    # ワーカーを appuser で実行し、ファイルの所有者と一致させる
+    && sed -i 's|user = www-data|user = appuser|' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's|group = www-data|group = appuser|' /usr/local/etc/php-fpm.d/www.conf \
     # エラーログを stderr に出力し、Render のログで確認できるようにする
     && sed -i 's|;catch_workers_output = yes|catch_workers_output = yes|' /usr/local/etc/php-fpm.d/www.conf \
     && sed -i 's|;decorate_workers_output = no|decorate_workers_output = no|' /usr/local/etc/php-fpm.d/www.conf \
