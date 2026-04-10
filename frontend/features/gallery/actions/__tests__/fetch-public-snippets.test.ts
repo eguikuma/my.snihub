@@ -25,7 +25,7 @@ describe("fetchPublicSnippets", () => {
 
     expect(mockFetcher.get).toHaveBeenCalledWith(
       "/api/snippets?per_page=24",
-      expect.objectContaining({ anonymous: true, revalidate: 60 }),
+      expect.objectContaining({ anonymous: true, revalidate: 300 }),
     );
   });
 

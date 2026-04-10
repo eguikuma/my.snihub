@@ -25,7 +25,7 @@ export const fetchMySnippetStatistics = (
     const cacheKeyQuery = ownerHash ? `?cache-key=${ownerHash}` : "";
     const response = await fetcher.get(
       `${Endpoints.MySnippetStatistics}${cacheKeyQuery}`,
-      ownerHash ? { revalidate: 60, tags: [CacheTags.Snippets] } : undefined,
+      ownerHash ? { revalidate: 300, tags: [CacheTags.Snippets] } : undefined,
     );
 
     return StatisticsResponse.parse(response);

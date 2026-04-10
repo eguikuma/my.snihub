@@ -28,7 +28,7 @@ describe("fetchMySnippetStatistics", () => {
 
     expect(mockFetcher.get).toHaveBeenCalledWith(
       "/api/me/snippets/statistics?cache-key=hash123",
-      expect.objectContaining({ revalidate: 60 }),
+      expect.objectContaining({ revalidate: 300 }),
     );
     expect(result.isOk()).toBe(true);
     expect(result._unsafeUnwrap()).toEqual(validStatistics);

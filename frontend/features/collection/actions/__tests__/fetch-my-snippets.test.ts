@@ -78,7 +78,7 @@ describe("fetchMySnippets", () => {
     expect(url).toContain("cache-key=hash123");
     expect(mockFetcher.get).toHaveBeenCalledWith(
       expect.any(String),
-      expect.objectContaining({ revalidate: 60 }),
+      expect.objectContaining({ revalidate: 300 }),
     );
   });
 
