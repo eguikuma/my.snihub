@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { SnippetSkeletonCard } from "@/foundations/components/snippet-skeleton-card";
 import { toLanguage } from "@/foundations/libraries/language";
 import { throwOutcomeError } from "@/foundations/libraries/outcome";
+import { session } from "@/foundations/libraries/sessions";
 import { toVisibility } from "@/foundations/libraries/visibility";
 import { fetchMySnippetStatistics } from "../actions/fetch-my-snippet-statistics";
 import { fetchMySnippets } from "../actions/fetch-my-snippets";
@@ -32,14 +33,14 @@ export const CollectionContainer = async ({
   const rawPage = Number(resolvedSearchParams[SearchParameterKeys.Page] ?? "1");
   const page = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
 
+  const currentSession = await session.get();
+
   const [mySnippets, mySnippetStatistics] = await Promise.all([
-    fetchMySnippets({
-      keyword: keyword || undefined,
-      language,
-      visibility,
-      page,
-    }),
-    fetchMySnippetStatistics(),
+    fetchMySnippets(
+      { keyword: keyword || undefined, language, visibility, page },
+      currentSession.ownerHash,
+    ),
+    fetchMySnippetStatistics(currentSession.ownerHash),
   ]);
 
   if (mySnippets.isErr()) {

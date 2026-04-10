@@ -1,6 +1,6 @@
 import type { ResultAsync } from "neverthrow";
 import { z } from "zod";
-import { Endpoints } from "@/foundations/definitions";
+import { CacheTags, Endpoints } from "@/foundations/definitions";
 import { fetcher } from "@/foundations/libraries/fetcher";
 import { toOutcome, type OutcomeError } from "@/foundations/libraries/outcome";
 import { SnippetSummary, withPagination } from "@/foundations/schemas";
@@ -46,13 +46,18 @@ type MySnippets = z.infer<typeof MySnippetsResponse>;
 
 /**
  * 認証ユーザーのスニペット一覧をバックエンドから取得する
+ *
+ * ownerHashをクエリパラメータに含めることでユーザーごとにData Cacheを分離する
  */
 export const fetchMySnippets = (
   parameters: SearchParameters = {},
+  ownerHash?: string,
 ): ResultAsync<MySnippets, OutcomeError> =>
   toOutcome(async () => {
+    const cacheKeyQuery = ownerHash ? `&cache-key=${ownerHash}` : "";
     const response = await fetcher.get(
-      `${Endpoints.MySnippets}${buildQueryString(parameters)}`,
+      `${Endpoints.MySnippets}${buildQueryString(parameters)}${cacheKeyQuery}`,
+      ownerHash ? { revalidate: 60, tags: [CacheTags.Snippets] } : undefined,
     );
 
     return MySnippetsResponse.parse(response);
