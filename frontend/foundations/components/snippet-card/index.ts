@@ -1,5 +1,6 @@
 import { CodePreview } from "./code-preview";
 import { Footer } from "./footer";
+import { PrefetchTrigger } from "./prefetch-trigger";
 import { Root } from "./root";
 import { Tags } from "./tags";
 import { Title } from "./title";
@@ -9,6 +10,7 @@ import { Title } from "./title";
  */
 export const SnippetCard = {
   Root,
+  PrefetchTrigger,
   Title,
   Tags,
   CodePreview,
