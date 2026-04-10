@@ -28,12 +28,6 @@ export const ViewerContainer = async ({ params }: ViewerContainerProps) => {
       snippet.value.owner_hash != null &&
       currentSession.ownerHash === snippet.value.owner_hash;
 
-    console.log("[ViewerContainer]", {
-      ownerHash: currentSession.ownerHash,
-      snippetOwnerHash: snippet.value.owner_hash,
-      isOwner,
-    });
-
     return <ViewerLayout snippet={snippet.value} isOwner={isOwner} />;
   }
 
