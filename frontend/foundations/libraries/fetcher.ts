@@ -7,8 +7,8 @@ import {
 import { session } from "./sessions";
 
 const BACKEND_URL = process.env.BACKEND_URL;
-const FETCH_TIMEOUT_MS = 60_000;
-const MAX_RETRIES = 2;
+const FETCH_TIMEOUT_MS = 8_000;
+const MAX_RETRIES = 1;
 const RETRY_BASE_DELAY_MS = 1_000;
 
 type RequestOptions = Omit<RequestInit, "method" | "headers" | "signal"> & {
