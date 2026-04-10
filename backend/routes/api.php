@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\SnippetController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Middleware\CachePublicResponse;
+use App\Http\Middleware\OptionalAuthenticate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('health', fn () => response()->json(['status' => 'ok']))->name('health');
@@ -17,7 +18,7 @@ Route::prefix('cron')->name('cron.')->middleware('throttle:5,1')->group(function
     Route::post('prune', [CronController::class, 'prune'])->name('prune');
 });
 
-Route::middleware(CachePublicResponse::class)->group(function () {
+Route::middleware([OptionalAuthenticate::class, CachePublicResponse::class])->group(function () {
     Route::prefix('snippets')->name('snippets.')->group(function () {
         Route::get('/', [SnippetController::class, 'index'])->name('index');
         Route::get('{slug}', [SnippetController::class, 'show'])->name('show');

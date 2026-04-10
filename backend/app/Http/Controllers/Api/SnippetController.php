@@ -44,7 +44,7 @@ class SnippetController extends Controller
      */
     public function show(string $slug, Request $request, FindSnippetUseCase $useCase): SnippetResource
     {
-        $snippet = $useCase->execute($slug, $request->user('sanctum'));
+        $snippet = $useCase->execute($slug, $request->user());
 
         return SnippetResource::make($snippet);
     }
