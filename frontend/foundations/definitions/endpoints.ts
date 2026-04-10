@@ -21,5 +21,4 @@ export const Endpoints = {
 export const BffEndpoints = {
   OAuthGithub: "/api/sessions/oauth/github",
   OAuthGithubCallback: "/api/sessions/oauth/github/callback",
-  PrefetchSnippet: "/api/snippets/prefetch",
 } as const;
