@@ -15,11 +15,11 @@ if [ "$CURRENT_HASH" != "$STORED_HASH" ]; then
   echo "$CURRENT_HASH" > "$LOCKFILE_HASH_FILE"
 fi
 
-# .env が存在しなければ .env.example からコピーし APP_KEY を生成する
-if [ ! -f /var/www/html/.env ]; then
+# ローカル環境でのみ .env を自動生成する（本番は環境変数で設定済み）
+if [ ! -f /var/www/html/.env ] && [ "$APP_ENV" != "production" ]; then
   echo "Creating .env from .env.example..."
   cp /var/www/html/.env.example /var/www/html/.env
-  php artisan key:generate
+  php artisan key:generate --force
 fi
 
 # マイグレーションを実行する
