@@ -37,6 +37,7 @@ export const CollectionFilter = ({
           value={keyword.value}
           disabled={isPending}
           onChange={keyword.onChange}
+          onSubmit={keyword.onSubmit}
           onCompositionStart={keyword.onCompositionStart}
           onCompositionEnd={keyword.onCompositionEnd}
           onClear={keyword.onClear}

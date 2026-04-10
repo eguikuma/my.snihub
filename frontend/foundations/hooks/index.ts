@@ -4,6 +4,7 @@ export * from "./use-debounced-input";
 export * from "./use-dismiss";
 export * from "./use-removal-prompt";
 export * from "./use-scroll-lock";
+export * from "./use-search-input";
 export * from "./use-search-parameters";
 export * from "./use-theme-color";
 export * from "./use-theme-dropdown";

@@ -30,6 +30,7 @@ export const GalleryFilter = ({ children }: GalleryFilterProps) => {
           value={keyword.value}
           disabled={isPending}
           onChange={keyword.onChange}
+          onSubmit={keyword.onSubmit}
           onCompositionStart={keyword.onCompositionStart}
           onCompositionEnd={keyword.onCompositionEnd}
           onClear={keyword.onClear}
