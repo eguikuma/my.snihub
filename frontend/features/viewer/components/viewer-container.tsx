@@ -32,7 +32,7 @@ export const ViewerContainer = async ({ params }: ViewerContainerProps) => {
   }
 
   if (snippet.error.kind === "not_found" && currentSession.token) {
-    const fallback = await fetchMySnippet(slug);
+    const fallback = await fetchMySnippet(slug, currentSession.ownerHash);
 
     return fallback.match(
       (value) => <ViewerLayout snippet={value} isOwner />,

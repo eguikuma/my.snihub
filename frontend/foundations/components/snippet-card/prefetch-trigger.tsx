@@ -25,5 +25,9 @@ export const PrefetchTrigger = ({ slug, children }: PrefetchTriggerProps) => {
     });
   }, [slug]);
 
-  return <div onMouseEnter={mouseEnter}>{children}</div>;
+  return (
+    <div className="grid" onMouseEnter={mouseEnter}>
+      {children}
+    </div>
+  );
 };
