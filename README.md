@@ -1,4 +1,4 @@
-# SniHub
+# play.nextjs-laravel
 
 コードスニペットを保存・共有できるシンプルなサービス
 
